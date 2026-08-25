@@ -19,7 +19,7 @@ Aquest repositori conté els apunts complets, estructurats i en català per a la
 | **07** | **Disposicions generals, principis d’actuació i funcionament del sector públic. Els convenis.** | [07_principis_sector_public_convenis_llei_40_2015.md](file:///home/oriol/Projectes/OPOS/part_general/07_principis_sector_public_convenis_llei_40_2015.md) | 🟢 Completat |
 | **08** | **La potestat normativa de les entitats locals: ordenances i reglaments.** | [08_potestat_normativa_local_ordenances_reglaments.md](file:///home/oriol/Projectes/OPOS/part_general/08_potestat_normativa_local_ordenances_reglaments.md) | 🟢 Completat |
 | **09** | **El procediment administratiu: concepte, principis, fases, terminis i finalització.** | [09_procediment_administratiu_llei_39_2015.md](file:///home/oriol/Projectes/OPOS/part_general/09_procediment_administratiu_llei_39_2015.md) | 🟢 Completat |
-| **10** | L'organització municipal: òrgans necessaris i complementaris, sessions i acords. | `part_general/10_organitzacio_municipal_organs_sessions_acords.md` | ⚪ Pendent |
+| **10** | **L'organització municipal: òrgans necessaris i complementaris, sessions i acords.** | [10_organitzacio_municipal_organs_sessions_acords.md](file:///home/oriol/Projectes/OPOS/part_general/10_organitzacio_municipal_organs_sessions_acords.md) | 🟢 Completat |
 | **11** | L’organització municipal de l’Ajuntament de Sant Joan de Vilatorrada. | `part_general/11_organitzacio_municipal_sant_joan_de_vilatorrada.md` | ⚪ Pendent |
 | **12** | Les competències municipals. Serveis mínims. Delegació i avocació. | `part_general/12_competencies_municipals_serveis_minims_delegacio_avocacio.md` | ⚪ Pendent |
 | **13** | Formes de gestió dels serveis públics. | `part_general/13_formes_gestio_serveis_publics.md` | ⚪ Pendent |
