@@ -25,7 +25,7 @@ Aquest repositori conté els apunts complets, estructurats i en català per a la
 | **13** | **Formes de gestió dels serveis públics.** | [13_formes_gestio_serveis_publics.md](file:///home/oriol/Projectes/OPOS/part_general/13_formes_gestio_serveis_publics.md) | 🟢 Completat |
 | **14** | **Tipus de contractes del sector públic.** | [14_tipus_contractes_sector_public_lcsp.md](file:///home/oriol/Projectes/OPOS/part_general/14_tipus_contractes_sector_public_lcsp.md) | 🟢 Completat |
 | **15** | **La preparació dels contractes: l'expedient de contractació, els plecs de clàusules administratives i els plecs de prescripcions tècniques.** | [15_preparacio_contractes_expedient_plecs.md](file:///home/oriol/Projectes/OPOS/part_general/15_preparacio_contractes_expedient_plecs.md) | 🟢 Completat |
-| **16** | Drets i deures del personal al servei de les administracions públiques (TREBEP). | `part_general/16_drets_deures_personal_trebep.md` | ⚪ Pendent |
+| **16** | **Drets i deures del personal al servei de les administracions públiques (TREBEP).** | [16_drets_deures_personal_trebep.md](file:///home/oriol/Projectes/OPOS/part_general/16_drets_deures_personal_trebep.md) | 🟢 Completat |
 | **17** | El concepte de subvenció i el règim jurídic de les subvencions (Llei 38/2003). | `part_general/17_concepte_regim_juridic_subvencions.md` | ⚪ Pendent |
 | **18** | L'activitat subvencional a l’administració local. Procediments de concessió. | `part_general/18_activitat_subvencional_administracio_local_concessio.md` | ⚪ Pendent |
 | **19** | El pressupost general dels ens locals: concepte, contingut, fases i modificacions. | `part_general/19_pressupost_general_ens_locals_execucio_modificacions.md` | ⚪ Pendent |
