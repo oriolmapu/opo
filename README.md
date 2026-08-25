@@ -11,7 +11,7 @@ Aquest repositori conté els apunts complets, estructurats i en català per a la
 | Núm. | Tema | Fitxer | Estat |
 | :---: | :--- | :--- | :---: |
 | **01** | **La Constitució Espanyola de 1978. Estructura i principis fonamentals.** | [01_constitucio_espanyola_1978_estructura_principis.md](file:///home/oriol/Projectes/OPOS/part_general/01_constitucio_espanyola_1978_estructura_principis.md) | 🟢 Completat |
-| **02** | Títol VIII de la Constitució Espanyola de 1978: l’organització territorial de l’Estat. | `part_general/02_constitucio_titol_viii_organitzacio_territorial.md` | ⚪ Pendent |
+| **02** | **Títol VIII de la Constitució Espanyola de 1978: l’organització territorial de l’Estat.** | [02_constitucio_titol_viii_organitzacio_territorial.md](file:///home/oriol/Projectes/OPOS/part_general/02_constitucio_titol_viii_organitzacio_territorial.md) | 🟢 Completat |
 | **03** | Administració local i autonomia local. | `part_general/03_administracio_local_autonomia_local.md` | ⚪ Pendent |
 | **04** | Principis de la Llei 7/1985, de 2 d’abril, reguladora de les bases del règim Local. | `part_general/04_principis_llei_7_1985_bases_regim_local.md` | ⚪ Pendent |
 | **05** | Les Comunitats Autònomes segons la CE. Estatut d’Autonomia de Catalunya (LO 6/2006). | `part_general/05_comunitats_autonomes_estatut_autonomia_catalunya.md` | ⚪ Pendent |
