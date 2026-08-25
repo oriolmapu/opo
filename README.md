@@ -54,7 +54,7 @@ Aquest repositori conté els apunts complets, estructurats i en català per a la
 | **28** | **Serveis de directoris actius i gestió de recursos.** | [28_serveis_directori_actiu_gestio_recursos.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc2_identificacio_signatura/28_serveis_directori_actiu_gestio_recursos.md) | 🟢 Completat |
 | **29** | **Polítiques de mots de pas i autentificació de doble factor (2FA/MFA).** | [29_politiques_mots_de_pas_autentificacio_doble_factor.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc2_identificacio_signatura/29_politiques_mots_de_pas_autentificacio_doble_factor.md) | 🟢 Completat |
 | **30** | **Signatura electrònica: certificats digitals, PKI, Smart Cards, DNIe i biometria.** | [30_signatura_electronica_certificats_pki_dnie_biometria.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc2_identificacio_signatura/30_signatura_electronica_certificats_pki_dnie_biometria.md) | 🟢 Completat |
-| **31** | Formats de signatura electrònica: tipus, signatures múltiples, llarg termini i segells de temps. | `part_especifica/bloc2_identificacio_signatura/31_formats_signatura_multiples_llarg_termini_segells_temps.md` | ⚪ Pendent |
+| **31** | **Formats de signatura electrònica: tipus, signatures múltiples, llarg termini i segells de temps.** | [31_formats_signatura_multiples_llarg_termini_segells_temps.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc2_identificacio_signatura/31_formats_signatura_multiples_llarg_termini_segells_temps.md) | 🟢 Completat |
 
 ---
 
