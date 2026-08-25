@@ -56,6 +56,15 @@ Aquest repositori conté els apunts complets, estructurats i en català per a la
 | **30** | **Signatura electrònica: certificats digitals, PKI, Smart Cards, DNIe i biometria.** | [30_signatura_electronica_certificats_pki_dnie_biometria.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc2_identificacio_signatura/30_signatura_electronica_certificats_pki_dnie_biometria.md) | 🟢 Completat |
 | **31** | **Formats de signatura electrònica: tipus, signatures múltiples, llarg termini i segells de temps.** | [31_formats_signatura_multiples_llarg_termini_segells_temps.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc2_identificacio_signatura/31_formats_signatura_multiples_llarg_termini_segells_temps.md) | 🟢 Completat |
 
+#### 🔹 Bloc 7: Normatives Específiques
+
+| Núm. | Tema | Fitxer | Estat |
+| :---: | :--- | :--- | :---: |
+| **87** | **Protecció de dades personals, privacitat per disseny, RAT, AIPD i APDCAT.** | [87_proteccio_dades_rgpd_lopdgdd_apdcat.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc7_normatives_especifiques/87_proteccio_dades_rgpd_lopdgdd_apdcat.md) | 🟢 Completat |
+| **88** | **Interoperabilitat de sistemes. L'Esquema Nacional d'Interoperabilitat (ENI) i les 13 NTI.** | [88_interoperabilitat_sistemes_esquema_nacional_eni_nti.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc7_normatives_especifiques/88_interoperabilitat_sistemes_esquema_nacional_eni_nti.md) | 🟢 Completat |
+| **89** | **Esquema Nacional de Seguretat (ENS - RD 311/2022): mesures, auditoria i resposta a incidents.** | [89_esquema_nacional_seguretat_ens_mesures_auditoria_incidents.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc7_normatives_especifiques/89_esquema_nacional_seguretat_ens_mesures_auditoria_incidents.md) | 🟢 Completat |
+| **90** | **El Reglament (UE) 2024/1689: Llei d'Intel·ligència Artificial de la Unió Europea.** | [90_reglament_ia_ue_2024_1689_llei_intel_ligencia_artificial.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc7_normatives_especifiques/90_reglament_ia_ue_2024_1689_llei_intel_ligencia_artificial.md) | 🟢 Completat |
+
 ---
 
 ## 📁 Corpus Documental de Referència

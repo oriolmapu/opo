@@ -39,6 +39,14 @@ BLOC 2: Sistemes d’identificació i signatura electrònica
 29. Polítiques de mots de pas i autentificació amb doble factor.
 30. Signatura electrònica: Identificació i autenticació, el rol dels certificats digitals, les claus públiques i privades, "Smart Cards", DNI electrònic i solucions de signatura biomètrica.
 31. Formats de signatura electrònica: definició i tipus, signatures múltiples, signatures de llarg termini i segells de temps. 
+BLOC 7: Normatives específiques
+87. Protecció de dades de caràcter personal. Privacitat des del disseny i per defecte. Registre d'activitats de tractament. Anàlisi de riscs i avaluació d'impacte en protecció de dades. L'Agència Catalana de Protecció de
+Dades.
+88. Interoperabilitat de sistemes. L'Esquema Nacional d'Interoperabilitat. Normes tècniques d'interoperabilitat.
+89. Esquema nacional de seguretat: mesures per garantir la seguretat de la informació i els serveis electrònics, auditoria de seguretat, resposta davant
+incidents de seguretat i certificació de la seguretat.
+90. El Reglament (UE) 2024/1689, conegut com a Llei d'IA de la UE.
+
 
 El corpus documental està a la carpeta CORPUS. No farem servir corpus externs i si ho fas m'ho has d'indicar.
 La sortida serà en format md.
