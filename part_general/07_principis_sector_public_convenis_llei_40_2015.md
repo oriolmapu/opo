@@ -66,8 +66,8 @@ L'article 3 de la Llei 40/2015 distingeix entre principis d'actuació de servei 
 La competència és **irrenunciable** i s'ha d'exercir pels òrgans que la tinguin atribuïda com a pròpia, llevat dels casos de delegació o avocació (Art. 8).
 
 ```mermaid
-graph TD
-    Tècniques["TÈCNIQUES D'ALTERACIÓ DE L'EXERCICI COMPETENCIAL"]
+flowchart TD
+    Tecniques["TÈCNIQUES D'ALTERACIÓ DE L'EXERCICI COMPETENCIAL"]
     
     Delegacio["DELEGACIÓ (Art. 9)<br/>Traspàs de l'EXERCICI a un òrgan inferior o d'una altra administració.<br/>Cal publicació al Butlletí Oficial.<br/>L'acte es considera dictat per l'òrgan delegant."]
     Avocacio["AVOCACIÓ (Art. 10)<br/>Un òrgan superior ASSUMEIX el coneixement d'un assumpte d'un inferior.<br/>Acord motivat que NO admet recurs."]
@@ -75,11 +75,11 @@ graph TD
     Signatura["DELEGACIÓ DE SIGNATURA (Art. 12)<br/>Delegació de la mera signatura en matèria pròpia.<br/>NO cal publicació oficial; només es fa constar l'autoritat."]
     Suplencia["SUPLÈNCIA (Art. 13)<br/>Substitució temporal per vacant, absència o malaltia.<br/>NO altera la titularitat de la competència ni cal publicació."]
 
-    Tècniques --> Delegacio
-    Tècniques --> Avocacio
-    Tècniques --> Encomana
-    Tècniques --> Signatura
-    Tècniques --> Suplencia
+    Tecniques --> Delegacio
+    Tecniques --> Avocacio
+    Tecniques --> Encomana
+    Tecniques --> Signatura
+    Tecniques --> Suplencia
 ```
 
 ### 3.1. Matèries indelegables (Art. 9.2 Llei 40/2015)

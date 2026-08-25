@@ -55,14 +55,14 @@ Mentre que les persones físiques poden triar lliurement si es relacionen per mi
 ### 2.3. L'Acte Administratiu: Nul·litat de ple dret vs. Anul·labilitat
 
 ```mermaid
-graph TD
+flowchart TD
     Invalidesa["INVALIDESA DELS ACTES ADMINISTRATIUS"]
     
-    Nul·litat["NUL·LITAT DE PLE DRET (Art. 47 LPACAP)<br/>- Vici gravíssim i insubsanable<br/>- No prescriu mai (acció de nul·litat permanent)<br/>- Efectes 'ex tunc' (des de l'origen)"]
-    Anul·labilitat["ANUL·LABILITAT (Art. 48 LPACAP)<br/>- Regla general per a qualsevol infracció de l'ordenament<br/>- Subsanable i convalidable per l'òrgan competent<br/>- Efectes 'ex nunc' (des que es declara)"]
+    Nullitat["NUL·LITAT DE PLE DRET (Art. 47 LPACAP)<br/>• Vici gravíssim i insubsanable<br/>• No prescriu mai (acció permanent)<br/>• Efectes ex tunc (des de l'origen)"]
+    Anullabilitat["ANUL·LABILITAT (Art. 48 LPACAP)<br/>• Regla general per a qualsevol infracció<br/>• Subsanable i convalidable per l'òrgan competent<br/>• Efectes ex nunc (des que es declara)"]
 
-    Invalidesa --> Nul·litat
-    Invalidesa --> Anul·labilitat
+    Invalidesa --> Nullitat
+    Invalidesa --> Anullabilitat
 ```
 
 #### Causes taxades de Nul·litat de Ple Dret (Art. 47.1 LPACAP):

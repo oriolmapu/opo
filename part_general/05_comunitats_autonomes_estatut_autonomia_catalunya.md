@@ -83,7 +83,7 @@ L'Estatut català incorpora una carta exhaustiva de drets i deures estatutaris d
 ### 3.3. Títol II: De les Institucions de la Generalitat (Articles 55 a 94)
 
 ```mermaid
-graph TD
+flowchart TD
     subgraph INSTITUCIONS_GENERALITAT["INSTITUCIONS DE LA GENERALITAT DE CATALUNYA (Art. 2.2 EAC)"]
         Parlament["EL PARLAMENT DE CATALUNYA<br/>(Arts. 55 - 66 EAC)"]
         President["EL PRESIDENT DE LA GENERALITAT<br/>(Arts. 67 EAC)"]
@@ -97,9 +97,9 @@ graph TD
         end
     end
 
-    Parlament -- "Elegeix i controla" --> President
-    President -- "Dirigeix i nomena" --> Govern
-    Govern -- "Respon políticament davant" --> Parlament
+    Parlament -->|"Elegeix i controla"| President
+    President -->|"Dirigeix i nomena"| Govern
+    Govern -->|"Respon políticament davant"| Parlament
 ```
 
 #### 1. El Parlament de Catalunya (Arts. 55 a 66 EAC)

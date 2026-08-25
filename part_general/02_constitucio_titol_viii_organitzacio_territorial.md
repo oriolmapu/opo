@@ -275,17 +275,17 @@ graph LR
 L'article 152.1 CE estableix el patró organitzatiu institucional (obligatori per a les CCAA de la via especial, però adoptat per totes les CCAA als seus respectius Estatuts):
 
 ```mermaid
-graph TD
+flowchart TD
     subgraph INSTITUCIONS_AUTONOMIQUES["Organització Institucional Autonòmica (Art. 152.1 CE)"]
-        Parlament["ASSEMBLEA LEGISLATIVA (Parlament)<br/>- Elegida per sufragi universal proporcional<br/>- Representació territorial<br/>- Funció legislativa i control del Govern"]
-        President["PRESIDENT DE LA COMUNITAT AUTÒNOMA<br/>- Elegit per l'Assemblea d'entre els seus membres<br/>- Nomenat pel Rei<br/>- Suprema representació de la CA<br/>- Representació ordinària de l'Estat a la CA<br/>- Dirigeix el Consell de Govern"]
-        Govern["CONSELL DE GOVERN<br/>- Funcions executives i administratives<br/>- Responsable políticament davant l'Assemblea"]
-        TSJ["TRIBUNAL SUPERIOR DE JUSTÍCIA (TSJ)<br/>- Culmina l'organització judicial a l'àmbit de la CA<br/>- Sens perjudici de la jurisdicció del Tribunal Suprem"]
+        Parlament["ASSEMBLEA LEGISLATIVA (Parlament)<br/>• Elegida per sufragi universal proporcional<br/>• Representació territorial<br/>• Funció legislativa i control del Govern"]
+        President["PRESIDENT DE LA COMUNITAT AUTÒNOMA<br/>• Elegit per l'Assemblea d'entre els seus membres<br/>• Nomenat pel Rei<br/>• Suprema representació de la CA<br/>• Representació ordinària de l'Estat a la CA<br/>• Dirigeix el Consell de Govern"]
+        Govern["CONSELL DE GOVERN<br/>• Funcions executives i administratives<br/>• Responsable políticament davant l'Assemblea"]
+        TSJ["TRIBUNAL SUPERIOR DE JUSTÍCIA (TSJ)<br/>• Culmina l'organització judicial a l'àmbit de la CA<br/>• Sens perjudici de la jurisdicció del Tribunal Suprem"]
     end
     
-    Parlament -- "Elegeix i exigeix responsabilitat" --> President
-    President -- "Dirigeix i nomena" --> Govern
-    Govern -- "Responsabilitat política col·legiada" --> Parlament
+    Parlament -->|"Elegeix i exigeix responsabilitat"| President
+    President -->|"Dirigeix i nomena"| Govern
+    Govern -->|"Responsabilitat política col·legiada"| Parlament
 ```
 
 - **El President de la Comunitat Autònoma:**
