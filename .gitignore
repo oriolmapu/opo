@@ -1,0 +1,13 @@
+# Sistema i editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Fitxers temporals
+*.tmp
+*.bak
+__pycache__/

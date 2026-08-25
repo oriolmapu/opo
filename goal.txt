@@ -1,0 +1,45 @@
+Construir uns apunts complets en catal per estudiar una oposició.
+El temari, de moment, consta del primer bloc:
+
+PART GENERAL
+1. La Constitució Espanyola de 1978. Estructura i principis fonamentals.
+2. Títol VIII de la Constitució Espanyola de 1978: l’organització territorial de l’Estat.
+3. Administració local i autonomia local.
+4. Principis de la Llei 7/1985, de 2 d’abril, reguladora de les bases del règim Local.
+5. Les Comunitats autonòmes segons la Constitució Espanyola. Estatut d’Autonomia de Catalunya: Llei orgànica 6/2006, de 19 de juliol, de reforma de l'Estatut d'autonomia de Catalunya.
+6. Recursos de les hisendes locals (segons el que preveu el Real Decreto Legislativo 2/2004, de 5 de marzo, por el que se aprueba el texto refundido de la Ley Reguladora de las Haciendas Locales).
+7. Disposicions generals, principis d’actuació i funcionament del sector públic. Els convenis.
+8. La potestat normativa de les entitats locals: ordenances i reglaments.
+9. El procediment administratiu: concepte, principis i importància. Disposicions generals sobre el procediment administratiu. Fases i terminis del procediment
+administratiu. Formes de finalització del procediment.
+10. L'organització municipal: òrgans necessaris i òrgans complementaris, règims de sessions i acords dels òrgans de govern local. Funcionament dels òrgans col·legiats d’àmbit municipal.
+11. L’organització municipal de l’Ajuntament de Sant Joan de Vilatorrada.
+12. Les competències municipals. Els serveis mínims. Delegació de competències i avocació.
+13. Formes de gestió dels serveis públics.
+14. Tipus de contractes del sector públic.
+15. La preparació dels contractes: l'expedient de contractació, els plecs de clàusules administratives i els plecs de prescripcions tècniques.
+16. Drets i deures del personal al servei de les administracions públiques.
+17. El concepte de subvenció i el règim jurídic de les subvencions.
+18. L'activitat subvencional a l’administració local. Procediments de concessió.
+19. El pressupost general dels ens locals: concepte i contingut. Les fases d’execució del pressupost. Concepte i tipus de modificació de crèdit.
+20. Preus públics i taxes.
+PART ESPECÍFICA
+BLOC 1: Administració pública
+21. El paper de les TIC en la modernització dels serveis públics. Impacte i potencial de les TIC en la gestió de l'Administració local: foment de l'eficàcia, l'eficiència i la innovació. 
+22. Accés electrònic dels ciutadans als serveis públics. El dret dels ciutadans a relacionar-se amb les administracions públiques per mitjans electrònics. Règim
+jurídic de l'administració electrònica. Seu electrònica. 
+23. Col·laboració interadministrativa i la integració amb serveis d'administració electrònica d'altres administracions. Infraestructura, serveis comuns i compartits. El
+Consorci d'Administració Oberta de Catalunya.
+24. Ètica pública, accés a la informació pública i bon govern. El portal de transparència. Adaptació dels sistemes d'informació per a la difusió i l'accés a la informació administrativa.
+25. El catàleg de dades obertes: creació d'un conjunt de dades obertes i com reutilitzar-los amb l'objectiu de fomentar la transparència, la participació i la generació d'activitat econòmica.
+26. Impacte de les TIC en l'àmbit de la vida democràtica. Els portals de participació i les xarxes socials com a eines de participació democràtica.
+27. Regulació del mercat de les telecomunicacions. El Consorci Localret. El marc d'actuació de les administracions públiques locals. Desplegament de xarxes de banda ampla territorials.
+BLOC 2: Sistemes d’identificació i signatura electrònica
+28. Serveis de directoris actius i gestió de recursos.
+29. Polítiques de mots de pas i autentificació amb doble factor.
+30. Signatura electrònica: Identificació i autenticació, el rol dels certificats digitals, les claus públiques i privades, "Smart Cards", DNI electrònic i solucions de signatura biomètrica.
+31. Formats de signatura electrònica: definició i tipus, signatures múltiples, signatures de llarg termini i segells de temps. 
+
+El corpus documental està a la carpeta CORPUS. No farem servir corpus externs i si ho fas m'ho has d'indicar.
+La sortida serà en format md.
+El projectes s'estructurarà com a respositori git.
