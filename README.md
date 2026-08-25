@@ -14,7 +14,7 @@ Aquest repositori conté els apunts complets, estructurats i en català per a la
 | **02** | **Títol VIII de la Constitució Espanyola de 1978: l’organització territorial de l’Estat.** | [02_constitucio_titol_viii_organitzacio_territorial.md](file:///home/oriol/Projectes/OPOS/part_general/02_constitucio_titol_viii_organitzacio_territorial.md) | 🟢 Completat |
 | **03** | **Administració local i autonomia local.** | [03_administracio_local_autonomia_local.md](file:///home/oriol/Projectes/OPOS/part_general/03_administracio_local_autonomia_local.md) | 🟢 Completat |
 | **04** | **Principis de la Llei 7/1985, de 2 d’abril, reguladora de les bases del règim Local.** | [04_principis_llei_7_1985_bases_regim_local.md](file:///home/oriol/Projectes/OPOS/part_general/04_principis_llei_7_1985_bases_regim_local.md) | 🟢 Completat |
-| **05** | Les Comunitats Autònomes segons la CE. Estatut d’Autonomia de Catalunya (LO 6/2006). | `part_general/05_comunitats_autonomes_estatut_autonomia_catalunya.md` | ⚪ Pendent |
+| **05** | **Les Comunitats Autònomes segons la CE. Estatut d’Autonomia de Catalunya (LO 6/2006).** | [05_comunitats_autonomes_estatut_autonomia_catalunya.md](file:///home/oriol/Projectes/OPOS/part_general/05_comunitats_autonomes_estatut_autonomia_catalunya.md) | 🟢 Completat |
 | **06** | Recursos de les hisendes locals (TRLRHL - RDLeg 2/2004). | `part_general/06_recursos_hisendes_locals_trlrhl.md` | ⚪ Pendent |
 | **07** | Disposicions generals, principis d’actuació i funcionament del sector públic. Els convenis. | `part_general/07_principis_sector_public_convenis_llei_40_2015.md` | ⚪ Pendent |
 | **08** | La potestat normativa de les entitats locals: ordenances i reglaments. | `part_general/08_potestat_normativa_local_ordenances_reglaments.md` | ⚪ Pendent |
