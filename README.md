@@ -45,7 +45,7 @@ Aquest repositori conté els apunts complets, estructurats i en català per a la
 | **24** | **Ètica pública, transparència i bon govern. Portal de transparència.** | [24_etica_publica_transparencia_bon_govern.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc1_administracio_publica/24_etica_publica_transparencia_bon_govern.md) | 🟢 Completat |
 | **25** | **Catàleg de dades obertes i reutilització d'informació pública.** | [25_cataleg_dades_obertes_reutilitzacio.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc1_administracio_publica/25_cataleg_dades_obertes_reutilitzacio.md) | 🟢 Completat |
 | **26** | **Impacte de les TIC en la democràcia. Portals de participació i xarxes socials.** | [26_impacte_tic_democracia_portals_participacio_xarxes.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc1_administracio_publica/26_impacte_tic_democracia_portals_participacio_xarxes.md) | 🟢 Completat |
-| **27** | Regulació de telecomunicacions, Consorci Localret i xarxes de banda ampla. | `part_especifica/bloc1_administracio_publica/27_regulacio_telecomunicacions_localret_banda_ampla.md` | ⚪ Pendent |
+| **27** | **Regulació de telecomunicacions, Consorci Localret i xarxes de banda ampla.** | [27_regulacio_telecomunicacions_localret_banda_ampla.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc1_administracio_publica/27_regulacio_telecomunicacions_localret_banda_ampla.md) | 🟢 Completat |
 
 #### 🔹 Bloc 2: Sistemes d’Identificació i Signatura Electrònica
 
