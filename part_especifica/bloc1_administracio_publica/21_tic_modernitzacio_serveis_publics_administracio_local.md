@@ -9,12 +9,12 @@
 La incorporació de les **Tecnologies de la Informació i la Comunicació (TIC)** a l'Administració local no és un simple canvi tecnològic de suport (passar del paper al document electrònic en PDF), sinó una **transformació estructural, organitzativa i cultural** profunda del model de gestió pública municipal.
 
 ```mermaid
-graph LR
+flowchart TD
     Evolucio["EVOLUCIÓ DEL MODEL D'ADMINISTRACIÓ PÚBLICA"]
     
-    Tradicional["1. ADMINISTRACIÓ TRADICIONAL<br/>- Burocràtica i jeràrquica<br/>- Suport en paper físic<br/>- Tràmits presencials lents"]
-    Electronica["2. ADMINISTRACIÓ ELECTRÒNICA<br/>- Digitalització de formularis<br/>- Seu electrònica i registre telemàtic<br/>- Replicació del tràmit en pantalla"]
-    Intelligent["3. ADMINISTRACIÓ INTEL·LIGENT (Data-Driven)<br/>- Proactiva i personalitzada<br/>- Automatització (RPA) i IA<br/>- Interoperabilitat ('Once-Only')"]
+    Tradicional["1. ADMINISTRACIÓ TRADICIONAL<br/>• Burocràtica i jeràrquica<br/>• Suport en paper físic<br/>• Tràmits presencials lents"]
+    Electronica["2. ADMINISTRACIÓ ELECTRÒNICA<br/>• Digitalització de formularis<br/>• Seu electrònica i registre telemàtic<br/>• Replicació del tràmit en pantalla"]
+    Intelligent["3. ADMINISTRACIÓ INTEL·LIGENT (Data-Driven)<br/>• Proactiva i personalitzada<br/>• Automatització (RPA) i IA<br/>• Interoperabilitat (Principi Once-Only)"]
 
     Evolucio --> Tradicional
     Tradicional --> Electronica
