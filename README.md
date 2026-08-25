@@ -40,7 +40,7 @@ Aquest repositori conté els apunts complets, estructurats i en català per a la
 | Núm. | Tema | Fitxer | Estat |
 | :---: | :--- | :--- | :---: |
 | **21** | **El paper de les TIC en la modernització dels serveis públics. Impacte i potencial en la gestió local.** | [21_tic_modernitzacio_serveis_publics_administracio_local.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc1_administracio_publica/21_tic_modernitzacio_serveis_publics_administracio_local.md) | 🟢 Completat |
-| **22** | Accés electrònic dels ciutadans als serveis públics. Seu electrònica. | `part_especifica/bloc1_administracio_publica/22_acces_electronic_ciutadans_seu_electronica.md` | ⚪ Pendent |
+| **22** | **Accés electrònic dels ciutadans als serveis públics. Seu electrònica.** | [22_acces_electronic_ciutadans_seu_electronica.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc1_administracio_publica/22_acces_electronic_ciutadans_seu_electronica.md) | 🟢 Completat |
 | **23** | Col·laboració interadministrativa. Serveis comuns i el Consorci AOC. | `part_especifica/bloc1_administracio_publica/23_collaboracio_interadministrativa_serveis_comuns_aoc.md` | ⚪ Pendent |
 | **24** | Ètica pública, transparència i bon govern. Portal de transparència. | `part_especifica/bloc1_administracio_publica/24_etica_publica_transparencia_bon_govern.md` | ⚪ Pendent |
 | **25** | Catàleg de dades obertes i reutilització d'informació pública. | `part_especifica/bloc1_administracio_publica/25_cataleg_dades_obertes_reutilitzacio.md` | ⚪ Pendent |
