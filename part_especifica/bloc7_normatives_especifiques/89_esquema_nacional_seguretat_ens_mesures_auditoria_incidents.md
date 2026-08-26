@@ -125,6 +125,26 @@ L'ENS estableix una estricta separació de funcions per evitar conflictes d'inte
 
 ---
 
+### 4.2. Contingut Mínim Obligatori de la Política de Seguretat de la Informació (PSI - Art. 12 i Mesura [org.1])
+
+La **Política de Seguretat de la Informació (PSI)** és el document marc de màxim nivell aprovat per l'òrgan de govern municipal (Alcaldia o Ple) que formalitza el compromís corporatiu amb la seguretat:
+
+1. **Objectius estratègics i missió:** Visió institucional i compromís ferm amb la prestació de serveis digitals segurs i la protecció del ciutadà.
+2. **Marc legal i normatiu:** Identificació taxativa de les normes aplicables (ENS - RD 311/2022, RGPD, LOPDGDD, Llei 39/2015, Llei 40/2015).
+3. **Àmbit d'aplicació:** S'aplica a tots els sistemes d'informació, xarxes corporatives, empleats públics, càrrecs electes i terceres empreses proveïdores.
+4. **Estructura organitzativa i rols:** Designació formal del Responsable de la Informació, Responsable del Servei, Responsable de Seguretat, Responsable del Sistema i DPD.
+5. **Estructura de la documentació de seguretat (Jerarquia documental):**
+   - **Nivell 1 (Estratègic):** *Política de Seguretat de la Informació (PSI)* (aprovada pel Ple / Alcaldia).
+   - **Nivell 2 (Tàctic):** *Normes i Directrius de Seguretat* (contrasenyes, teletreball, ús de dispositius).
+   - **Nivell 3 (Operatiu):** *Procediments Operatius de Seguretat - POS* (còpies de seguretat, gestió d'incidents).
+   - **Nivell 4 (Tècnic):** *Guies tècniques, registres i logs*.
+6. **Gestió del risc:** Obligació de realitzar i actualitzar l'avaluació contínua de riscos com a base de qualsevol decisió tecnològica.
+7. **Formació i conscienciació:** Deure d'impartir formació periòdica en ciberseguretat a tots els treballadors públics.
+8. **Obligacions i règim disciplinari:** Deure de compliment estricte i advertiment de les conseqüències administratives/disciplinàries en cas d'infracció.
+9. **Mecanisme de revisió i aprovació periòdica:** Procediment de revisió anual o extraordinària davant canvis substancials o incidents greus.
+
+---
+
 ## 5. Auditoria de Seguretat de l'ENS (Art. 34 RD 311/2022)
 
 - **Obligatorietat:** Els sistemes d'informació de categoria **MITJANA o ALTA** han de sotmetre's preceptivament a una **auditoria formal de seguretat ordinària com a mínim cada 2 ANYS**.
