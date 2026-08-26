@@ -197,6 +197,9 @@ sequenceDiagram
 | **Quina norma regula l'Esquema Nacional de Seguretat actual?** | El **Reial Decret 311/2022 (RD 311/2022, ENS)**. |
 | **Quines són les 5 dimensions de la seguretat a l'ENS?** | **Disponibilitat, Autenticitat, Integritat, Confidencialitat i Traçabilitat (DAICT)**. |
 | **Quines categories de seguretat preveu l'ENS?** | **BÀSICA, MITJANA i ALTA** (determinades pel màxim impacte). |
+| **Qui aprova formalment la Política de Seguretat de la Informació (PSI)?** | L'**Alcaldia** (mitjançant Decret) o el **Ple municipal** (òrgan superior de govern). |
+| **Quins són els 4 rols bàsics exigits pel principi de diferenciació de l'ENS?** | **Responsable de la Informació, del Servei, de la Seguretat (CISO) i del Sistema**. |
+| **Qui té la potestat de valorar les dimensions de seguretat de les dades?** | El **Responsable de la Informació (RI)**. |
 | **Amb quina freqüència s'ha de fer l'auditoria ordinària a sistemes Mitjans/Alts?** | Com a mínim **cada 2 ANYS** (Art. 34 RD 311/2022). |
 | **A quin organisme s'han de notificar obligatòriament els ciberincidents?** | Al **CCN-CERT** (a través de la plataforma *LUCÍA*) i a l'Agència de Ciberseguretat de Catalunya. |
 | **Qui pot emetre el Certificat de Conformitat amb l'ENS per a nivell Mitjà/Alt?** | Una **Entitat de Certificació acreditada per ENAC** (Art. 41 RD 311/2022). |
