@@ -110,6 +110,19 @@ flowchart TD
     end
 ```
 
+### 4.1. Els Rols de Seguretat a l'ENS (Principi de Diferenciació de Responsabilitats - Art. 11 i Mesura [org.2])
+
+L'ENS estableix una estricta separació de funcions per evitar conflictes d'interès i garantir una governança eficaç:
+
+| Rol de Seguretat | Funció Principal i Competències Clau | Exemple d'Assignació a l'Ajuntament |
+| :--- | :--- | :--- |
+| **Responsable de la Informació (RI)** | • Determina els **requisits de seguretat de la informació** tractada.<br/>• Valora l'impacte i assigna el nivell de seguretat en les 5 dimensions (**DAICT**: Confidencialitat, Integritat, etc.). | Cap de l'àrea funcional propietària de les dades (p. ex., **Tresoreria / Gestió Tributària**, **Cap de Recursos Humans**, **Responsable de Padró**). |
+| **Responsable del Servei (RS)** | • Determina els **requisits de seguretat del servei prestat**.<br/>• Fixa els llindars de continuïtat i el temps màxim d'interrupció tolerable (**Disponibilitat**). | Responsable del tràmit o procediment administratiu (p. ex., **Cap de l'OAC / Seu Electrònica**, **Cap d'Urbanisme** per a llicències). |
+| **Responsable de la Seguretat (RSeg / CISO)** | • Determina les **decisions i mesures per satisfer els requisits** fixats pels Responsables d'Informació i de Servei.<br/>• Supervisa l'aplicació efectiva de la Política de Seguretat (PSI) i gestiona els riscos.<br/>• **Principi d'independència:** Ha d'actuar amb plena autonomia respecte del Responsable del Sistema. | **Cap de Seguretat de la Informació (CISO municipal)** o tècnic superior de seguretat designat. |
+| **Responsable del Sistema (RSis)** | • S'encarrega d'**implementar, configurar, operar i mantenir** la infraestructura tecnològica i les mesures tècniques al llarg del cicle de vida.<br/>• Pot acordar la **suspensió temporal d'un servei** si detecta una deficiència greu de seguretat, informant el RSeg. | **Cap del Departament de Sistemes / TIC / Informàtica**. |
+| **Delegat de Protecció de Dades (DPD)** | • Coordina i vetlla pel compliment del RGPD/LOPDGDD quan els tractaments de l'ENS inclouen dades personals. | **DPD municipal** (propi o mancomunat/Diputació). |
+| **Comitè de Seguretat de la Informació** | • Òrgan col·legiat de governança que alinea estratègicament tots els rols i eleva les polítiques a l'Alcaldia / Ple. | Comitè integrat per Secretaria, Intervenció, RSeg, RSis, DPD i Caps de Servei. |
+
 ---
 
 ## 5. Auditoria de Seguretat de l'ENS (Art. 34 RD 311/2022)
