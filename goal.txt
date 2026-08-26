@@ -39,6 +39,22 @@ BLOC 2: Sistemes d’identificació i signatura electrònica
 29. Polítiques de mots de pas i autentificació amb doble factor.
 30. Signatura electrònica: Identificació i autenticació, el rol dels certificats digitals, les claus públiques i privades, "Smart Cards", DNI electrònic i solucions de signatura biomètrica.
 31. Formats de signatura electrònica: definició i tipus, signatures múltiples, signatures de llarg termini i segells de temps. 
+BLOC 3: Gestió de la infraestructura
+32. Organització d'un departament TIC: infraestructura informàtica i comunicacions, estratègia.
+33. Equipament del lloc de treball. Maquinari i programari. Gestió d’inventari i distribució de programari.
+34. Serveis de directori: disseny, infraestructura, implementació, gestió i manteniment.
+35. Infraestructura local, al núvol o híbrida. Comparativa, avantatges i inconvenients.
+36. Centres de Procés de Dades (CPD): descripció i característiques físiques.
+SEGURETAT
+37. Definició d’una política de seguretat.
+38. Còpies de seguretat: continuïtat del negoci, "disaster recovery", sistemes de còpia de seguretat. Estratègia, disseny i operació.
+39. Emmagatzematge i protecció de dades. Tipus de discos i configuracions RAID. Redundància de dades entre CPDs.
+40. Sistemes d'alimentació ininterrompuda. Equipaments de continuïtat i condicionament de l'alimentació elèctrica: definició, tipus i característiques.
+41. Seguretat en les comunicacions. Tipus d'atacs i eines per a la prevenció. Seguretat perimetral i del lloc de treball.
+42. Tipus de còpies de seguretat. Recuperació i restauració. Continuïtat del servei recuperació de desastres, (RPO i RTO). Eines de gestió. 
+43. Encriptació de dispositius i recursos. Còpies immutables i encriptació de dispositius mòbils (portàtils, USB, ...). 
+
+
 BLOC 7: Normatives específiques
 87. Protecció de dades de caràcter personal. Privacitat des del disseny i per defecte. Registre d'activitats de tractament. Anàlisi de riscs i avaluació d'impacte en protecció de dades. L'Agència Catalana de Protecció de
 Dades.
