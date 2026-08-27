@@ -26,8 +26,7 @@ administratiu. Formes de finalització del procediment.
 PART ESPECÍFICA
 BLOC 1: Administració pública
 21. El paper de les TIC en la modernització dels serveis públics. Impacte i potencial de les TIC en la gestió de l'Administració local: foment de l'eficàcia, l'eficiència i la innovació. 
-22. Accés electrònic dels ciutadans als serveis públics. El dret dels ciutadans a relacionar-se amb les administracions públiques per mitjans electrònics. Règim
-jurídic de l'administració electrònica. Seu electrònica. 
+22. Accés electrònic dels ciutadans als serveis públics. El dret dels ciutadans a relacionar-se amb les administracions públiques per mitjans electrònics. Règim jurídic de l'administració electrònica. Seu electrònica.
 23. Col·laboració interadministrativa i la integració amb serveis d'administració electrònica d'altres administracions. Infraestructura, serveis comuns i compartits. El
 Consorci d'Administració Oberta de Catalunya.
 24. Ètica pública, accés a la informació pública i bon govern. El portal de transparència. Adaptació dels sistemes d'informació per a la difusió i l'accés a la informació administrativa.
@@ -53,11 +52,56 @@ SEGURETAT
 41. Seguretat en les comunicacions. Tipus d'atacs i eines per a la prevenció. Seguretat perimetral i del lloc de treball.
 42. Tipus de còpies de seguretat. Recuperació i restauració. Continuïtat del servei recuperació de desastres, (RPO i RTO). Eines de gestió. 
 43. Encriptació de dispositius i recursos. Còpies immutables i encriptació de dispositius mòbils (portàtils, USB, ...). 
-
-
+VIRTUALITZACIO
+44. Servidors físics i virtuals: diferències.
+45. Tècniques de virtualització: objectius, diferències, components i implementació.
+46. Virtualització servidors i llocs de treball.
+47. Virtualització de programari d'aplicacions. Desplegament de programari d'aplicacions en contenidors lleugers.
+COMUNICACIONS
+48. Infraestructura de xarxa. Solucions de cablatge i interconnexió. Equipament. Eines de configuració i monitorització.
+49. Els models de referència per a la comunicació de sistemes oberts: TCP/IP. Capes, funcionalitats, protocols, estandardització.
+50. Xarxes d'àrea local. Característiques. Tipologies. Protocols. Infraestructura de xarxa. Equipament de comunicació. Solucions de cablatge i interconnexió.
+51. Xarxes de fibra òptica. Característiques. Tipologies. Protocols. Infraestructura de xarxa. Equipament de comunicació. Solucions de cablatge i interconnexió.
+52. Xarxes de fibra òptica. Tecnologies passives PON. Tecnologies d'accés FTTx.
+53. Xarxes sense fils. Característiques. Tipologies. Protocols. Infraestructura de xarxa. Equipament de comunicació. Seguretat. Qualitat de servei. Wi-MAX. Wi-Fi.
+54. Xarxes de proximitat. Característiques. Tipologies. Protocols. Infraestructura de xarxa. Equipament de comunicació. Seguretat. Qualitat de servei. Bluetooth. RFID. NFC. ZigBee.
+55. Comunicacions de telefonia fixa i mòbil. Característiques. Xarxes. Tecnologies.
+56. Internet i els seus components: arquitectura, protocols, dominis, DNS, sistemes d'adreces, certificat.
+57. Internet de les coses. Característiques, arquitectura i serveis públics. 
+BLOC 4: Aplicacions i serveis
+58. Eines d’ofimàtica. Estudi de mercat. Alternatives de codi obert. Locals i al núvol.
+59. Entorn Microsoft Office 365. Gestió de llicències i usuaris.
+60. Servidors aplicacions. Eines de gestió i monitorització.
+61. Distribució remota d'aplicacions: Microsoft Intune i alternatives.
+62. Serveis al núvol: Paas, SaaS, IaaS, núvol privat, públic i híbrid. Tipus de servei. Avantatges i inconvenients.
+63. Serveis de veu: veu sobre IP (VoIP), telefonia sobre IP (ToIP), Protocols. Equipament.
+64. Serveis de col·laboració: videoconferència i treball en grup.
+65. Serveis d'impressió i de fitxers. Funcionalitats, regles de disseny, mètodes d'organització, control i accés. 
+66. Organització de fitxers: definició, descripció i característiques. Tècniques d'accés: definició i descripció. Estructura física i lògica dels fitxers. Factors de bloqueig, expansibilitat i volatilitat.
+BLOC 5: Gestió d’equip i projectes
+67. Organització d'un departament TIC: planificació de projectes, desenvolupament de projectes, explotació i operació, manteniment, seguretat.
+68. La planificació estratègica dels sistemes d'informació i comunicació. Elaboració del pla de sistemes d'informació.
+69. La gestió basada en processos: Definició i tipologia dels processos d'una organització. Identificació i mapa de processos. Seguiment i mesura de 
+70. Planificació estratègica dels serveis TIC. Pla de serveis TIC. Catàleg de serveis: definició, organització i imputació de costos per serveis.
+71. Gestió de projectes de sistemes d'informació. Objectius, cicle de vida, components, factors d'èxit. Proposta de projecte: estimació, planificació i organització. Execució del projecte: llançament, seguiment i gestió del canvi. Gestió de l'aprovisionament de recursos externs. Procés de tancament i avaluació del projecte.
+72. Implantació del sistema d'informació. Gestió de la configuració. Estàndards de documentació: manuals d'usuari i manuals tècnics. Posada en producció i formació d'usuaris.
+BLOC 6: Programació i desenvolupament
+73. Sistemes de gestió de base de dades: definició, descripció i models. El model relacional: estructura física i lògica. Àlgebres relacionals. Solucions de mercat.
+74. Sistemes de base de dades: integritat i confidencialitat. Xifratge de les dades. Problemàtica de les bases de dades distribuïdes.
+75. Sistemes de control de versions distribuït: definició, tipus, diferències i comparativa. Definició d'un model de treball amb branques Git.
+76. Bases de dades NoSQL: definició, tipus, diferències i comparativa.
+77. Metodologies àgils: definició, tipus i comparativa. Tècniques per definir les característiques d'un sistema: requeriments del sistema, casos d'ús. Definició, diferències i comparativa.
+78. Arquitectura d'una solució web. Singularització funcional al lloc web, el model de capes. Arquitectura orientada a serveis.
+79. Llenguatges de programació de client i de servidor. Model DOM (Model d'objectes del document). Els llenguatges HTML5, CSS i Javascript, JQuery, JSON, i Java. Repositori de codi. Gestió i control de versions.
+80. Serveis web. Arquitectura, protocols i estàndards: REST. Principis de disseny d'una API RESTFul.
+81. Disseny de la interfície d'usuari. Accessibilitat. Aplicacions responsives i fluïdes. Galetes. Llibres d'estil. Entorns de desenvolupament (frameworks). Flux de disseny d'una solució web.
+82. Entorns de desenvolupament web "full stack": definició, descripció. Eines i solucions de mercat.
+83. Protocol HTTP i protocol HTTPS. Gestió de certificats de seguretat. Servidors HTTP web i servidors d'aplicació web.
+84. Sistemes de gestió de continguts web (WCMS). El cicle de publicació i retirada de continguts. Arxivat de continguts web. Web 2.0 i espais de col·laboració.
+85. Motors de cerca. Indexació de continguts. Posicionament SEO (Search Engine Optimization). Analítica del trànsit del lloc web. 
+86. Programació conjunta amb agents d’IA. Estudi de mercat: Github Copilot, Claude Code y Antigravity.
 BLOC 7: Normatives específiques
-87. Protecció de dades de caràcter personal. Privacitat des del disseny i per defecte. Registre d'activitats de tractament. Anàlisi de riscs i avaluació d'impacte en protecció de dades. L'Agència Catalana de Protecció de
-Dades.
+87. Protecció de dades de caràcter personal. Privacitat des del disseny i per defecte. Registre d'activitats de tractament. Anàlisi de riscs i avaluació d'impacte en protecció de dades. L'Agència Catalana de Protecció de Dades.
 88. Interoperabilitat de sistemes. L'Esquema Nacional d'Interoperabilitat. Normes tècniques d'interoperabilitat.
 89. Esquema nacional de seguretat: mesures per garantir la seguretat de la informació i els serveis electrònics, auditoria de seguretat, resposta davant
 incidents de seguretat i certificació de la seguretat.
