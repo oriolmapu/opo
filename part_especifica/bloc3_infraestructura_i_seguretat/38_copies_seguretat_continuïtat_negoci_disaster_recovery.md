@@ -45,8 +45,8 @@ flowchart LR
         RTO_F["Servei Restablert i Operatiu"]
     end
 
-    RPO_P <-- "RPO: Quantitat màxima de dades que es poden perdre" --> INCIDENT
-    INCIDENT <-- "RTO: Temps màxim per recuperar el servei" --> RTO_F
+    RPO_P <-->|"RPO: Quantitat màxima de dades que es poden perdre"| INCIDENT
+    INCIDENT <-->|"RTO: Temps màxim per recuperar el servei"| RTO_F
 ```
 
 | Mètrica Clau | Definició Operativa | Exemple a l'Ajuntament |
