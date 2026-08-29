@@ -1,6 +1,6 @@
-# Tema 55. Comunicacions de telefonia fixa i mòbil: xarxes, tecnologies, Telefonia IP (VoIP, SIP, RTP) i evolució cel·lular (4G LTE, 5G)
+# Tema 55. Comunicacions de telefonia fixa i mòbil: xarxes, tecnologies, Telefonia IP (VoIP, SIP, RTP), evolució cel·lular (4G LTE, 5G), consum energètic i dispositius clients
 
-> **Àmbit temàtic:** Sistemes de telefonia corporativa municipal, xarxes de veu sobre IP, centrals IP-PBX, protocols SIP/RTP i generacions mòbils cel·lulars (4G/5G).
+> **Àmbit temàtic:** Sistemes de telefonia corporativa municipal, xarxes de veu sobre IP, centrals IP-PBX, protocols SIP/RTP, generacions mòbils cel·lulars (4G/5G), eficiència energètica i dispositius 5G RedCap.
 
 ---
 
@@ -63,7 +63,7 @@ flowchart TD
 
 ## 4. La Tecnologia 5G i el seu Impacte en l'Administració Local
 
-La tecnologia **5G (5G New Radio - 3GPP)** no és només una millora de velocitat per a telèfons intel·ligents, sinó una plataforma de connectivitat per a la ciutat intel·ligent (*Smart City*) basada en **tres pilars d'ús**:
+La tecnologia **5G (5G New Radio - 3GPP)** és una plataforma de connectivitat per a la ciutat intel·ligent (*Smart City*) basada en **tres pilars d'ús**:
 
 ```mermaid
 flowchart TD
@@ -76,13 +76,54 @@ flowchart TD
 
 ### 4.1. Conceptes Clau del 5G:
 - **Modes de Desplegament:**
-  - **5G NSA (*Non-Standalone*):** Utilitza antenes 5G connectades a l'antic nucli de xarxa 4G (*Evolved Packet Core*). És el desplegament inicial ràpid.
-  - **5G SA (*Standalone*):** Desplegament pur amb nucli de xarxa nadiu 5G (*5G Core*), permetent gaudir del 100% de les prestacions de latència d'1 ms i *Network Slicing*.
-- **Segmentació de Xarxa (*Network Slicing*):** Permet a l'operador dividir la xarxa física 5G en múltiples xarxes virtuals independents amb garanties de servei (QoS) estrictes. L'Ajuntament pot disposar d'un **Slice de Xarxa prioritari exclusiu per a la Policia Local i Bombers** que mai es col·lapsarà encara que milers de ciutadans estiguin utilitzant la xarxa pública durant una festa major.
+  - **5G NSA (*Non-Standalone*):** Utilitza antenes 5G connectades a l'antic nucli de xarxa 4G (*Evolved Packet Core*).
+  - **5G SA (*Standalone*):** Desplegament pur amb nucli de xarxa nadiu 5G (*5G Core*), permetent el 100% de les prestacions de latència d'1 ms i *Network Slicing*.
+- **Segmentació de Xarxa (*Network Slicing*):** Permet a l'operador dividir la xarxa física 5G en múltiples xarxes virtuals independents amb garanties de servei (QoS) estrictes (ex. un *Slice* prioritari exclusiu per a la Policia Local i Bombers que mai es col·lapsarà durant esdeveniments massius).
 
 ---
 
-## 5. Quadre Resum i Preguntes Típiques d'Examen Tipus Test
+## 5. Dinàmica del Consum Energètic, Freqüències i Dispositius Clients al 5G
+
+La relació entre freqüències, rendiment i consum al 5G presenta una dinàmica tècnica específica:
+
+### 5.1. La Paradoxa del Consum: Eficiència per Bit vs. Potència Instantània
+- **Eficiència per Bit ($\text{Joules/bit}$):** El 5G és fins a un **90% més eficient que el 4G per cada Gigabyte transmès**. Com que transmet a velocitats molt més altes, transfereix els paquets en mil·lisegons i permet que el mòdem torni ràpidament a l'estat de baix consum (*sleep*).
+- **Potència Instantània de Pic ($\text{Watts}$):** Durant la transmissió activa a màxima velocitat, el consum instantani és més alt a causa de l'amplada dels canals (100 a 400 MHz vs. 20 MHz en 4G) i el processament digital de senyal (*Massive MIMO*).
+
+```mermaid
+flowchart TD
+    subgraph FREQUENCIES_5G["BANDES 5G I CONSUM ENERGÈTIC"]
+        FR1["1. Freqüències Baixes i Mitjanes (FR1: 700 MHz - 3,5 GHz)<br/>- 700 MHz (Banda n28): Màxima cobertura i baix consum (similar a 4G).<br/>- 3,5 GHz (Banda n78): Banda principal per a capacitat i velocitat."]
+        FR2["2. Freqüències d'Ones Mil·limètriques (FR2 / mmWave: 26 - 28 GHz)<br/>- Altíssima velocitat i mínima latència (< 1 ms).<br/>- Major atenuació (Llei de Friis); major consum als amplificadors de radiofreqüència per vèncer la pèrdua de senyal."]
+    end
+```
+
+---
+
+### 5.2. Mecanismes d'Estalvi Energètic en 5G NR (New Radio)
+1. **BWP (*Bandwidth Part*):** El dispositiu no necessita escoltar constantment tot el canal de 100 MHz. Si només rep text o està en repòs, el mòdem commuta dinàmicament a una subbanda estreta de 10-20 MHz reduint dràsticament el consum, obrint-se a 100 MHz només en descàrregues massives.
+2. **C-DRX (*Connected-mode Discontinuous Reception*):** El mòdem entra en micro-son (*micro-sleep*) durant mil·lisegons i només es desperta periòdicament per comprovar si hi ha dades assignades.
+3. **WUS (*Wake-Up Signal*):** Senyal de baixíssima potència que avisa el dispositiu abans d'encendre els circuits principals de ràdio.
+
+---
+
+### 5.3. Tipologia de Dispositius Clients 5G a l'Administració Local
+
+```mermaid
+flowchart TD
+    subgraph CLIENTS_5G["DISPOSITIUS CLIENTS 5G MUNICIPALS"]
+        D1["1. Smartphones i Tauletes Corporatives (eMBB)<br/>Mòdems d'alta capacitat amb gestió dinàmica BWP per a agents de policia i inspectors."]
+        D2["2. Encaminadors 5G FWA / CPEs Municipals<br/>Routers d'accés fix sense fils alimentats per xarxa elèctrica que donen connectivitat a seus aïllades."]
+        D3["3. Dispositius 5G RedCap (Reduced Capability / NR-Light - 3GPP Rel. 17)<br/>Xips simplificats per a sensors municipals, càmeres i telemesura amb anys de durada de bateria."]
+    end
+```
+
+> 🌟 **Concepte clau: 5G RedCap (*Reduced Capability* / *NR-Light*):**  
+> Estandarditzat a la *Release 17* del 3GPP, **RedCap** soluciona el problema de consum i cost del 5G en sensors municipals (control d'aigua, càmeres de trànsit, enllumenat): redueix l'amplada de banda a 20 MHz, utilitza 1 o 2 antenes i retalla la complexitat del mòdem, aconseguint que un sensor IoT pugui operar durant anys amb bateria gaudint de la cobertura i baixa latència del 5G.
+
+---
+
+## 6. Quadre Resum i Preguntes Típiques d'Examen Tipus Test
 
 | Pregunta / Concepte Clau | Resposta Correcta / Trampa Freqüent |
 | :--- | :--- |
@@ -92,3 +133,6 @@ flowchart TD
 | **Quina generació mòbil va introduir una arquitectura 100% basada en IP?** | El **4G (LTE - Long Term Evolution)**, eliminant els circuits tradicionals. |
 | **Quina latència ofereix el pilar URLLC del 5G?** | Una latència de fins a **1 mil·lisegon (1 ms)** amb fiabilitat del 99,999%. |
 | **Què és el Network Slicing en 5G?** | La creació de **xarxes virtuals dedicades sobre la mateixa infraestructura física** per garantir serveis crítics. |
+| **Com és l'eficiència energètica del 5G respecte al 4G per Gigabyte?** | El 5G és **fins a un 90% més eficient en Joules per bit**, tot i que té pics de consum instantani més alts en canals amples. |
+| **Què és el 5G RedCap (NR-Light - 3GPP Rel. 17)?** | Una versió optimitzada del 5G per a **sensors i dispositius IoT de baix cost i baix consum**. |
+| **Com redueix el consum de bateria la funció BWP (*Bandwidth Part*)?** | Ajustant l'amplada de banda del mòdem a **subbandes estretes quan no es requereix màxima velocitat**. |
