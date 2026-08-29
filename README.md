@@ -87,6 +87,20 @@ Aquest repositori conté els apunts complets, estructurats i en català per a la
 | **56** | **Internet: arquitectura BGP, adreçament IPv4/IPv6, DNS i TLS.** | [56_internet_arquitectura_dns_ipv4_ipv6_certificats.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc3_infraestructura_i_seguretat/56_internet_arquitectura_dns_ipv4_ipv6_certificats.md) | 🟢 Completat |
 | **57** | **Internet de les Coses (IoT), xarxes LPWAN (LoRaWAN) i Smart Cities.** | [57_internet_de_les_coses_iot_smart_cities_serveis_publics.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc3_infraestructura_i_seguretat/57_internet_de_les_coses_iot_smart_cities_serveis_publics.md) | 🟢 Completat |
 
+#### 🔹 Bloc 4: Aplicacions i Serveis (Temes 58 al 66)
+
+| Núm. | Tema | Fitxer | Estat |
+| :---: | :--- | :--- | :---: |
+| **58** | **Eines d’ofimàtica: estudi de mercat, codi obert i formats ENI.** | [58_eines_ofimatica_mercat_codi_obert_locals_nuvol.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc4_aplicacions_i_serveis/58_eines_ofimatica_mercat_codi_obert_locals_nuvol.md) | 🟢 Completat |
+| **59** | **Entorn Microsoft 365: gestió d'identitats (Entra ID) i llicències.** | [59_entorn_microsoft_365_gestio_llicencies_usuaris.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc4_aplicacions_i_serveis/59_entorn_microsoft_365_gestio_llicencies_usuaris.md) | 🟢 Completat |
+| **60** | **Servidors d'aplicacions: gestió de clústers, pools i APM/logs.** | [60_servidors_aplicacions_eines_gestio_monitoritzacio.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc4_aplicacions_i_serveis/60_servidors_aplicacions_eines_gestio_monitoritzacio.md) | 🟢 Completat |
+| **61** | **Distribució remota d'aplicacions: Microsoft Intune, MDM/MAM/UEM.** | [61_distribucio_remota_aplicacions_intune_alternatives_mdm.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc4_aplicacions_i_serveis/61_distribucio_remota_aplicacions_intune_alternatives_mdm.md) | 🟢 Completat |
+| **62** | **Serveis al núvol: IaaS, PaaS, SaaS, núvol híbrid i requisits ENS.** | [62_serveis_nuvol_iaas_paas_saas_privat_public_hibrid.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc4_aplicacions_i_serveis/62_serveis_nuvol_iaas_paas_saas_privat_public_hibrid.md) | 🟢 Completat |
+| **63** | **Serveis de veu: VoIP, ToIP, protocols (SIP, SRTP), SBC i QoS.** | [63_serveis_veu_voip_toip_protocols_equipament.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc4_aplicacions_i_serveis/63_serveis_veu_voip_toip_protocols_equipament.md) | 🟢 Completat |
+| **64** | **Serveis de col·laboració: videoconferència (SFU), UCaaS i plens telemàtics.** | [64_serveis_collaboracio_videoconferencia_treball_grup.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc4_aplicacions_i_serveis/64_serveis_collaboracio_videoconferencia_treball_grup.md) | 🟢 Completat |
+| **65** | **Serveis d'impressió i de fitxers: SMBv3, NFS, DFS, AGDLP i Follow-Me.** | [65_serveis_impressio_fitxers_organitzacio_control_acces.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc4_aplicacions_i_serveis/65_serveis_impressio_fitxers_organitzacio_control_acces.md) | 🟢 Completat |
+| **66** | **Organització de fitxers: estructures lògiques/físiques, Bfr i arbres B+.** | [66_organitzacio_fitxers_estructures_tecniques_acces_bloqueig.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc4_aplicacions_i_serveis/66_organitzacio_fitxers_estructures_tecniques_acces_bloqueig.md) | 🟢 Completat |
+
 #### 🔹 Bloc 7: Normatives Específiques
 
 | Núm. | Tema | Fitxer | Estat |
