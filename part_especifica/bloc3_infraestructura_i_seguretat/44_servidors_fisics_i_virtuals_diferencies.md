@@ -69,8 +69,8 @@ flowchart LR
 flowchart TD
     Decisio{"Avaluació del Servei Municipal"}
     
-    Decisio -->|Bases de Dades d'Altíssim Rendiment I/O o Requisits de Llicència per Socket Físic| BareMetal["Mantenir en SERVIDOR FÍSIC<br/>(ex. Oracle RAC corporatiu o Grans Cabines SAN dedicades)"]
-    Decisio -->|La immensa majoria de serveis municipals (Padró, Seu, Gestor d'Expedients, Correu, Web)| Virtual["Desplegar en SERVIDORS VIRTUALS (VMs)<br/>(Flexibilitat, Alta Disponibilitat, Snapshots i Estalvi)"]
+    Decisio -->|"Bases de Dades d'Altíssim Rendiment I/O o Requisits de Llicència per Socket Físic"| BareMetal["Mantenir en SERVIDOR FÍSIC<br/>(ex. Oracle RAC corporatiu o Grans Cabines SAN dedicades)"]
+    Decisio -->|"La immensa majoria de serveis municipals (Padró, Seu, Gestor d'Expedients, Correu, Web)"| Virtual["Desplegar en SERVIDORS VIRTUALS (VMs)<br/>(Flexibilitat, Alta Disponibilitat, Snapshots i Estalvi)"]
 ```
 
 ---

@@ -53,8 +53,8 @@ flowchart TD
     Recep["1. Recepció de la Trama Ethernet"] --> Learn["2. Aprenentatge (Learning):<br/>Guarda la MAC d'origen i el port pel qual ha entrat a la TAULA CAM."]
     Learn --> Check{"3. Coneix la MAC de Destinació a la Taula CAM?"}
     
-    Check -->|SÍ| Forward["4. Reenviament Unicast:<br/>Envia la trama ÚNICAMENT pel port on està connectat l'equip destinatari."]
-    Check -->|NO o és Broadcast (FF:FF:FF:FF:FF:FF)| Flood["4. Inundació (Flooding):<br/>Envia la trama per TOTS els ports excepte el port pel qual ha entrat."]
+    Check -->|"SÍ"| Forward["4. Reenviament Unicast:<br/>Envia la trama ÚNICAMENT pel port on està connectat l'equip destinatari."]
+    Check -->|"NO o és Broadcast (FF:FF:FF:FF:FF:FF)"| Flood["4. Inundació (Flooding):<br/>Envia la trama per TOTS els ports excepte el port pel qual ha entrat."]
 ```
 
 ### Mètodes de Commutació Interna del Switch:
