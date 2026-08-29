@@ -1,6 +1,6 @@
 # Tema 44. Servidors físics i virtuals: diferències
 
-> **Àmbit temàtic:** Gestió de la infraestructura TIC municipal, arquitectura de computació i centres de procés de dades (CPD).
+> **Fonts i marcs de referència:** Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Mesures `[mp.if]` Protecció d'instal·lacions i `[op.cont]` Continuïtat del servei), Guia CCN-STIC 823 (*Seguretat en entorns virtualitzats*) i estàndards d'arquitectura de computació.
 
 ---
 

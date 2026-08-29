@@ -1,6 +1,6 @@
 # Tema 47. Virtualització de programari d'aplicacions. Desplegament de programari d'aplicacions en contenidors lleugers
 
-> **Àmbit temàtic:** Arquitectura de microserveis, virtualització a nivell de sistema operatiu, tecnologia de contenidors (Docker/Podman) i orquestració (Kubernetes).
+> **Fonts i marcs de referència:** Esquema Nacional d'Interoperabilitat ([`CORPUS/ENI.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENI.pdf) - Reutilització i transferència tecnològica), Guia CCN-STIC 886 (*Seguretat en Contenidors i Kubernetes*) i especificacions de la Open Container Initiative (OCI).
 
 ---
 

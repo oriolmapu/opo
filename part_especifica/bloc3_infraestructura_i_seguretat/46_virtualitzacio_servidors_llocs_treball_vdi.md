@@ -1,6 +1,6 @@
 # Tema 46. Virtualització de servidors i llocs de treball (VDI)
 
-> **Àmbit temàtic:** Infraestructura de virtualització de servidors, clústers d'alta disponibilitat i infraestructura d'escriptoris virtuals (VDI) per al lloc de treball municipal.
+> **Fonts i marcs de referència:** Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Mesures `[mp.eq.2]` Teletreball i `[op.cont]` Continuïtat del servei), Guia CCN-STIC 823 (*Virtualització d'Escriptoris VDI*) i protocols de visualització remota (RDP/Blast/HDX).
 
 ---
 

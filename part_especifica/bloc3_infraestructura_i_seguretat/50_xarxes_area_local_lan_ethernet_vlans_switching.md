@@ -1,6 +1,6 @@
 # Tema 50. Xarxes d'àrea local (LAN): característiques, tipologies, protocols, commutació i VLANs
 
-> **Àmbit temàtic:** Xarxes d'Àrea Local (LAN), estàndard IEEE 802.3 (Ethernet), commutació (*switching*), segmentació per VLANs (IEEE 802.1Q) i protocol Spanning Tree (RSTP).
+> **Fonts i marcs de referència:** Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Mesura `[mp.com.1]` Segregació de xarxes), estàndards **IEEE 802.3 (Ethernet)**, **IEEE 802.1Q (VLANs)**, **IEEE 802.1w (RSTP)** i **IEEE 802.3ad (LACP)**.
 
 ---
 

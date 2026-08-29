@@ -1,6 +1,6 @@
 # Tema 54. Xarxes de proximitat: característiques, tipologies, protocols i seguretat. Bluetooth/BLE, RFID, NFC i ZigBee
 
-> **Àmbit temàtic:** Xarxes d'Àrea Personal Sense Fils (WPAN), tecnologies de curt abast, identificació per radiofreqüència, control d'accessos i domòtica en edificis municipals.
+> **Fonts i marcs de referència:** Llei Orgànica 3/2018 de Protecció de Dades ([`CORPUS/LOPD.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/LOPD.pdf) - Control d'accessos), Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Mesura `[op.acc]`) i estàndards **IEEE 802.15.1 (Bluetooth/BLE)**, **ISO/IEC 14443 / 18092 (NFC)**, **ISO 18000 (RFID)** i **IEEE 802.15.4 (ZigBee)**.
 
 ---
 

@@ -1,6 +1,6 @@
 # Tema 45. Tècniques de virtualització: objectius, diferències, components i implementació
 
-> **Àmbit temàtic:** Arquitectura de computació, sistemes operatius i administració de plataformes de virtualització municipal.
+> **Fonts i marcs de referència:** Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Mesura `[mp.sw.1]` Aïllament i `[mp.if]`), Guia CCN-STIC 823 (*Seguretat en Virtualització*) i principis de virtualització de Popek-Goldberg (Intel VT-x / AMD-V).
 
 ---
 

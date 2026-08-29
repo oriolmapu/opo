@@ -1,6 +1,6 @@
 # Tema 48. Infraestructura de xarxa. Solucions de cablatge i interconnexió. Equipament. Eines de configuració i monitorització
 
-> **Àmbit temàtic:** Xarxes de comunicacions municipals, normes de cablatge estructurat (TIA/EIA-568), equipament actiu i passiu, i sistemes de monitorització (SNMP, Zabbix).
+> **Fonts i marcs de referència:** Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Mesures `[mp.com]` Protecció de comunicacions i `[op.mon]` Monitorització), estàndards de cablatge **ANSI/TIA/EIA-568-D**, **ISO/IEC 11801**, **EN 50173** i protocol **SNMPv3 (RFC 3411)**.
 
 ---
 

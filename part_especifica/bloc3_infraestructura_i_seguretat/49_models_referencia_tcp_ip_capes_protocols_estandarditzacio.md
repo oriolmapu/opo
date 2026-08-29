@@ -1,6 +1,6 @@
 # Tema 49. Els models de referència per a la comunicació de sistemes oberts: TCP/IP. Capes, funcionalitats, protocols, estandardització
 
-> **Àmbit temàtic:** Teoria de xarxes de comunicacions, arquitectura de protocols, models OSI i TCP/IP, i estandardització IETF (RFCs).
+> **Fonts i marcs de referència:** Esquema Nacional d'Interoperabilitat ([`CORPUS/ENI.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENI.pdf) - NTI de Catàleg d'estàndards), model **ISO 7498 (Model OSI)** i estàndards IETF per a la pila TCP/IP (**RFC 791 IPv4**, **RFC 793 TCP**, **RFC 768 UDP** i **RFC 8200 IPv6**).
 
 ---
 

@@ -1,6 +1,6 @@
 # Tema 51. Xarxes de fibra òptica: característiques, tipologies (Monomode vs. Multimode), protocols, connectors i equipament
 
-> **Àmbit temàtic:** Xarxes de transmissió òptica, infraestructura troncal (*backbone*), comunicacions entre seus municipals i interconnectivitat d'alta velocitat.
+> **Fonts i marcs de referència:** Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Mesura `[mp.if]` Protecció de línies de transmissió) i estàndards internacionals de transmissió òptica **ISO/IEC 11801 (OM1-OM5, OS1-OS2)** i **ITU-T sèrie G.652 / G.657**.
 
 ---
 

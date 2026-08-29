@@ -1,6 +1,6 @@
 # Tema 56. Internet i els seus components: arquitectura, protocols, dominis, DNS, sistemes d'adreces (IPv4/IPv6) i certificats TLS
 
-> **Àmbit temàtic:** Arquitectura d'Internet, encaminament BGP, sistemes d'adreçament IP, el servei DNS i certificats de seguretat web (TLS/HTTPS).
+> **Fonts i marcs de referència:** Esquema Nacional d'Interoperabilitat ([`CORPUS/ENI.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENI.pdf) - Catàleg d'estàndards), Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Mesura `[mp.com.4]` Trànsit xifrat TLS) i estàndards IETF (**RFC 1034/1035 DNS**, **RFC 4033 DNSSEC**, **RFC 4271 BGP-4**, **RFC 8446 TLS 1.3** i **RFC 8200 IPv6**).
 
 ---
 

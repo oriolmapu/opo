@@ -1,6 +1,6 @@
 # Tema 52. Xarxes de fibra òptica. Tecnologies passives PON (GPON, XGS-PON). Tecnologies d'accés FTTx
 
-> **Àmbit temàtic:** Xarxes d'accés de nova generació (NGA), desplegament de xarxes de telecomunicacions municipals i fibra òptica passiva.
+> **Fonts i marcs de referència:** Llei 9/2017 de Contractes del Sector Públic ([`CORPUS/Contractes_2017.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/Contractes_2017.pdf) - Plecs d'accés a telecomunicacions) i recomanacions de la Unió Internacional de Telecomunicacions (**ITU-T G.984 GPON**, **ITU-T G.9807.1 XGS-PON** i **IEEE 802.3ah EPON**).
 
 ---
 

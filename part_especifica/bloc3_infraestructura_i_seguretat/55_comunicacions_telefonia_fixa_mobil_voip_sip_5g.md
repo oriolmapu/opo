@@ -1,6 +1,6 @@
 # Tema 55. Comunicacions de telefonia fixa i mòbil: xarxes, tecnologies, Telefonia IP (VoIP, SIP, RTP), evolució cel·lular (4G LTE, 5G), consum energètic i dispositius clients
 
-> **Àmbit temàtic:** Sistemes de telefonia corporativa municipal, xarxes de veu sobre IP, centrals IP-PBX, protocols SIP/RTP, generacions mòbils cel·lulars (4G/5G), eficiència energètica i dispositius 5G RedCap.
+> **Fonts i marcs de referència:** Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Mesura `[mp.com.2]` Protecció de veu sobre IP), estàndards IETF de telefonia IP (**RFC 3261 SIP**, **RFC 3550 RTP**, **RFC 4566 SDP**) i especificacions mòbils del consorci **3GPP (Release 15/16/17 per a 5G NR i 5G RedCap)**.
 
 ---
 

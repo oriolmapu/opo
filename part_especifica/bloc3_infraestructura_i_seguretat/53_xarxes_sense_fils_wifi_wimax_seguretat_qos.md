@@ -1,6 +1,6 @@
 # Tema 53. Xarxes sense fils: característiques, estàndards Wi-Fi (802.11n/ac/ax/be), seguretat (WPA2/WPA3), Qualitat de Servei (QoS) i WiMAX
 
-> **Àmbit temàtic:** Xarxes sense fils corporatives (WLAN), estàndard IEEE 802.11, mobilitat municipal, seguretat WPA3-Enterprise i xarxes WiMAX.
+> **Fonts i marcs de referència:** Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Mesura `[mp.com.3]` Xarxes sense fils), Guia CCN-STIC 818 (*Seguretat en xarxes sense fils*), estàndards **IEEE 802.11ax (Wi-Fi 6)**, **IEEE 802.11be (Wi-Fi 7)**, **WPA3 / SAE (RFC 7664)** i **IEEE 802.16 (WiMAX)**.
 
 ---
 

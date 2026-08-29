@@ -1,6 +1,6 @@
 # Tema 57. Internet de les Coses (IoT): característiques, arquitectura, protocols (MQTT, LoRaWAN, NB-IoT) i serveis públics municipals (Smart Cities)
 
-> **Àmbit temàtic:** Ciutats intel·ligents (*Smart Cities*), xarxes de sensors municipals (LPWAN), protocols d'Internet de les Coses (IoT) i plataformes de dades públiques.
+> **Fonts i marcs de referència:** Esquema Nacional d'Interoperabilitat ([`CORPUS/ENI.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENI.pdf)), Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Dispositius IoT), marc europeu de dades urbanes **FIWARE (API NGSI-LD)**, estàndards **ISO/IEC 20922 (MQTT)**, **RFC 7252 (CoAP)**, **LoRaWAN Alliance** i especificacions **3GPP NB-IoT / LTE-M**.
 
 ---
 
