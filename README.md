@@ -101,6 +101,36 @@ Aquest repositori conté els apunts complets, estructurats i en català per a la
 | **65** | **Serveis d'impressió i de fitxers: SMBv3, NFS, DFS, AGDLP i Follow-Me.** | [65_serveis_impressio_fitxers_organitzacio_control_acces.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc4_aplicacions_i_serveis/65_serveis_impressio_fitxers_organitzacio_control_acces.md) | 🟢 Completat |
 | **66** | **Organització de fitxers: estructures lògiques/físiques, Bfr i arbres B+.** | [66_organitzacio_fitxers_estructures_tecniques_acces_bloqueig.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc4_aplicacions_i_serveis/66_organitzacio_fitxers_estructures_tecniques_acces_bloqueig.md) | 🟢 Completat |
 
+#### 🔹 Bloc 5: Gestió d’Equip i Projectes (Temes 67 al 72)
+
+| Núm. | Tema | Fitxer | Estat |
+| :---: | :--- | :--- | :---: |
+| **67** | **Organització d'un departament TIC: cicle de vida ITIL v4 i operacions.** | [67_organitzacio_departament_tic_cicle_vida_serveis.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc5_gestio_equip_i_projectes/67_organitzacio_departament_tic_cicle_vida_serveis.md) | 🟢 Completat |
+| **68** | **Planificació estratègica: Pla de Sistemes d'Informació (PSI) i MÈTRICA v3.** | [68_planificacio_estrategica_pla_sistemes_informacio_psi.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc5_gestio_equip_i_projectes/68_planificacio_estrategica_pla_sistemes_informacio_psi.md) | 🟢 Completat |
+| **69** | **Gestió basada en processos: mapa de processos, BPMN 2.0 i KPIs.** | [69_gestio_processos_mapa_bpmn_mesura_kpis.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc5_gestio_equip_i_projectes/69_gestio_processos_mapa_bpmn_mesura_kpis.md) | 🟢 Completat |
+| **70** | **Planificació estratègica de serveis TIC: Catàleg de serveis, SLAs i TCO.** | [70_planificacio_estrategica_serveis_tic_cataleg_sla_costos.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc5_gestio_equip_i_projectes/70_planificacio_estrategica_serveis_tic_cataleg_sla_costos.md) | 🟢 Completat |
+| **71** | **Gestió de projectes TIC: PMBOK, WBS, PERT/CPM, EVM i Llei 9/2017.** | [71_gestio_projectes_sistemes_informacio_cicle_vida_pmbok.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc5_gestio_equip_i_projectes/71_gestio_projectes_sistemes_informacio_cicle_vida_pmbok.md) | 🟢 Completat |
+| **72** | **Implantació de sistemes: gestió de la configuració (CMDB/CAB) i formació.** | [72_implantacio_sistemes_gestio_configuracio_cmdb_formacio.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc5_gestio_equip_i_projectes/72_implantacio_sistemes_gestio_configuracio_cmdb_formacio.md) | 🟢 Completat |
+
+#### 🔹 Bloc 6: Programació i Desenvolupament (Temes 73 al 86)
+
+| Núm. | Tema | Fitxer | Estat |
+| :---: | :--- | :--- | :---: |
+| **73** | **SGBD i model relacional: àlgebra relacional, Codd i solucions de mercat.** | [73_sgbd_model_relacional_algebra_relacional_mercat.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/73_sgbd_model_relacional_algebra_relacional_mercat.md) | 🟢 Completat |
+| **74** | **Integritat de bases de dades (ACID), xifratge (TDE), seguretat i Teorema CAP.** | [74_bases_dades_integritat_acid_xifratge_distribuides_cap.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/74_bases_dades_integritat_acid_xifratge_distribuides_cap.md) | 🟢 Completat |
+| **75** | **Control de versions distribuït: Git, Gitflow, GitHub Flow i seguretat.** | [75_control_versions_distribuit_git_models_branques_gitflow.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/75_control_versions_distribuit_git_models_branques_gitflow.md) | 🟢 Completat |
+| **76** | **Bases de dades NoSQL: documentals, clau-valor, columnars, grafs i model BASE.** | [76_bases_dades_nosql_tipus_documentals_grafs_comparativa.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/76_bases_dades_nosql_tipus_documentals_grafs_comparativa.md) | 🟢 Completat |
+| **77** | **Metodologies àgils: Scrum, Kanban, XP, casos d'ús UML i històries INVEST.** | [77_metodologies_agils_scrum_kanban_requeriments_casos_us.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/77_metodologies_agils_scrum_kanban_requeriments_casos_us.md) | 🟢 Completat |
+| **78** | **Arquitectura de solucions web: model de capes, SOA, ESB i microserveis.** | [78_arquitectura_solucio_web_model_capes_soa_microserveis.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/78_arquitectura_solucio_web_model_capes_soa_microserveis.md) | 🟢 Completat |
+| **79** | **Llenguatges client/servidor: HTML5, CSS3, JavaScript, DOM, JSON i Java.** | [79_llenguatges_programacio_client_servidor_dom_html5_java.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/79_llenguatges_programacio_client_servidor_dom_html5_java.md) | 🟢 Completat |
+| **80** | **Serveis web REST: principis Fielding, mètodes HTTP, OpenAPI i JWT.** | [80_serveis_web_rest_principis_disseny_api_restful_openapi.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/80_serveis_web_rest_principis_disseny_api_restful_openapi.md) | 🟢 Completat |
+| **81** | **Disseny UI/UX: accessibilitat WCAG 2.1 AA (RD 1112/2018), responsive i galetes.** | [81_disseny_interficie_accessibilitat_wcag_responsive_cookies.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/81_disseny_interficie_accessibilitat_wcag_responsive_cookies.md) | 🟢 Completat |
+| **82** | **Desenvolupament Full Stack: piles MERN/Spring/.NET, SSR/CSR/SSG i eines.** | [82_entorns_desenvolupament_web_full_stack_frameworks_mercat.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/82_entorns_desenvolupament_web_full_stack_frameworks_mercat.md) | 🟢 Completat |
+| **83** | **Protocol HTTP/HTTPS: HTTP/2, HTTP/3 QUIC, TLS 1.3 i servidors Nginx/Tomcat.** | [83_protocol_http_https_tls13_certificats_servidors_web.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/83_protocol_http_https_tls13_certificats_servidors_web.md) | 🟢 Completat |
+| **84** | **Gestors de continguts (WCMS): Headless CMS, cicle editorial, WARC i Decidim.** | [84_gestors_continguts_wcms_cicle_publicacio_arxivat_warc.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/84_gestors_continguts_wcms_cicle_publicacio_arxivat_warc.md) | 🟢 Completat |
+| **85** | **Motors de cerca: índex invertit, SEO (Core Web Vitals) i analítica Matomo.** | [85_motors_cerca_indexacio_seo_analitica_web_matomo.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/85_motors_cerca_indexacio_seo_analitica_web_matomo.md) | 🟢 Completat |
+| **86** | **Programació amb IA: Copilot, Claude Code, Antigravity, ENS i EU AI Act.** | [86_programacio_conjunta_agents_ia_copilot_claude_antigravity.md](file:///home/oriol/Projectes/OPOS/part_especifica/bloc6_programacio_i_desenvolupament/86_programacio_conjunta_agents_ia_copilot_claude_antigravity.md) | 🟢 Completat |
+
 #### 🔹 Bloc 7: Normatives Específiques
 
 | Núm. | Tema | Fitxer | Estat |
