@@ -11,11 +11,12 @@ Els llenguatges de client s'executen directament en el navegador web del ciutad�
 ```mermaid
 flowchart TD
     subgraph STACK_FRONTEND["LA TRÍADA DEL DESENVOLUPAMENT WEB (W3C)"]
-        HTML["1. HTML5 (Estructura Semàntica)<br/>Defineix el contingut i significat dels elements:<br/>`<header>`, `<nav>`, `<main>`, `<article>`, `<section>`, `<footer>`, `<form>`."]
+        HTML["1. HTML5 (Estructura Semàntica)<br/>Defineix el contingut i estructura (header, nav, main, article, section, footer, form)."]
         CSS["2. CSS3 (Presentació i Disseny Visual)<br/>Estils, maquetació responsiva (Flexbox, CSS Grid) i Media Queries (@media)."]
         JS["3. JavaScript / ES6+ (Comportament i Dinamisme)<br/>Lògica interactiva, manipulació del DOM i comunicació asíncrona (Fetch API / AJAX)."]
 
-        HTML --- CSS --- JS
+        HTML --> CSS
+        CSS --> JS
     end
 ```
 
@@ -28,14 +29,14 @@ El **DOM** és una interfície de programació d'aplicacions (API) estandarditza
 ```mermaid
 flowchart TD
     subgraph ARBRE_DOM["ESTRUCTURA DE L'ARBRE DOM"]
-        Doc["Document"] --> Root["Element Arrel: `<html>`"]
-        Root --> Head["Element: `<head>`"]
-        Root --> Body["Element: `<body>`"]
-        Head --> Title["Element: `<title>` -> Text: 'Seu Electrònica'"]
-        Body --> H1["Element: `<h1>` -> Text: 'Tràmits Municipals'"]
-        Body --> Form["Element: `<form id='tramitForm'>`"]
-        Form --> Input["Element: `<input type='text' id='nif'>`"]
-        Form --> Button["Element: `<button id='btnEnviar'>`"]
+        Doc["Document"] --> Root["Element Arrel: html"]
+        Root --> Head["Element: head"]
+        Root --> Body["Element: body"]
+        Head --> Title["Element: title (Text: 'Seu Electrònica')"]
+        Body --> H1["Element: h1 (Text: 'Tràmits Municipals')"]
+        Body --> Form["Element: form (id='tramitForm')"]
+        Form --> Input["Element: input (type='text', id='nif')"]
+        Form --> Button["Element: button (id='btnEnviar')"]
     end
 ```
 
