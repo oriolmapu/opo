@@ -1,96 +1,108 @@
 # Tema 74. Sistemes de bases de dades: integritat (ACID), confidencialitat, xifratge (TDE), seguretat ENS i problemàtica de bases de dades distribuïdes (Teorema CAP, 2PC)
 
-> **Fonts i marcs de referència:** Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Mesures `[mp.if.3]` Xifratge, `[mp.sw.2]` Validació d'entrades contra SQLi i `[op.exp]`), Reglament General de Protecció de Dades ([`CORPUS/LOPD.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/LOPD.pdf)), estàndard **SQL-92 (Nivells d'aïllament)** i **Teorema CAP d'Eric Brewer**.
+> **Fonts i marcs de referència:** Esquema Nacional de Seguretat ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf) - Mesures `[mp.if.3]` Xifratge i `[mp.sw.2]` Validació d'entrades contra SQLi), Reglament General de Protecció de Dades ([`CORPUS/LOPD.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/LOPD.pdf)), estàndard **SQL-92** i **Teorema CAP d'Eric Brewer**.
 
 ---
 
-## 1. Integritat Transaccional: Les Propietats ACID
+## 1. Què és una Transacció i les Propietats ACID?
 
-Una **transacció** és una unitat lògica de treball indivisible. Per garantir la integritat absoluta de les dades municipals (com el cobrament d'un impost o el canvi de domicili al padró), els SGBD han de complir les **quatre propietats ACID**:
+Una **transacció** és un conjunt d'operacions que s'han d'executar com un **paquet indivisible**. Per exemple, pagar una taxa municipal implica dues accions: *restar diners del compte del ciutadà* i *sumar diners al compte de l'Ajuntament*. Si el sistema cau entremig, no podem deixar els diners perduts.
+
+Per evitar inconsistències, tot motor de base de dades relacional compleix les **quatre regles ACID**:
 
 ```mermaid
 flowchart TD
-    subgraph PROPIETATS_ACID["LES 4 PROPIETATS ACID D'UN SGBD"]
-        A["1. A (Atomicity / Atomicitat)<br/>Principi del 'Tot o Res'. La transacció s'executa completament (Commit) o, si falla qualsevol pas, es reverteix íntegrament (Rollback)."]
-        C["2. C (Consistency / Consistència)<br/>La transacció només pot portar la base de dades d'un estat vàlid a un altre estat vàlid, respectant totes les regles d'integritat (PK, FK, Check)."]
-        I["3. I (Isolation / Aïllament)<br/>L'execució concurrent de múltiples transaccions no produeix interferències; el resultat és idèntic a si s'haguessin executat seqüencialment."]
-        D["4. D (Durability / Durabilitat)<br/>Un cop confirmada la transacció (Commit), els canvis són permanents i sobreviuen fins i tot a una caiguda del servidor mitjançant registres WAL (Write-Ahead Logging)."]
+    subgraph ACID_DIDACTIC["LES 4 PROPIETATS ACID D'UN SGBD"]
+        A["1. A (Atomicity / Atomicitat) -> 'Tot o Res'<br/>Totes les operacions es graven amb èxit (COMMIT) o es cancel·len totes (ROLLBACK). Mai queda res a mitges."]
+        C["2. C (Consistency / Consistència) -> 'Respecte a les Regles'<br/>Les dades han de complir sempre les normes (ex. no es pot tenir un saldo negatiu ni duplicar un NIF existent)."]
+        I["3. I (Isolation / Aïllament) -> 'No Molestar'<br/>Si dos usuaris treballen alhora, el sistema fa que sembli que cadascú està sol a la base de dades."]
+        D["4. D (Durability / Durabilitat) -> 'Per Sempre'<br/>Un cop gravada una dada, no es perdrà encara que hi hagi una apagada elèctrica o fallada del servidor."]
     end
 ```
-
-### 1.1. Nivells d'Aïllament SQL i Fenòmens Anòmals
-
-| Nivell d'Aïllament (SQL-92) | Lectura Bruta (*Dirty Read*) | Lectura No Repetible | Lectura Fantasma (*Phantom Read*) |
-| :--- | :---: | :---: | :---: |
-| **Read Uncommitted** *(Mínim aïllament)* | ❌ Permesa | ❌ Permesa | ❌ Permesa |
-| **Read Committed** *(Estàndard PostgreSQL/Oracle)* | ✅ **Evitada** | ❌ Permesa | ❌ Permesa |
-| **Repeatable Read** *(Estàndard MySQL InnoDB)* | ✅ **Evitada** | ✅ **Evitada** | ❌ Permesa |
-| **Serializable** *(Màxim aïllament / Mínima concurrència)* | ✅ **Evitada** | ✅ **Evitada** | ✅ **Evitada** |
 
 ---
 
-## 2. Confidencialitat i Xifratge de Dades (ENS i RGPD)
+## 2. El Repte de l'Aïllament: 3 Errors de Concurrència i 4 Nivells SQL
 
-Segons les exigències de l'**Esquema Nacional de Seguretat** ([`CORPUS/ENS_2022.pdf`](file:///home/oriol/Projectes/OPOS/CORPUS/ENS_2022.pdf)):
+Quan centenars de funcionaris i ciutadans accedeixen alhora a la base de dades, poden aparèixer **tres anomalies de dades**:
 
-```mermaid
-flowchart TD
-    subgraph SEGURETAT_BD["NIVELLS DE PROTECCIÓ CRIPTOGRÀFICA A BASES DE DADES"]
-        Transit["1. Xifratge en Trànsit (In-Transit)<br/>Totes les connexions entre aplicacions web i el SGBD utilitzen TLS 1.3 (AES-256)."]
-        AtRest["2. Xifratge en Repòs (TDE - Transparent Data Encryption)<br/>Xifratge transparent dels fitxers físics de bases de dades, tablespaces i còpies de seguretat a disc."]
-        Column["3. Xifratge a Nivell de Camp / Columna<br/>Xifratge específic per a categories especials de dades (dades mèdiques de serveis socials, delictes)."]
-        Masking["4. Emmascarament Dinàmic de Dades (Dynamic Data Masking)<br/>Ocultació parcial de dades confidencials en pantalla (ex. NIF: ***4567*)."]
-    end
-```
+1. **Lectura Bruta (*Dirty Read*):** Llegir una dada que un altre usuari està modificant però que **encara no ha gravat definitivament**. Si aquest usuari cancel·la l'operació (*Rollback*), haurem llegit una dada falsa.
+2. **Lectura No Repetible (*Non-Repeatable Read*):** Si llegeixes el mateix registre dues vegades dins del mateix tràmit, obtens valors diferents perquè algú l'ha modificat (*Update*) entremig.
+3. **Lectura Fantasma (*Phantom Read*):** Si fas una consulta per rang (ex. *"quants expedients hi ha pendents"*), en repetir-la apareixen **noves files que abans no hi eren** perquè algú n'ha afegit de noves (*Insert*).
 
-- **Prevenció de la Injecció SQL (SQL Injection - OWASP Top 1):**  
-  Totes les consultes han d'utilitzar **consultes preparades (*Prepared Statements / Parameterized Queries*)** per separar estrictament el codi SQL de les dades introduïdes per l'usuari, impedint la manipulació de la base de dades.
+### Els 4 Nivells d'Aïllament SQL-92: Seguretat vs. Velocitat
 
----
+Per controlar aquests errors, SQL permet triar entre **4 nivells d'aïllament**. Com més alt és el nivell, més neta és la dada, però més lent va el sistema:
 
-## 3. Problemàtica de les Bases de Dades Distribuïdes: El Teorema CAP
-
-En una arquitectura distribuïda on les dades estan replicades entre diferents servidors o CPDs, el **Teorema CAP (d'Eric Brewer)** demostra que **és impossible garantir simultàniament les 3 propietats davant una fallada de comunicació de xarxa**:
-
-```mermaid
-flowchart TD
-    subgraph TEOREMA_CAP["EL TRIANGLE DEL TEOREMA CAP"]
-        C["C (Consistency - Consistència Forta)<br/>Tots els servidors veuen exactament la mateixa dada a l'instant."]
-        A["A (Availability - Disponibilitat)<br/>Cada petició rep una resposta sense errors."]
-        P["P (Partition Tolerance - Tolerància a Particions)<br/>El sistema continua funcionant si es trenca la xarxa entre nodes."]
-
-        C --- A --- P --- C
-    end
-```
-
-> 📌 **Implicació Pràctica:** Com que a les xarxes reals les particions de xarxa ($P$) són inevitables, un sistema distribuït ha de triar entre:
-> - **Sistemes CP (Consistència + Tolerància a Particions):** Bloquegen operacions si no poden garantir la consistència (ex. bases de dades relacionals bancàries o tributàries).
-> - **Sistemes AP (Disponibilitat + Tolerància a Particions):** Responen sempre, acceptant **Consistència Eventual (*Eventual Consistency*)** a canvi d'estar sempre operatius (ex. sistemes NoSQL com Cassandra o DynamoDB).
+| Nivell d'Aïllament | Com funciona? | Dirty Read | Non-Repeatable | Phantom Read | Ús habitual |
+| :--- | :--- | :---: | :---: | :---: | :--- |
+| **1. Read Uncommitted** | Permet llegir qualsevol cosa sense bloquejos. | ❌ Permesa | ❌ Permesa | ❌ Permesa | Només per a estadístiques aproximades. |
+| **2. Read Committed** | Només pots llegir dades **confirmades amb Commit**. | ✅ **Evitada** | ❌ Permesa | ❌ Permesa | **Per defecte a PostgreSQL, Oracle i SQL Server**. |
+| **3. Repeatable Read** | Ningú pot modificar les files que estàs consultant. | ✅ **Evitada** | ✅ **Evitada** | ❌ Permesa | **Per defecte a MySQL (motor InnoDB)**. |
+| **4. Serializable** | Les transaccions s'executen en estricta fila índia. | ✅ **Evitada** | ✅ **Evitada** | ✅ **Evitada** | Màxima seguretat (sense cap error), però menor velocitat. |
 
 ---
 
-## 4. Protocols de Coordinació Distribuïda: Two-Phase Commit (2PC)
+## 3. Confidencialitat, Xifratge i Seguretat (ENS / RGPD)
 
-Per garantir que una transacció distribuïda que afecta múltiples bases de dades municipals sigui atòmica, s'utilitza el protocol **2PC (*Two-Phase Commit*)**:
+Per protegir la informació ciutadana segons l'Esquema Nacional de Seguretat:
+
+```mermaid
+flowchart LR
+    subgraph SEGURETAT_PRATICA["NIVELLS DE PROTECCIÓ DE LA INFORMACIÓ"]
+        Transit["1. En Trànsit<br/>(Canal TLS 1.3 / HTTPS)<br/>Evita que espiïn la xarxa."]
+        AtRest["2. En Repòs (TDE)<br/>Xifratge automàtic de fitxers i còpies a disc.<br/>Si roben el disc físic, no poden llegir res."]
+        Masking["3. Emmascarament<br/>Oculta dades sensibles a la pantalla.<br/>(Ex. NIF: ***4567*)."]
+    end
+```
+
+- **Com s'evita la Injecció SQL (SQLi)?**  
+  L'error clàssic de seguretat és ajuntar el text de l'usuari amb la sentència SQL. La solució obligatòria són les **consultes preparades (*Prepared Statements / Parameterized Queries*)**, que tracten l'entrada de l'usuari estrictament com a dada i mai com a codi executable.
+
+---
+
+## 4. Problemàtica de les Bases de Dades Distribuïdes
+
+Una base de dades distribuïda és aquella que està repartida entre diversos servidors (per exemple, un servidor a l'Ajuntament i un altre de rèplica a un altre edifici per seguretat).
+
+### 4.1. El Teorema CAP d'Eric Brewer
+Demostra que, si es trenca la comunicació de xarxa entre servidors (**P - Partició**), només podem triar **UNA** d'aquestes dues opcions:
 
 ```mermaid
 flowchart TD
-    Coord["Coordinador de Transaccions"]
-    NodeA["Node 1 (BD Padró)"]
-    NodeB["Node 2 (BD Tresoreria)"]
-
-    subgraph FASE1["FASE 1: PREPARACIÓ (Prepare Phase)"]
-        Coord -->|"1. PREPARE (Pots fer commit?)"| NodeA
-        Coord -->|"1. PREPARE (Pots fer commit?)"| NodeB
-        NodeA -->|"2. VOTE_COMMIT (Estic a punt)"| Coord
-        NodeB -->|"2. VOTE_COMMIT (Estic a punt)"| Coord
-    end
-
-    subgraph FASE2["FASE 2: CONFIRMACIÓ (Commit Phase)"]
-        Coord -->|"3. GLOBAL COMMIT (Executa definitivament)"| NodeA
-        Coord -->|"3. GLOBAL COMMIT (Executa definitivament)"| NodeB
+    subgraph DILEMA_CAP["EL DILEMA DEL TEOREMA CAP"]
+        CP["Opció 1: Sistema CP (Consistència + Partició)<br/>Si un servidor no pot parlar amb l'altre, BLOQUEJA el servei per no donar dades desincronitzades.<br/>(Ideal per a diners, tributs i tràmits legals)."]
+        
+        AP["Opció 2: Sistema AP (Disponibilitat + Partició)<br/>El servidor respon sempre, encara que tingui dades desactualitzades, i ja s'igualarà més tard (Consistència Eventual).<br/>(Ideal per a xarxes socials o sensors IoT)."]
     end
 ```
+
+---
+
+### 4.2. Com es posen d'acord dos servidors? El Two-Phase Commit (2PC)
+
+Quan una operació ha de gravar a dos servidors alhora (ex. Servidor Padró i Servidor Tresoreria), s'utilitza el protocol **Two-Phase Commit**:
+
+```mermaid
+flowchart TD
+    Coord["Servidor Coordinador"]
+    S1["Servidor A (Padró)"]
+    S2["Servidor B (Tresoreria)"]
+
+    subgraph FASE1["1. FASE DE PREPARACIÓ (Votació)"]
+        Coord -->|"1. Pregunta: 'Esteu a punt per gravar?'"| S1
+        Coord -->|"1. Pregunta: 'Esteu a punt per gravar?'"| S2
+        S1 -->|"2. Resposta: 'SÍ, a punt'"| Coord
+        S2 -->|"2. Resposta: 'SÍ, a punt'"| Coord
+    end
+
+    subgraph FASE2["2. FASE DE CONFIRMACIÓ (Execució)"]
+        Coord -->|"3. Ordre: 'GRAVEU ELS DOS (Commit)'"| S1
+        Coord -->|"3. Ordre: 'GRAVEU ELS DOS (Commit)'"| S2
+    end
+```
+
+- Si qualsevol dels dos servidors respon que NO o falla la connexió, el coordinador ordena **CANCEL·LAR (Rollback)** a tothom per mantenir la coherència.
 
 ---
 
@@ -99,8 +111,10 @@ flowchart TD
 | Pregunta / Concepte Clau | Resposta Correcta / Trampa Freqüent |
 | :--- | :--- |
 | **Què signifiquen les sigles ACID en bases de dades?** | **Atomicitat (Atomicity), Consistència (Consistency), Aïllament (Isolation) i Durabilitat (Durability)**. |
-| **Quin és el nivell d'aïllament que evita la Lectura Fantasma?** | El nivell **Serializable** (màxim nivell de concurrència estricta). |
-| **Què és el TDE (Transparent Data Encryption)?** | El **xifratge transparent dels fitxers i còpies de la base de dades en repòs (*at-rest*)**. |
+| **Què és una Lectura Bruta (*Dirty Read*)?** | Llegir dades que una altra transacció ha modificat però que **encara no ha confirmat amb `COMMIT`**. |
+| **Quin nivell d'aïllament és el per defecte a PostgreSQL i Oracle?** | El nivell **`Read Committed`**, que evita les lectures brutes. |
+| **Quin és l'únic nivell d'aïllament que evita la Lectura Fantasma?** | El nivell **`Serializable`** (màxima seguretat i aïllament total). |
+| **Què és el TDE (Transparent Data Encryption)?** | El **xifratge transparent dels fitxers i còpies de seguretat de la base de dades en repòs (*at-rest*)**. |
 | **Com es prevé de forma definitiva l'atac d'Injecció SQL (SQLi)?** | Mitjançant l'ús obligatori de **consultes preparades / parametritzades (*Prepared Statements*)**. |
-| **Què postula el Teorema CAP d'Eric Brewer?** | Que un sistema distribuït **només pot garantir 2 de les 3 propietats simultàniament (C, A o P)**. |
-| **Com funciona el protocol Two-Phase Commit (2PC)?** | Divideix la transacció en **Fase de Preparació (votació)** i **Fase de Confirmació (*Global Commit*)**. |
+| **Què postula el Teorema CAP d'Eric Brewer?** | Que davant una fallada de xarxa ($P$), un sistema distribuït **només pot triar entre Consistència ($C$) o Disponibilitat ($A$)**. |
+| **Com funciona el protocol Two-Phase Commit (2PC)?** | Divideix la transacció distribuïda en dues etapes: **Fase de Preparació (votació)** i **Fase de Confirmació (*Commit*)**. |
