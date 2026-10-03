@@ -292,6 +292,17 @@ En lloc d'utilitzar rutes estàtiques rígides, s'implanta el protocol d'estat d
 - **Disseny d'Àrees OSPF:**
   - **Àrea 0 (Backbone):** Agrupa els tallafocs HA del CPD i els extrems dels túnels WAN de les 5 seus.
   - **Àrees Stub / Totally Stubby:** A cada seu municipal per mantenir les taules d'encaminament locals optimitzades i reduir la tramesa de paquets LSA.
+- **Gestió de Rols DR / BDR segons el Model de Xarxa OSPF:**
+  - **En l'Opció A (VLAN Única Multiaccés / Broadcast):**
+    - En ser una xarxa multiaccés compartida, OSPF requereix l'elecció d'un **DR (*Designated Router*)** i un **BDR (*Backup Designated Router*)** per centralitzar l'intercanvi de LSAs i evitar una saturació de comunicacions en malla ($N \times (N-1) / 2$).
+    - **Control estricte de prioritats (`ip ospf priority`):**
+      - **Tallafocs HA Central del CPD:** `ip ospf priority 255` (forçat com a **DR permanent** per governar el backbone de l'Àrea 0).
+      - **Router de Seu Crítica (ex. Policia Local):** `ip ospf priority 100` (elegit com a **BDR** de reserva en cas de caiguda del DR).
+      - **Resta de Routers Remots (Socials, Biblio, Cívic, Brigada):** `ip ospf priority 0` (**DROther**). Amb prioritat 0, tenen **prohibit participar a l'elecció**, assegurant que cap seu perifèrica pugui assumir el control del trànsit de la WAN municipal.
+  - **En l'Opció B (Circuits Punt a Punt `/30`):**
+    - Les interfícies es configuren com a `ip ospf network point-to-point`.
+    - **No hi ha elecció de DR ni BDR:** Els dos extrems estableixen una relació d'adjacència directa *FULL* d'un a un, agilitzant lleugerament la convergència inicial en no haver d'esperar el temps d'elecció (*Wait Timer* de 40s).
+
 - **Jerarquia de Costos OSPF (`ip ospf cost`):**
   - **Interfície Túnel sobre Fibra:** `ip ospf cost 10` -> *Camí seleccionat per defecte per a tot el trànsit.*
   - **Interfície Túnel sobre Ràdio Sectorial (PTMP):** `ip ospf cost 50` -> *Ruta secundària en standby càlid.*
