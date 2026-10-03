@@ -469,13 +469,13 @@ flowchart TD
 
 #### 1. Justificació dels Serveis Transversals a Totes les Seus:
 1. **Telefonia IP Unificada (VLAN 40 - Present a les 5 seus + Central):**
-   - Tots els telèfons IP corporatius de l'Ajuntament pertanyen a la VLAN 40 (o subxarxa `10.<Seu>.40.0/24`), permetent la marcació directa per extensions curtes (ex. 101, 102, 201) i el registre contra la centraleta SIP o Microsoft Teams Phone System.
+   - Tots els telèfons IP corporatius de l'Ajuntament pertanyen a la **VLAN 40 a Nivell 2**, associada a la **subxarxa IPv4 `10.<ID_Seu>.40.0/24`** de cada seu, permetent la marcació directa per extensions curtes (ex. 101, 102, 201) i el registre contra la centraleta SIP o Microsoft Teams Phone System.
    - Als commutadors gestionats s'activa **LLDP-MED / Voice VLAN**: el telèfon IP s'assigna automàticament a la VLAN 40 etiquetada (*tagged*), mentre que el PC connectat al port de pas (*passthrough*) del propi telèfon s'encamina a la **VLAN de dades específica de la seu** sense etiquetar (*untagged*, p. ex. VLAN 10 a la Central, VLAN 110 a Policia, VLAN 120 a Socials, VLAN 130 a Biblioteca, VLAN 140 a Espai Cívic).
    - **QoS estricte (ENS `[mp.com.1]`):** Prioritat absoluta de trànsit de veu amb etiquetatge **DSCP EF (46) / CoS 5**, tant als commutadors de seu com sobre el radioenllaç sectorial PTMP i la fibra.
 2. **Videovigilància CCTV (VLAN 60 - Present a les 5 seus + Central):**
    - **Aïllament Absolut d'Internet (ENS `[mp.com.1]`, `[op.cont]`):** Les càmeres IP de videovigilància són dispositius IoT amb greu risc de vulnerabilitats de microprogramari (*firmware backdoors*, atacs Mirai/botnets).
    - **Regla d'or:** La VLAN 60 té **ZERO accés a Internet** (el tallafocs bloqueja explícitament `0.0.0.0/0`).
-   - El seu trànsit (protocols de transmissió de vídeo RTSP / ONVIF) està estrictament confinat i només té permís per comunicar-se cap al gravador centralitzat NVR/VMS del CPD i a les consoles de monitoratge autoritzades de la Prefectura de la Policia Local.
+   - El seu trànsit (protocols de transmissió de vídeo RTSP / ONVIF) està estrictament confinat a la subxarxa `10.<ID_Seu>.60.0/24` de cada seu i només té permís per transmetre el vídeo cap al **gravador físic NVR de la Prefectura de la Policia Local (`10.110.60.50`)**, garantint la sortida directa per HDMI als monitors de la sala de control policial i la custòdia d'imatges segons la LO 4/1997.
 3. **Alarmes Anti-intrusió, Incendis i Control d'Accessos (VLAN 65 - Present a les 5 seus + Central):**
    - **Motiu de la separació estricta respecte al CCTV:** A diferència de les càmeres de videovigilància, les centrals d'alarma anti-intrusió (Grau 2 / Grau 3 segons normativa de seguretat privada) i els sistemes de control d'accessos **SÍ que requereixen comunicació amb l'exterior**, específicament per transmetre salts d'alarma, incidències i supervisió de línia cap a la **Central Receptora d'Alarmes (CRA)**.
    - **Canals de comunicació de seguretat autoritzats:**
