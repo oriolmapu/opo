@@ -63,7 +63,7 @@ flowchart TD
             VLAN_MGMT["VLAN 99 - Gestió OOB (Aïllada)<br/>[iDRAC, Hyper-V Hosts, Switches, APs]"]
             VLAN_USERS_C["VLAN 10 - Usuaris Administratius Central"]
             VLAN_VOIP_C["VLAN 40 - Telefonia IP (QoS DSCP EF)"]
-            VLAN_CCTV_C["VLAN 60 - Videovigilància CCTV (Aïllada, 0% Internet)<br/>[NVR Central / Gravador VMS]"]
+            VLAN_CCTV_C["VLAN 60 - CCTV Central (Càmeres Casa de la Vila, 0% Internet)"]
             VLAN_ALARM_C["VLAN 65 - Alarmes Anti-intrusió i Accessos<br/>[Sortida a CRA / Centraleta Telefònica]"]
             VLAN_WIFI_C["VLAN 70 - Wi-Fi Ciutadà OAC Central"]
         end
@@ -74,7 +74,8 @@ flowchart TD
             R_S1["Router Multi-WAN + CPE Ràdio"] --> SW_S1["Managed Switch PoE"]
             SW_S1 --> V_POL["VLAN 110: Dades Policials (Crítica)"]
             SW_S1 --> V_VOIP1["VLAN 40: Telefonia IP (VoIP)"]
-            SW_S1 --> V_CCTV1["VLAN 60: Càmeres CCTV (Sense Internet)"]
+            SW_S1 --> V_CCTV1["VLAN 60: Càmeres CCTV Policia"]
+            SW_S1 --> NVR_POL["📹 NVR Físic Policia (10.110.60.50)<br/>(Sortides HDMI directes a Videowall)"]
             SW_S1 --> V_ALM1["VLAN 65: Alarmes i Accessos (Enllaç CRA)"]
             SW_S1 --> B_REPO["📦 Repositori Veeam Off-Site (Hardened Linux)"]
         end
@@ -370,10 +371,10 @@ C    10.255.0.0/28 is directly connected, Port1.99 (Switch Distribució Fibra CP
 L    10.255.0.1/32 is directly connected, Port1.99 [IP pròpia Tallafocs CPD]
 
 !--- SUBXARXES LOCALS DEL CPD CENTRAL (Casa de la Vila) ---!
-C    10.0.10.0/24 is directly connected, Port1.10 (VLAN 10: DMZ Serveis Públics)
-C    10.0.20.0/24 is directly connected, Port1.20 (VLAN 20: Servidors AD/DFS/Print/VMS)
+C    10.0.10.0/24 is directly connected, Port1.10 (VLAN 10: Usuaris Administratius Central)
+C    10.0.20.0/24 is directly connected, Port1.20 (VLAN 20: Servidors AD/DFS/Print)
 C    10.0.30.0/24 is directly connected, Port1.30 (VLAN 30: Backup Veeam Immutable)
-C    10.0.100.0/24 is directly connected, Port1.100 (VLAN 100: Usuaris Ajuntament)
+C    10.0.50.0/24 is directly connected, Port1.50 (VLAN 50: DMZ Serveis Públics VM-DOCKER)
 
 !--- RUTES APRESES PER OSPF DE LES SEUS REMOTES (Via Fibra - Cost 10 + 1) ---!
 ! [Seu 1: Policia Local - Next Hop 10.255.0.2]
@@ -491,22 +492,24 @@ flowchart TD
 
 #### 2. Matriu d'Adreçament Modular Municipal
 
+S'adopta la nomenclatura estructurada **`10.<ID_Seu>.<ID_Servei>.0/24`**, on **`<ID_Seu>`** identifica unívocament cada edifici (**0** per a Central/CPD, **110** Policia, **120** Socials, **130** Biblioteca, **140** Espai Cívic i **150** Brigada), fent coincidir el segon octet amb la VLAN departamental d'usuaris per a màxima intuïció operativa:
+
 | ID VLAN | Nom del Servei | Codi Seu / Àmbit | Subxarxa IPv4 | Propòsit i Nivell de Seguretat ENS |
 | :---: | :--- | :---: | :--- | :--- |
-| **VLAN 10**  | `LAN-DADES-CENTRAL`| Seu Central (Casa de la Vila) | `10.0.10.0/23` | Llocs de treball administratius corporatius (Padró, Intervenció, RRHH). |
-| **VLAN 110** | `LAN-DADES-POL`    | Seu 1 (Policia Local)         | `10.1.10.0/24` | Dades operatives policials, atestats i seguretat ciutadana. |
-| **VLAN 120** | `LAN-DADES-SOC`    | Seu 2 (Serveis Socials)       | `10.2.10.0/24` | Expedients d'alta vulnerabilitat i assistència (RGPD Art. 9). |
-| **VLAN 130** | `LAN-DADES-BIB`    | Seu 3 (Biblioteca Pública)    | `10.3.10.0/24` | Gestió de préstecs i llocs administratius bibliotecaris. |
-| **VLAN 140** | `LAN-DADES-CIV`    | Seu 4 (Espai Cívic / Esports) | `10.4.10.0/24` | Gestió d'entitats cíviques i instal·lacions esportives. |
-| **VLAN 150** | `LAN-DADES-BRI`    | Seu 5 (Nau de la Brigada)     | `10.5.10.0/24` | Operaris de camp i manteniment (Llicències F3 Cloud-Only). |
-| **VLAN 20** | `LAN-SERVERS-INT`| Seu Central (CPD)| `10.0.20.0/24` | Servidors interns (`VM-DC01`, `VM-FILEPRINT`). |
-| **VLAN 30** | `LAN-BACKUP`    | Seu Central (CPD)| `10.0.30.0/24` | Xarxa aïllada de Veeam Backup i repositoris. |
-| **VLAN 40** | `VOIP-CORP`     | **TOTES LES SEUS** | `10.X.40.0/24` | **Telefonia IP Transversal** amb QoS prioritari (DSCP EF). |
-| **VLAN 50** | `DMZ-WEB`       | Seu Central (CPD)| `10.0.50.0/24` | Servidor Ubuntu Dockeritzat (Serveis web públics). |
-| **VLAN 60** | `SEC-CCTV-VIDEO`| **TOTES LES SEUS** | `10.X.60.0/24` | **Videovigilància CCTV Transversal**: Càmeres IP cap a NVR/Policia. Aïllament total, **0% Internet**. |
-| **VLAN 65** | `SEC-ALARM-CRA` | **TOTES LES SEUS** | `10.X.65.0/24` | **Alarmes d'Intrusió i Accessos**: Panells d'alarma i lectors. Sortida autoritzada a CRA (SIA-IP) i centraleta. |
-| **VLAN 70** | `WIFI-PUBLIC`   | **Seus Públiques** | `10.X.70.0/24` | **Wi-Fi Ciutadà Transversal** (Portal captiu, aïllat a Internet). |
-| **VLAN 99** | `MGMT-OOB`      | **TOTES LES SEUS** | `10.X.99.0/24` | **Gestió Fora de Banda Transversal** (Switches, Routers, APs, iDRAC). |
+| **VLAN 10**  | `LAN-DADES-CENTRAL`| Seu Central (Casa de la Vila) | `10.0.10.0/24` | Llocs de treball administratius corporatius (Padró, Intervenció, RRHH). |
+| **VLAN 110** | `LAN-DADES-POL`    | Seu 1 (Policia Local)         | `10.110.10.0/24` | Dades operatives policials, atestats i seguretat ciutadana. |
+| **VLAN 120** | `LAN-DADES-SOC`    | Seu 2 (Serveis Socials)       | `10.120.10.0/24` | Expedients d'alta vulnerabilitat i assistència (RGPD Art. 9). |
+| **VLAN 130** | `LAN-DADES-BIB`    | Seu 3 (Biblioteca Pública)    | `10.130.10.0/24` | Gestió de préstecs i llocs administratius bibliotecaris. |
+| **VLAN 140** | `LAN-DADES-CIV`    | Seu 4 (Espai Cívic / Esports) | `10.140.10.0/24` | Gestió d'entitats cíviques i instal·lacions esportives. |
+| **VLAN 150** | `LAN-DADES-BRI`    | Seu 5 (Nau de la Brigada)     | `10.150.10.0/24` | Operaris de camp i manteniment (Llicències F3 Cloud-Only). |
+| **VLAN 20**  | `LAN-SERVERS-INT`  | Seu Central (CPD)             | `10.0.20.0/24` | Servidors interns (`VM-DC01`, `VM-FILEPRINT`). |
+| **VLAN 30**  | `LAN-BACKUP`       | Seu Central (CPD)             | `10.0.30.0/24` | Xarxa aïllada de Veeam Backup i repositoris locals immutables. |
+| **VLAN 40**  | `VOIP-CORP`        | **TOTES LES SEUS**            | `10.<ID_Seu>.40.0/24` | **Telefonia IP Transversal** amb QoS prioritari (DSCP EF). |
+| **VLAN 50**  | `DMZ-WEB`          | Seu Central (CPD)             | `10.0.50.0/24` | Servidor Ubuntu Dockeritzat (Serveis web públics via WAF). |
+| **VLAN 60**  | `SEC-CCTV-VIDEO`   | **TOTES LES SEUS**            | `10.<ID_Seu>.60.0/24` | **Videovigilància CCTV Transversal**: Ingesta exclusiva cap a NVR Policia (`10.110.60.50`). Aïllament total, **0% Internet**. |
+| **VLAN 65**  | `SEC-ALARM-CRA`    | **TOTES LES SEUS**            | `10.<ID_Seu>.65.0/24` | **Alarmes d'Intrusió i Accessos**: Panells d'alarma i lectors. Sortida autoritzada a CRA (SIA-IP) i centraleta telefònica. |
+| **VLAN 70**  | `WIFI-PUBLIC`      | **Seus Públiques**            | `10.<ID_Seu>.70.0/24` | **Wi-Fi Ciutadà Transversal** (Portal captiu, aïllat a Internet, Client Isolation). |
+| **VLAN 99**  | `MGMT-OOB`         | **TOTES LES SEUS**            | `10.<ID_Seu>.99.0/24` | **Gestió Fora de Banda Transversal** (Switches, Routers, APs, iDRAC). |
 
 ---
 
@@ -595,10 +598,7 @@ flowchart TD
   * **Opció B: Suite de Gestió d'Impressió Open Source SavaPage (Llicència GNU GPLv3):**
     - Desplegament de la plataforma lliure [SavaPage](https://www.savapage.org/) integrada a `VM-FILEPRINT`.
     - Suporta de manera nativa *Secure Pull Printing* / *Follow-Me*, lectors de targetes RFID USB estàndard, alliberament per PIN/LDAP, portal web per a mòbils i auditoria completa de treballs d'impressió i despesa de paper/tòner.
-    - **Avantatges:** Codi obert auditable, absència de quotes per volum de pàgines (*no vendor lock-in*), estalvi pressupostari total per a la hisenda municipal i plena sobirania tecnològica.ressora multifunció local de la seu**, estalviant el 100% de trànsit innecessari a la xarxa corporativa WAN.
-- **Impressió Segura Corporativa (*Follow-Me Printing* amb targeta):**
-  - Les impressions d'expedients policials o de serveis socials queden retingudes al *spool* xifrat del servidor.
-  - El document només s'imprimeix quan el funcionari apropa la seva **targeta d'identificació d'empleat / credencial RFID** o introdueix el seu PIN al lector de la impressora física, garantint el compliment de l'ENS (`[mp.si.1]`) i evitant que informació confidencial quedi exposada a la safata de sortida.
+    - **Avantatges:** Codi obert auditable, absència de quotes per volum de pàgines (*no vendor lock-in*), estalvi pressupostari total per a la hisenda municipal i plena sobirania tecnològica.
 
 ---
 
@@ -848,7 +848,7 @@ flowchart TD
 | **Zona Desmilitaritzada (DMZ)** | `[mp.com.1]`, `[mp.com.2]` | Servidor Ubuntu Docker en VLAN 50 aïllada amb protecció WAF. |
 | **Gestió Fora de Banda** | `[mp.eq.2]` | VLAN 99 OOB sense accés des d'Internet ni xarxes d'usuaris. |
 | **Xarxes Sense Fils** | `[mp.com.4]` | Wi-Fi corporatiu amb WPA3-Enterprise (802.1X/RADIUS) i Wi-Fi públic aïllat amb portal captiu. |
-| **Xifratge de Comunicacions** | `[mp.com.3]` | Túnels WAN IPsec IKEv2 AES-256 i xifratge intern SMBv3 AES-256-GCM. |
+| **Xifratge de Comunicacions** | `[mp.com.3]` | Fibra municipal nativa wire-speed, xifratge simètric per maquinari AES a la ràdio PTMP, túnels IPsec VTI sobre 5G/Internet i xifratge intern d'arxius SMBv3 AES-256-GCM. |
 | **Còpies de Seguretat** | `[op.cont.1]` | Estratègia 3-2-1-1-0 amb repositoris immutables Linux XFS i Azure WORM. |
 | **Proves de Restauració** | `[op.cont.2]` | Verificació automatitzada diària amb Veeam SureBackup en Sandbox. |
 | **Control d'Accés i MFA** | `[op.acc.1]`, `[op.acc.5]` | Polítiques d'Accés Condicional a M365 (Business Premium i F3) amb MFA obligatori. |
