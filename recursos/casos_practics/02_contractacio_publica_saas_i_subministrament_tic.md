@@ -113,8 +113,9 @@ Per complir amb el principi de **Seguretat per Defecte** i la protecció en la c
 - Els serveis al núvol utilitzats han d'estar inclosos en el **Catàleg de Productes i Serveis de Seguretat de les TIC (CPSTIC)** del CCN en la família de Serveis Cloud (*Qualificats*).
 
 #### 2. Localització de les Dades i Centres de Processament de Dades (CPD)
-- Els centres de dades principal i secundari (reserva/Disaster Recovery) han d'estar ubicats físicament dins del territori de la **Unió Europea / Espai Econòmic Europeu (EEE)**.
-- Queda expressament prohibida qualsevol transferència internacional de dades a països tercers sense decisió d'adequació de la Comissió Europea o sense autorització expressa prèvia de l'Ajuntament.
+- Els centres de dades principal i secundari (reserva/Disaster Recovery) han d'estar ubicats físicament dins del territori de la **Unió Europea (UE)**.
+- **Exigència legal reforçada per al Padró (Art. 46 bis Llei 40/2015):** Els servidors que allotgin el Padró Municipal d'Habitants i censos no poden ubicar-se fora de la UE (encara que el país disposi de decisió d'adequació de la Comissió Europea sota el RGPD).
+- Queda expressament prohibida qualsevol transferència internacional de dades a països tercers sense autorització expressa prèvia de l'Ajuntament i sense complir els requisits del Capítol V del RGPD.
 
 #### 3. Autenticació, MFA i Gestió d'Identitats (`[op.acc]`)
 - El SaaS ha de permetre la integració nativa mitjançant protocols estàndard de federació d'identitats: **SAML 2.0** o **OpenID Connect (OIDC)** amb el proveïdor d'identitat corporatiu de l'Ajuntament (Microsoft Entra ID / Keycloak).
@@ -124,8 +125,10 @@ Per complir amb el principi de **Seguretat per Defecte** i la protecció en la c
 #### 4. Acord de Nivell de Servei (SLA) i Continuïtat (`[op.cont]`)
 - **Disponibilitat mínima:** 99,5% mensual (24x7x365), excloent finestres de manteniment autoritzades prèviament per l'Ajuntament.
 - **RPO (*Recovery Point Objective*):** Màxim **1 hora** (pèrdua màxima de dades permesa en cas de catàstrofe).
-- **RTO (*Recovery Time Objective*):** Màxim **4 hores** per a la restauració del servei en cas de caiguda greu.
-- Còpies de seguretat automàtiques diàries amb custòdia immutable contra ransomware.
+- **RTO (*Recovery Time Objective*):** Màxim **4 hores** per a la restauració operativa del servei en cas de caiguda greu.
+- **Arquitectura de Resiliència i Còpies de Seguretat per complir el RPO/RTO:**
+  - **Replicació contínua de transaccions / dades:** Per fer viable un RPO ≤ 1 hora, el proveïdor ha d'implementar un mecanisme de replicació asíncrona contínua entre el CPD principal i el secundari (mitjançant *Transaction Log Shipping*, *Write-Ahead Logging - WAL*, snapshots periòdics cada ≤ 15 minuts o replicació de blocs a nivell d'emmagatzematge).
+  - **Còpies de seguretat completes diàries:** Generació diària automatitzada de còpies de seguretat amb **retenció immutable (WORM / Object Lock)** contra atacs de ransomware, custodiades en una regió al núvol independent i aïllada lògicament durant un mínim de 30 dies.
 
 #### 5. Criptografia i Xifratge (`[mp.info]`)
 - Xifratge de totes les dades en trànsit mitjançant protocols criptogràfics robustos: **TLS 1.3** (o TLS 1.2 com a mínim estricte, amb suites de xifratge segures reconegudes pel CCN-STIC).
