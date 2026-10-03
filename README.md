@@ -142,6 +142,34 @@ Aquest repositori conté els apunts complets, estructurats i en català per a la
 
 ---
 
+## 🛠️ Recursos Pràctics i Diagrames de Seguretat (ENS)
+
+A la carpeta [`recursos/procediments_ens/`](file:///home/oriol/Projectes/OPOS/recursos/procediments_ens/README.md) s'hi troben recollits els **Procediments Operatius de Seguretat (POS)** i **diagrames de flux Mermaid** clau de l'Esquema Nacional de Seguretat (RD 311/2022) per a l'administració local:
+
+- **[POS-01: Arribada i Posada en Producció d'un Servidor Nou](file:///home/oriol/Projectes/OPOS/recursos/procediments_ens/01_arribada_servidor_nou.md)** (CPD, bastionat CCN-STIC, xarxa, backup i SIEM).
+- **[POS-02: Contractació i Desplegament d'un Servei Cloud / SaaS](file:///home/oriol/Projectes/OPOS/recursos/procediments_ens/02_contractacio_servei_saas_nuvol.md)** (Plecs ENS, qualificació CPSTIC, acord RGPD Art. 28, SSO i MFA).
+- **[POS-03: Arribada i Aprovisionament d'un Equip de Lloc de Treball](file:///home/oriol/Projectes/OPOS/recursos/procediments_ens/03_arribada_equip_lloc_treball.md)** (Inventari, TPM/BitLocker, EDR, menor privilegi i PSI).
+- **[POS-04: Gestió i Notificació d'Incidents de Seguretat](file:///home/oriol/Projectes/OPOS/recursos/procediments_ens/04_gestio_incidents_seguretat.md)** (Contenció, notificació LUCÍA/CCN-CERT i bretxa APDCAT en 72h).
+- **[POS-05: Baixa i Destrucció Segura d'Equipament i Suports](file:///home/oriol/Projectes/OPOS/recursos/procediments_ens/05_baixa_destruccio_segura_equips_suports.md)** (Esborrament NIST SP 800-88, trituració física i RAEE).
+- **[POS-06: Gestió de Canvis i Actualitzacions en Producció](file:///home/oriol/Projectes/OPOS/recursos/procediments_ens/06_gestio_canvis_actualitzacions.md)** (RFC, aprovació pel CAB, proves i pla de rollback).
+- **[POS-07: Cicle de Vida d'Identitats i Gestió d'Accessos](file:///home/oriol/Projectes/OPOS/recursos/procediments_ens/07_cicle_vida_usuaris_accessos.md)** (Altes, mobilitat, baixes fulminants, MFA i recertificació).
+- **[POS-08: Auditoria i Certificació de Conformitat amb l'ENS](file:///home/oriol/Projectes/OPOS/recursos/procediments_ens/08_auditoria_certificacio_conformitat_ens.md)** (Autoavaluació Bàsica anual vs auditoria biennal ENAC per Mitjana/Alta).
+
+---
+
+## 💼 Casos Pràctics d'Oposicions TIC
+
+A la carpeta [`recursos/casos_practics/`](file:///home/oriol/Projectes/OPOS/recursos/casos_practics/README.md) s'hi recullen supòsits pràctics complets i resolts per a tribunals d'oposicions, interconnectant la contractació pública (LCSP), la governança i ciberseguretat (ENS RD 311/2022) i la gestió tècnica:
+
+- **[Cas Pràctic 01: Pla Seqüencial per a l'Aprovació, Implantació i Conformitat de l'ENS](file:///home/oriol/Projectes/OPOS/recursos/casos_practics/01_implantacio_i_aprovacio_ens_organitzacio.md)** (Governança, rols RI/RS/RSeg/RSis, PSI, DAICT, anàlisi Magerit/PILAR, PAMS, Declaració Bàsica vs Certificació ENAC).
+- **[Cas Pràctic 02: Contractació Pública d'un Servei Cloud (SaaS) i Subministrament de Servidor i Llocs de Treball](file:///home/oriol/Projectes/OPOS/recursos/casos_practics/02_contractacio_publica_saas_i_subministrament_tic.md)** (Plecs LCSP, PPT i PCAP, clàusules de ciberseguretat ENS, CPSTIC, RGPD Art. 28, retenció de discs DMR, TPM 2.0).
+- **[Cas Pràctic 03: Procediment i Criteris de Recepció, Conformitat i Posada en Explotació d'Actius TIC](file:///home/oriol/Projectes/OPOS/recursos/casos_practics/03_recepcio_conformitat_posada_produccio_actius_tic.md)** (Recepció Art. 210 LCSP, cadena de custòdia, alta a CMDB, bastionat CCN-STIC, BitLocker, iDRAC OOB aïllat, SSO/MFA al SaaS, proves d'acceptació UAT).
+- **[Cas Pràctic 04: Projecte d'Arquitectura de Xarxa Segura Multi-Seu i Estratègia de Còpies de Seguretat ENS](file:///home/oriol/Projectes/OPOS/recursos/casos_practics/04_arquitectura_xarxa_segura_i_copies_seguretat_ens.md)** (WAN híbrida Fibra+Antena Sectorial PTMP+5G, encaminament dinàmic OSPF amb BFD, VLANs, DMZ Ubuntu Docker, File & Print Server SMBv3, Veeam 3-2-1-1-0 immutable, M365 Business Premium + F3, Intune).
+
+
+
+---
+
 ## 📁 Corpus Documental de Referència
 
 Els apunts es basen en els textos legals consolidats ubicats a [`CORPUS/`](file:///home/oriol/Projectes/OPOS/CORPUS):
