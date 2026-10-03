@@ -255,7 +255,12 @@ Si es requereix segmentació perimetral estricta de zones al Tallafocs central:
 - Cada port del switch s'aïlla en la seva pròpia VLAN de trànsit (101 a 105).
 - Al tallafocs es creen subinterfícies independents (`.101`, `.102`, etc.) amb xarxa `ip ospf network point-to-point`.
 
-#### 2. Triangulació i Mitjans Físics de Redundància
+---
+
+#### 2. Triangulació i Mitjans Físics de Redundància (Comú a les Dues Opcions)
+
+> **Important (Criteri d'Arquitectura Física):** La triangulació de mitjans físics que es descriu a continuació (**Fibra Directa + Ràdio Sectorial + 5G**) és la infraestructura de continuïtat de l'Ajuntament i **s'aplica de forma exactament idèntica tant si s'escull l'Opció A (VLAN única) com l'Opció B (circuits /30)**. Si una excavadora talla la fibra al carrer, el mecanisme de failover commuta cap a la ràdio en menys de 300 ms en ambdós models.
+
 A cada seu remota s'instal·la un **router de seu multi-WAN amb ports SFP de fibra, interfícies Gigabit Ethernet i ranura mòbil 5G**, connectant tres vies independents:
 
 1. **Via Primària: Fibra Òptica Directa Municipal (MAN / Fibra Fosca seu a seu amb Switch de Distribució al CPD):**
@@ -281,7 +286,7 @@ A cada seu remota s'instal·la un **router de seu multi-WAN amb ports SFP de fib
    - Router amb ranura per a targeta SIM 5G corporativa amb **APN privat governamental** (o connectat per túnel IPsec xifrat sobre xarxa mòbil comercial).
    - Assegura la continuïtat de les comunicacions mínimes i tramesa d'alarmes en cas de caiguda catastròfica simultània de la fibra i de la xarxa ràdio.
 
-#### 2. Protocol d'Encaminament Dinàmic OSPF v2/v3 amb BFD
+#### 3. Protocol d'Encaminament Dinàmic OSPF v2/v3 amb BFD
 En lloc d'utilitzar rutes estàtiques rígides, s'implanta el protocol d'estat d'enllaç **OSPF (*Open Shortest Path First*)** executat sobre interfícies virtuals túnels xifrades (**IPsec VTI - Virtual Tunnel Interface** o GRE over IPsec):
 
 - **Disseny d'Àrees OSPF:**
@@ -298,7 +303,7 @@ En lloc d'utilitzar rutes estàtiques rígides, s'implanta el protocol d'estat d
   - Tots els missatges d'intercanvi de rutes OSPF s'autentiquen obligatòriament mitjançant claus criptogràfiques **HMAC-SHA256**, impedint la injecció de rutes malicioses (*route poisoning*).
   - Totes les comunicacions OSPF circulen estrictament encapsulades dins dels túnels xifrats IPsec (AES-GCM-256), sense que cap paquet de control viatgi en clar per Internet o l'espai radioelèctric.
 
-#### 3. Accés a Internet Centralitzat (*Clean Pipe*) i Optimització Microsoft 365
+#### 4. Accés a Internet Centralitzat (*Clean Pipe*) i Optimització Microsoft 365
 - **Navegació General:** Tot el trànsit cap a Internet de les 5 seus remotes s'encamina a través del túnel principal cap al CPD central abans de sortir a l'exterior (*Clean Pipe*), aplicant-hi la inspecció centralitzada IPS, antivirus de passarel·la i filtre de contingut web del tallafocs HA.
 - **Optimització Microsoft 365 (*Local Breakout* segur):** Per evitar sobrecarregar la WAN amb trànsit ofimàtic pesant (videoconferències de Teams o sincronització de SharePoint), els routers de seu poden disposar d'una regla de desviament directe a Internet (*Local Breakout*) restringida exclusivament a les subxarxes i FQDNs oficials de Microsoft 365 validades dinàmicament.
 
