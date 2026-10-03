@@ -18,6 +18,50 @@ Com a Tècnic/a de Sistemes i Seguretat de l'Ajuntament, l'Alcaldia us demana pr
 
 ---
 
+### 1.1. Fonamentació Jurídica: Delimitació entre Contracte de Serveis (SaaS) i Contracte de Subministrament
+
+Un dels dubtes i preguntes clàssiques en oposicions TIC és per què una plataforma al núvol (SaaS) és un **Contracte de Serveis** i no un **Contracte de Subministrament**:
+
+| Modalitat de Programari / TIC | Tipologia Jurídica LCSP | Fonament Doctrinal (JCCA i Tribunals de Contractes) | CPV Habitual |
+| :--- | :--- | :--- | :--- |
+| **Llicència tradicional On-Premise** | **Contracte de Subministrament** (Art. 16.3.b LCSP) | L'adquisició o arrendament de paquets de programari que s'instal·len en servidors de l'Ajuntament és una prestació de *donar* (béns mobles incorporals). | `48000000-8` (Paquets de programari i sistemes informàtics) |
+| **Plataforma Cloud / SaaS (*Software as a Service*)** | **Contracte de Serveis** (Art. 17 LCSP) | **Prestació de fer, no de donar.** No hi ha cessió de programari per descarregar ni transmissió de la propietat. L'Ajuntament contracta l'accés continuat a una solució remota, allotjament (hosting), disponibilitat garantida (SLA), manteniment correctiu/evolutiu, seguretat i suport tècnic integral gestionat pel proveïdor. | `72268000-1` (Serveis de subministrament de programari) o `72000000-5` (Serveis TI) |
+| **Desenvolupament a mida (*Ad-hoc*)** | **Contracte de Serveis** (Art. 17 LCSP) | Prestació intel·lectual i d'enginyeria per programar una solució segons requisits singulars de l'ens local. | `72212000-4` (Serveis de programació de programari) |
+| **Model Híbrid (Llicència perpètua + Serveis anuals de manteniment)** | **Contracte Mixt** (Art. 18 LCSP) | Es regeix per les regles del contracte la prestació del qual tingui un **valor econòmic més elevat** (normalment serveis de manteniment plurianuals si superen el cost de la llicència inicial). | CPV combinat segons prestació principal |
+
+> **Criteri d'Oposició:** En un model **SaaS pur**, la concurrència indisociable d'infraestructura (cloud hosting), operació continuada, actualitzacions normatives automàtiques i suport fa que la qualificació correcta i pacífica sigui sempre **Contracte de Serveis (Art. 17 LCSP)**.
+
+---
+
+### 1.2. Procediments d'Adjudicació a l'Administració Local segons Imports i Criteris
+
+A més de conèixer si un contracte és harmonitzat o no, cal saber seleccionar el procediment d'adjudicació idoni segons el **Valor Estimat del Contracte (VEC, Art. 101 LCSP)** i la naturalesa dels criteris d'adjudicació:
+
+```mermaid
+graph TD
+    A["Determinació del Procediment (Serveis i Subministraments)"] --> B{"Quin és el VEC<br/>(IVA exclòs)?"}
+    
+    B -->|"< 15.000 €"| C["Contracte Menor (Art. 118 LCSP)<br/>Adjudicació directa, informe de necessitat,<br/>prohibició de fraccionament"]
+    B -->|"Fins a 35.000 €"| D["Obert Simplificat Abreviat / 'Súper-simplificat'<br/>(Art. 159.6 LCSP)<br/>10 dies hàbils, sense mesa, 100% criteris fórmules"]
+    B -->|"Fins a 143.000 €<br/>(o fins a llindar SARA)"| E{"Criteris subjectius<br/>(judici de valor)?"}
+    B -->|"≥ 221.000 €<br/>(Llindar SARA Ens Locals)"| H["Obert Harmonitzat - SARA<br/>(Arts. 21 i 22 LCSP)<br/>Publicació DOUE obligatòria, recurs especial TCCP"]
+    
+    E -->|"Màxim 25%<br/>(o 45% intel·lectual)"| F["Obert Simplificat Ordinari<br/>(Art. 159.1 LCSP)<br/>Termini 15-20 dies, inscripció ROLECE"]
+    E -->|"> 25% de judici de valor"| G["Obert Ordinari (No SARA)<br/>(Arts. 156-158 LCSP)<br/>Mesa formal, dos sobres (B tècnic + C econòmic)"]
+```
+
+#### Quadre Comparatiu dels Procediments de Contractació (Serveis i Subministraments en Ens Locals):
+
+| Procediment | Llindar Econòmic (VEC sense IVA) | Termini d'Ofertes | Criteris Sotmesos a Judici de Valor | Mesa de Contractació | Garanties (Prov. / Def.) | Publicitat Obligatòria | Recursos (REMC) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Contracte Menor** (Art. 118) | < 15.000 € | Immediat (petició directa de 3 pressupostos) | N/A (proposta tècnica directa) | No | No exigibles | Perfil de contractant (trimestral) | No escau recurs especial |
+| **Obert Simplificat Abreviat / Súper-simplificat** (Art. 159.6) | Fins a **35.000 €** | **10 dies hàbils** | **0% (prohibit).** Només criteris avaluables per fórmules automàtiques. | No obligatòria (pot avaluar l'òrgan/servei tècnic) | Exempció total de garantia provisional i definitiva | Perfil de contractant (PSCP) | No escau (VEC < 100.000 €) |
+| **Obert Simplificat Ordinari** (Art. 159.1) | Fins a **143.000 €** (o fins a 221.000 €) | **15 dies hàbils** (20 si hi ha criteris subjectius) | **Màxim 25%** del total de la ponderació (o 45% en prestacions de caràcter intel·lectual). | Facultativa (pot actuar la mesa o serveis tècnics) | Provisional: No.<br/>Definitiva: 5% VEC. | Perfil de contractant (PSCP) | No escau si VEC < 100.000 € |
+| **Obert Ordinari (No SARA)** (Arts. 156-158) | > 143.000 € i < 221.000 € (o amb judici de valor > 25%) | **35 dies naturals** (reduïble a 15 per urgència) | **Sense límit legal** (però es recomana que prevalguin les fórmules objectives). | **Obligatòria** (Secretari/Interventor/Vocal Tècnic) | Provisional: No.<br/>Definitiva: 5% VEC. | Perfil de contractant (PSCP) | Escau si VEC ≥ 100.000 € davant el TCCP |
+| **Obert Harmonitzat (SARA)** (Arts. 21, 22) | **≥ 221.000 €** (Llindar vigent per a Ens Locals) | **35 dies naturals** (reduïble amb anunci previ o mitjans electrònics) | Sense límit | **Obligatòria** | Provisional: Excepcional.<br/>Definitiva: 5% VEC. | **DOUE** (Diari Oficial UE) + Perfil (PSCP) | **Recurs Especial Previ preceptiu** davant el TCCP amb efectes suspensius automàtics |
+
+---
+
 ## 2. Diagrama de Flux dels Processos de Contractació amb Controls ENS
 
 ```mermaid
@@ -51,9 +95,13 @@ flowchart TD
 
 ## 3. Expedient 1: Contractació de la Plataforma SaaS (Contracte de Serveis)
 
-### 3.1. Tipificació Jurídica i Procediment
-- **Tipus de contracte:** Contracte de Serveis (Article 17 de la LCSP).
-- **Procediment d'adjudicació:** Procediment Obert harmonitzat o no harmonitzat segons el Valor Estimat del Contracte (VEC). Si supera els 221.000 € (o llindar SARA vigent), procediment obert subjecte a regulació harmonitzada (SARA) amb publicació al DOUE.
+### 3.1. Tipificació Jurídica i Elecció del Procediment
+- **Tipus de contracte:** Contracte de Serveis (Article 17 de la LCSP). Com s'ha fonamentat a l'apartat 1.1, la modalitat SaaS té naturalesa de servei d'allotjament, disponibilitat i manteniment continuat.
+- **Càlcul del VEC (Art. 101 LCSP):** Pressupost anual de 60.000 €/any x 3 anys inicials + 2 pròrrogues d'1 any = **300.000 € (VEC sense IVA)**.
+- **Procediment d'adjudicació aplicable:**
+  1. Com que el VEC (300.000 €) supera el llindar de **221.000 €**, el contracte està **Subjecte a Regulació Harmonitzada (SARA)** (Art. 21.1.b LCSP).
+  2. Procediment: **Procediment Obert Harmonitzat (SARA)** amb publicació preceptiva al **DOUE** (Diari Oficial de la Unió Europea) i al Perfil de Contractant de la Generalitat (PSCP).
+  3. **Nota sobre criteris:** Encara que l'import hagués estat inferior a 221.000 € (per exemple 120.000 €), com que els criteris sotmesos a judici de valor representen el **40%** de la ponderació (memòria d'arquitectura de seguretat, continuïtat i reversibilitat), **no s'hauria pogut utilitzar l'Obert Simplificat Ordinari** (que té el topall legal del 25% per a judici de valor, art. 159.1.b LCSP), obligant en qualsevol cas a un Procediment Obert Ordinari.
 - **Divisió en lots (Art. 99 LCSP):** Si la solució és una suite integrada (e-Administració + Padró), cal justificar degudament a la memòria la no divisió en lots per motius d'interoperabilitat estricta, integritat de la base de dades única i coherència procedimental.
 
 ### 3.2. Prescripcions Tècniques de Seguretat ENS al PPT (Arts. 2.2, 9, 31, 32 i `[op.ext.1]`)
@@ -109,11 +157,17 @@ Com que el SaaS implica el tractament de dades personals per compte de l'Ajuntam
 
 ## 4. Expedient 2: Subministrament de Servidor i Llocs de Treball
 
-### 4.1. Tipificació Jurídica i Modalitat
-- **Tipus de contracte:** Contracte de Subministrament (Article 16 de la LCSP).
-- **Modalitats d'adquisició a l'Administració Local:**
-  - *Opció A (Licitació pròpia):* Procediment obert simplificat (Art. 159 LCSP) o obert ordinari.
-  - *Opció B (Central de Compres):* Adhesió a un Acord Marc o Sistema Dinàmic d'Adquisició (SDA) de la **Central de Compres de l'Associació Catalana de Municipis (ACM)** o de la **DGRCC de l'Estat**, agilitzant terminis mitjançant contracte basat.
+### 4.1. Tipificació Jurídica, VEC i Procediment d'Adjudicació
+- **Tipus de contracte:** Contracte de Subministrament (Article 16 de la LCSP), en tractar-se de l'adquisició de béns mobles físics (maquinari de xarxa/servidor i equips microinformàtics).
+- **Càlcul del VEC (Art. 101 LCSP):**
+  - 1 Servidor físic CPD d'alta disponibilitat: ~15.000 € (IVA exclòs).
+  - 50 Ordinadors portàtils corporatius: ~50.000 € (IVA exclòs).
+  - **VEC total de la licitació:** **65.000 € (sense IVA)**.
+- **Elecció del Procediment d'Adjudicació:**
+  1. **Supera el límit del contracte menor (< 15.000 €)** i del **simplificat abreujat (≤ 35.000 €)**.
+  2. Com que el VEC (65.000 €) és **inferior a 143.000 €** i es defineixen els criteris d'adjudicació **100% mitjançant fórmules matemàtiques objectives** (preu, extensió de garantia DMR, ampliació de memòria/disc), és el procediment òptim: **Procediment Obert Simplificat Ordinari (Art. 159.1 LCSP)**.
+     - *Avantatges:* Termini de presentació de només **15 dies hàbils**, sense exigència de garantia provisional, mesa potestativa i tramitació electrònica 100% àgil.
+  3. **Alternativa estratègica (Central de Compres):** Adhesió a un Acord Marc o Sistema Dinàmic d'Adquisició (SDA) de la **Central de Compres de l'Associació Catalana de Municipis (ACM)** o de la **DGRCC de l'Estat**, adjudicant mitjançant contracte basat amb invitació directa als proveïdors homologats, estalviant la redacció de plecs propis.
 
 ---
 
@@ -157,17 +211,23 @@ Els equips del lloc de treball han d'incorporar els mecanismes requerits per a u
 
 ## 5. Criteris d'Adjudicació Ponderats per als Plecs
 
-Per garantir la selecció de l'oferta amb la millor relació qualitat-preu (Art. 145 LCSP) sense sacrificar la seguretat:
-
-### Ponderació de Criteris per al Contracte SaaS:
+### 5.1. Ponderació de Criteris per al Contracte SaaS (Expedient 1):
 - **Criteris avaluables mitjançant fórmules (60%):**
-  - Oferta econòmica (Preu de llicenciament/subscripció): 40 punts.
-  - Millores de disponibilitat de l'SLA (p. ex. 99,9% vs 99,5%): 10 punts.
-  - Reducció del temps màxim de resposta a incidències crítiques: 10 punts.
-- **Criteris avaluables mitjançant judici de valor (40%):**
-  - Memòria tècnica d'arquitectura de seguretat, model de xifratge i integració SSO/MFA: 20 punts.
-  - Pla de continuïtat de negoci, recuperació davant desastres i simulacres: 10 punts.
-  - Proposta metodològica del Pla de Reversibilitat i exportació de dades: 10 punts.
+  - Oferta econòmica (Preu de subscripció anual): 40 punts.
+  - Millores de disponibilitat de l'SLA (p. ex. 99,9% vs 99,5% de base): 10 punts.
+  - Reducció del temps màxim de resposta a incidències crítiques (MTTR): 10 punts.
+- **Criteris avaluables mitjançant judici de valor (40% - Sobre B):**
+  - Memòria tècnica d'arquitectura de seguretat, model de xifratge i integració federada SSO/MFA: 20 punts.
+  - Pla de continuïtat de negoci, recuperació davant desastres (DRP) i periodicitat de simulacres: 10 punts.
+  - Proposta metodològica del Pla de Reversibilitat i format d'exportació de dades: 10 punts.
+
+> **Avís d'Oposició:** Com que els criteris sotmesos a judici de valor superen el 25% (40%), **queda legalment vetat l'ús del procediment obert simplificat** (Art. 159.1.b LCSP), obligant a tramitar la licitació per **Procediment Obert Ordinari** (en aquest cas, a més, SARA pel seu volum VEC).
+
+### 5.2. Ponderació de Criteris per al Contracte de Subministrament (Expedient 2):
+Per poder aprofitar la celeritat del **Procediment Obert Simplificat Ordinari (Art. 159.1 LCSP)**, tots els criteris es configuren **100% mitjançant fórmules matemàtiques objectives**:
+- **Oferta econòmica (Preu total del lot):** 60 punts (fórmula proporcional inversa).
+- **Extensió del període de garantia in-situ amb DMR:** 20 punts (5 punts per any addicional de garantia in-situ 24x7 amb retenció de discs fins a un màxim de 2 anys addicionals als portàtils).
+- **Millora de prestacions tècniques del maquinari:** 20 punts (10 punts per lliurament dels portàtils amb 32 GB RAM en comptes de 16 GB; 10 punts per SSD de 1 TB en comptes de 512 GB).
 
 ---
 
