@@ -165,29 +165,95 @@ flowchart TD
     end
 ```
 
-#### 1. Com s'integra la Fibra Directa dins d'OSPF Àrea 0?
-La fibra directa municipal **no és un simple cable pla L2, sinó un enllaç d'encaminament dinàmic integrat a l'Àrea 0 (Backbone) d'OSPF**:
-- **Subxarxes de trànsit punt a punt L3 (`/30`):** A través del Switch de Distribució de Fibra del CPD, cada enllaç físic d'òptica amb una seu remota es canalitza mitjançant una **VLAN de trànsit 802.1Q** fins al Tallafocs HA / Core L3, on finalitza en una **subinterfície L3 dedicada** (mentre que a l'extrem remot es connecta a la interfície WAN L3 del router de seu):
-  - Seu 1 (Policia): Subxarxa de trànsit `10.255.0.0/30` (VLAN de trànsit 101 al CPD)
-  - Seu 2 (Socials): Subxarxa de trànsit `10.255.0.4/30` (VLAN de trànsit 102 al CPD)
-  - Seu 3 (Biblio): Subxarxa de trànsit `10.255.0.8/30` (VLAN de trànsit 103 al CPD)
-  - Seu 4 (Cívic): Subxarxa de trànsit `10.255.0.12/30` (VLAN de trànsit 104 al CPD)
-  - Seu 5 (Brigada): Subxarxa de trànsit `10.255.0.16/30` (VLAN de trànsit 105 al CPD)
+#### 1. Models d'Integració de la Fibra Directa dins d'OSPF Àrea 0
 
-> **Criteri d'Enginyeria de Xarxes:** L'etiqueta VLAN (tag 802.1Q) és només el mecanisme d'encapsulament de Nivell 2 necessari perquè el commutador de distribució agregui tots els parells de fibra cap al tallafocs central a través d'un tronc (trunk) 10GbE. El que realment defineix i aïlla l'enllaç punt a punt és la **subinterfície L3 amb el seu direccionament IP `/30` i l'adjacència d'encaminament OSPF**. A l'extrem de la seu remota, el router pot rebre el trànsit de forma nativa sense necessitat de coincidir en el número de tag VLAN intern.
+La fibra directa municipal **no és un simple cable pla L2, sinó un enllaç d'encaminament dinàmic integrat a l'Àrea 0 (Backbone) d'OSPF**. A nivell de disseny d'enginyeria, existeixen dues alternatives principals per articular la interconnexió de les 5 seus sobre el Switch d'Agregació de Fibra del CPD:
 
-- **Configuració d'interfície OSPF sobre la Fibra Directa (Costat CPD):**
-  ```text
-  interface TenGigabitEthernet0/0/1.101
-   description Enllaç Fibra Municipal Seu 1 Policia
-   encapsulation dot1Q 101
-   ip address 10.255.0.1 255.255.255.252
-   ip ospf 1 area 0
-   ip ospf network point-to-point
-   ip ospf cost 10
-   bfd interval 50 min_rx 50 multiplier 3
-  ```
-- **Resultat:** El tallafocs central i el router de seu estableixen una **relació de veïnatge OSPF (*OSPF Neighbor Adjacency*) directa sobre la fibra**. Com que té el menor cost de mètrica (`cost 10`), OSPF encamina sempre el 100% del trànsit corporatiu per la fibra municipal a velocitat de gigabit i amb latència inferior a 1 ms.
+```mermaid
+flowchart TB
+    subgraph OPCIO_A["OPCIÓ A: VLAN Única de Trànsit WAN (Recomanada per Simplicitat)"]
+        direction TB
+        FW_A["Tallafocs HA CPD (10.255.0.1)<br/>OSPF DR - Priority 255"]
+        SW_A["Switch Distribució Fibra CPD<br/>Tots els ports SFP a la mateixa VLAN 99 WAN"]
+        
+        R_S1_A["Router Policia (10.255.0.2)"]
+        R_S2_A["Router Socials (10.255.0.3)"]
+        R_S3_A["Router Biblio (10.255.0.4)"]
+        R_S4_A["Router Cívic (10.255.0.5)"]
+        R_S5_A["Router Brigada (10.255.0.6)"]
+        
+        FW_A ===|1 sol enllaç L3 / VLAN 99| SW_A
+        SW_A ---|Port SFP 1| R_S1_A
+        SW_A ---|Port SFP 2| R_S2_A
+        SW_A ---|Port SFP 3| R_S3_A
+        SW_A ---|Port SFP 4| R_S4_A
+        SW_A ---|Port SFP 5| R_S5_A
+    end
+
+    subgraph OPCIO_B["OPCIÓ B: Circuits Punt a Punt Dedicats /30 (Màxim Aïllament)"]
+        direction TB
+        FW_B["Tallafocs HA CPD<br/>5 Subinterfícies L3 independents"]
+        SW_B["Switch Distribució Fibra CPD<br/>5 VLANs de trànsit separades (101 a 105)"]
+        
+        R_S1_B["Router Policia (10.255.0.2/30)"]
+        R_S2_B["Router Socials (10.255.0.6/30)"]
+        R_S3_B["Router Biblio (10.255.0.10/30)"]
+        R_S4_B["Router Cívic (10.255.0.14/30)"]
+        R_S5_B["Router Brigada (10.255.0.18/30)"]
+        
+        FW_B ===|Trunk 10G dot1Q amb 5 VLANs de transit| SW_B
+        SW_B ---|VLAN 101 - 10.255.0.0/30| R_S1_B
+        SW_B ---|VLAN 102 - 10.255.0.4/30| R_S2_B
+        SW_B ---|VLAN 103 - 10.255.0.8/30| R_S3_B
+        SW_B ---|VLAN 104 - 10.255.0.12/30| R_S4_B
+        SW_B ---|VLAN 105 - 10.255.0.16/30| R_S5_B
+    end
+```
+
+---
+
+##### Anàlisi Comparativa de les Dues Opcions:
+
+| Paràmetre de Disseny | Opció A: VLAN Única de Trànsit WAN (Recomanada) | Opció B: Subxarxes Punt a Punt `/30` |
+| :--- | :--- | :--- |
+| **Simplicitat Operativa** | **Molt Alta:** 1 sola VLAN (`VLAN 99`), 1 sola interfície L3 al tallafocs, 1 sol rang IP d'enllaç (`10.255.0.0/28`). Manteniment mínim. | **Mitjana:** 5 VLANs de trànsit, 5 subxarxes `/30`, 5 subinterfícies L3 al tallafocs del CPD. |
+| **Topologia OSPF** | **Xarxa Multiaccés / Broadcast:** Requereix elecció de **DR i BDR** (*Designated Router*). El Tallafocs del CPD es força com a DR (`priority 255`) i un router de backup com a BDR (`priority 100`). | **Xarxes Point-to-Point:** No hi ha elecció de DR/BDR. Cada seu forma una relació de veïnatge P2P independent amb el CPD. |
+| **Polítiques de Seguretat al Tallafocs** | Totes les seus entren per la mateixa interfície física/lògica WAN. El filtratge entre seus es fa per regles de subnet IP d'origen/destinació. Es recomana activar **Port Isolation** als ports del switch per evitar trànsit L2 directe entre seus. | **Aïllament per zones natiu:** Cada seu arriba per una subinterfície L3 pròpia. Permet crear zones de seguretat independents al tallafocs (Zona Policia, Zona Brigada, etc.). |
+| **Aïllament de Fallades L2** | Un bucle o tempesta a la fibra podria afectar la VLAN WAN compartida si no s'activa *Storm Control* i *Loop Protection*. | **Aïllament total:** Si una fibra pateix una fallada L2, només afecta la seva subxarxa `/30`, sense cap impacte sobre la resta d'edificis. |
+
+---
+
+##### Configuració de l'Opció A (VLAN Única Recomanada - Xarxa Multiaccés):
+
+1. **Configuració al Tallafocs Central (CPD - Designated Router DR):**
+   ```text
+   interface TenGigabitEthernet0/0/1.99
+    description Enllac WAN Fibra Municipal - Xarxa Unica Multiacces
+    encapsulation dot1Q 99
+    ip address 10.255.0.1 255.255.255.240
+    ip ospf 1 area 0
+    ip ospf priority 255
+    ip ospf cost 10
+    bfd interval 50 min_rx 50 multiplier 3
+   ```
+2. **Configuració al Router de Seu (Ex. Seu 1 Policia Local):**
+   ```text
+   interface GigabitEthernet0/0/0
+    description Enllac WAN Fibra Directa cap a CPD (VLAN 99)
+    ip address 10.255.0.2 255.255.255.240
+    ip ospf 1 area 0
+    ip ospf priority 0
+    ip ospf cost 10
+    bfd interval 50 min_rx 50 multiplier 3
+   ```
+   > **Nota OSPF:** S'assigna `ip ospf priority 0` als routers de les seus per assegurar que **cap router remot pugui ser mai elegit com a DR ni BDR**, garantint que el Tallafocs central de la Casa de la Vila sigui sempre el node director de l'Àrea 0.
+
+---
+
+##### Configuració de l'Opció B (Subxarxes Punt a Punt `/30` independents):
+Si es requereix segmentació perimetral estricta de zones al Tallafocs central:
+- Cada port del switch s'aïlla en la seva pròpia VLAN de trànsit (101 a 105).
+- Al tallafocs es creen subinterfícies independents (`.101`, `.102`, etc.) amb xarxa `ip ospf network point-to-point`.
 
 #### 2. Triangulació i Mitjans Físics de Redundància
 A cada seu remota s'instal·la un **router de seu multi-WAN amb ports SFP de fibra, interfícies Gigabit Ethernet i ranura mòbil 5G**, connectant tres vies independents:
