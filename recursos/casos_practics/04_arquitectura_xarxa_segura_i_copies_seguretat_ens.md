@@ -314,7 +314,95 @@ En lloc d'utilitzar rutes estàtiques rígides, s'implanta el protocol d'estat d
   - Tots els missatges d'intercanvi de rutes OSPF s'autentiquen obligatòriament mitjançant claus criptogràfiques **HMAC-SHA256**, impedint la injecció de rutes malicioses (*route poisoning*).
   - A la via 5G que transita per Internet pública, el trànsit OSPF s'encapsula estrictament dins del túnel xifrat IPsec (AES-GCM-256), mentre que a la fibra i a la ràdio viatja blindat pel medi físic municipal dedicat i el xifratge simètric per maquinari.
 
-#### 4. Accés a Internet Centralitzat (*Clean Pipe*) i Optimització Microsoft 365
+#### 4. Exemple Pràctic de Taules d'Encaminament (Tallafocs CPD vs Router de Seu)
+
+Per entendre amb precisió com es comporta el protocol en l'arquitectura proposada (prement com a base l'**Opció A: VLAN Única de Trànsit WAN `10.255.0.0/28`** i la **Seu 1: Policia Local**), s'exposen a continuació les taules d'encaminament reals (`show ip route`) en funcionament nominal i davant d'una fallada física:
+
+##### A) Taula d'Encaminament del Router de la Seu Remota (R-POLICIA)
+Com que la comissaria està configurada com a **Àrea Totally Stubby d'OSPF**, el Tallafocs central del CPD només li injecta una **ruta per defecte d'Àrea (`O*IA 0.0.0.0/0`)**, estalviant memòria i taula de rutes al router de seu:
+
+```text
+R-POLICIA# show ip route
+Codes: C - Connected, S - Static, O - OSPF, IA - OSPF Inter-Area, * - Candidate Default
+
+Gateway of last resort is 10.255.0.1 to network 0.0.0.0
+
+!--- RUTA PER DEFECTE PER OSPF (Clean Pipe cap al CPD Central) ---!
+O*IA 0.0.0.0/0 [110/11] via 10.255.0.1, 04:22:15, GigabitEthernet0/0/0 (Fibra Municipal - Cost 10+1)
+               [110/51] via 10.255.1.1, [Standby càlid per Ràdio PTMP - Cost 50+1]
+               [110/101] via 10.255.2.1, [Standby per 5G IPsec - Cost 100+1]
+
+!--- SUBXARXES WAN D'ENLLAÇ (Interfícies físiques del router de seu) ---!
+C    10.255.0.0/28 is directly connected, GigabitEthernet0/0/0 (Fibra Municipal - IP local .2)
+C    10.255.1.0/28 is directly connected, GigabitEthernet0/0/1 (Ràdio Sectorial - IP local .2)
+C    10.255.2.0/30 is directly connected, Cellular0/0 (5G Mòbil - IP local .2)
+
+!--- SUBXARXES LOCALS DE LA COMISSARIA (Connectades a la LAN) ---!
+C    10.110.10.0/24 is directly connected, GigabitEthernet0/1.110 (VLAN 110: Dades Policia)
+C    10.110.30.0/24 is directly connected, GigabitEthernet0/1.130 (VLAN 30: Backup Veeam Off-Site)
+C    10.110.40.0/24 is directly connected, GigabitEthernet0/1.140 (VLAN 40: Telefonia IP Policia)
+C    10.110.60.0/24 is directly connected, GigabitEthernet0/1.160 (VLAN 60: Càmeres CCTV Policia)
+C    10.110.65.0/24 is directly connected, GigabitEthernet0/1.165 (VLAN 65: Alarmes / CRA Policia)
+```
+
+##### B) Taula d'Encaminament del Tallafocs HA Central (FW-CPD-CENTRAL)
+El tallafocs central conté les seves rutes locals, la sortida d'operador a Internet, i **aprèn dinàmicament per OSPF les subxarxes que pengen de cadascuna de les 5 seus municipals**:
+
+```text
+FW-CPD-CENTRAL# show ip route
+Codes: C - Connected, S - Static, O - OSPF, * - Candidate Default
+
+Gateway of last resort is 195.77.10.1 to network 0.0.0.0
+
+!--- SORTIDA REAL A INTERNET (Fibra de l'Operador Comercial) ---!
+S*   0.0.0.0/0 [1/0] via 195.77.10.1, Port2 (WAN Operador Comercial Fibra Pública)
+
+!--- SUBXARXA DE TRÀNSIT WAN MUNICIPAL (VLAN 99 Única) ---!
+C    10.255.0.0/28 is directly connected, Port1.99 (Switch Distribució Fibra CPD)
+
+!--- SUBXARXES LOCALS DEL CPD CENTRAL (Casa de la Vila) ---!
+C    10.0.10.0/24 is directly connected, Port1.10 (VLAN 10: DMZ Serveis Públics)
+C    10.0.20.0/24 is directly connected, Port1.20 (VLAN 20: Servidors AD/DFS/Print)
+C    10.0.30.0/24 is directly connected, Port1.30 (VLAN 30: Backup Veeam Immutable)
+C    10.0.100.0/24 is directly connected, Port1.100 (VLAN 100: Usuaris Ajuntament)
+
+!--- RUTES APRESES PER OSPF DE LES SEUS REMOTES (Via Fibra - Cost 10 + 1) ---!
+! [Seu 1: Policia Local - Next Hop 10.255.0.2]
+O    10.110.10.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99
+O    10.110.30.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99
+O    10.110.40.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99
+O    10.110.60.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99
+
+! [Seu 2: Serveis Socials - Next Hop 10.255.0.3]
+O    10.120.10.0/24 [110/11] via 10.255.0.3, 04:22:18, Port1.99
+O    10.120.40.0/24 [110/11] via 10.255.0.3, 04:22:18, Port1.99
+
+! [Seu 3: Biblioteca - Next Hop 10.255.0.4]
+O    10.130.10.0/24 [110/11] via 10.255.0.4, 04:22:18, Port1.99
+
+! [Seu 4: Centre Cívic - Next Hop 10.255.0.5]
+O    10.140.10.0/24 [110/11] via 10.255.0.5, 04:22:18, Port1.99
+
+! [Seu 5: Brigada Municipal - Next Hop 10.255.0.6]
+O    10.150.10.0/24 [110/11] via 10.255.0.6, 04:22:18, Port1.99
+```
+
+##### C) Comportament Dinàmic de les Taules davant Tall de Fibra (Convergència BFD < 300 ms)
+Si una excavadora secciona la fibra de la Policia al carrer:
+1. **Detecció:** BFD detecta la pèrdua de salut d'eco en **menys de 300 ms** i declara caigut l'enllaç de fibra (`10.255.0.2`).
+2. **Mutació al Tallafocs Central (FW-CPD-CENTRAL):**
+   ```diff
+   - O  10.110.10.0/24 [110/11] via 10.255.0.2, Port1.99 (Fibra Caiguda)
+   + O  10.110.10.0/24 [110/51] via 10.255.1.2, Port1.98 (Ràdio Sectorial PTMP - Cost 50)
+   ```
+3. **Mutació al Router de la Policia (R-POLICIA):**
+   ```diff
+   - O*IA 0.0.0.0/0 [110/11] via 10.255.0.1, GigabitEthernet0/0/0 (Fibra Caiguda)
+   + O*IA 0.0.0.0/0 [110/51] via 10.255.1.1, GigabitEthernet0/0/1 (Ràdio Sectorial PTMP - Cost 50)
+   ```
+4. **Impacte Operatiu:** Les trucades de veu IP policials i les sessions d'atestats continuen funcionant sense tall perceptible per als agents ni caiguda de sessions TCP.
+
+#### 5. Accés a Internet Centralitzat (*Clean Pipe*) i Optimització Microsoft 365
 - **Navegació General:** Tot el trànsit cap a Internet de les 5 seus remotes s'encamina a través del túnel principal cap al CPD central abans de sortir a l'exterior (*Clean Pipe*), aplicant-hi la inspecció centralitzada IPS, antivirus de passarel·la i filtre de contingut web del tallafocs HA.
 - **Optimització Microsoft 365 (*Local Breakout* segur):** Per evitar sobrecarregar la WAN amb trànsit ofimàtic pesant (videoconferències de Teams o sincronització de SharePoint), els routers de seu poden disposar d'una regla de desviament directe a Internet (*Local Breakout*) restringida exclusivament a les subxarxes i FQDNs oficials de Microsoft 365 validades dinàmicament.
 
