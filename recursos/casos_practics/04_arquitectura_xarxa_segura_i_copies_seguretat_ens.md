@@ -287,10 +287,10 @@ A cada seu remota s'instal·la un **router de seu multi-WAN amb ports SFP de fib
    - Assegura la continuïtat de les comunicacions mínimes i tramesa d'alarmes en cas de caiguda catastròfica simultània de la fibra i de la xarxa ràdio.
 
 #### 3. Protocol d'Encaminament Dinàmic OSPF v2/v3 amb BFD
-En lloc d'utilitzar rutes estàtiques rígides, s'implanta el protocol d'estat d'enllaç **OSPF (*Open Shortest Path First*)** executat sobre interfícies virtuals túnels xifrades (**IPsec VTI - Virtual Tunnel Interface** o GRE over IPsec):
+En lloc d'utilitzar rutes estàtiques rígides, s'implanta el protocol d'estat d'enllaç **OSPF (*Open Shortest Path First*)**, adaptant la capa de transport a la naturalesa de cada mitjà físic: **de forma nativa sobre les subinterfícies Ethernet de la fibra municipal**, sobre l'**enllaç ràdio amb xifratge simètric per maquinari (AES)** i mitjançant **túnels virtuals xifrats (IPsec VTI)** a la via cel·lular 5G/Internet:
 
 - **Disseny d'Àrees OSPF:**
-  - **Àrea 0 (Backbone):** Agrupa els tallafocs HA del CPD i els extrems dels túnels WAN de les 5 seus.
+  - **Àrea 0 (Backbone):** Agrupa els tallafocs HA del CPD i els extrems dels enllaços WAN de les 5 seus.
   - **Àrees Stub / Totally Stubby:** A cada seu municipal per mantenir les taules d'encaminament locals optimitzades i reduir la tramesa de paquets LSA.
 - **Gestió de Rols DR / BDR segons el Model de Xarxa OSPF:**
   - **En l'Opció A (VLAN Única Multiaccés / Broadcast):**
@@ -304,15 +304,15 @@ En lloc d'utilitzar rutes estàtiques rígides, s'implanta el protocol d'estat d
     - **No hi ha elecció de DR ni BDR:** Els dos extrems estableixen una relació d'adjacència directa *FULL* d'un a un, agilitzant lleugerament la convergència inicial en no haver d'esperar el temps d'elecció (*Wait Timer* de 40s).
 
 - **Jerarquia de Costos OSPF (`ip ospf cost`):**
-  - **Interfície Túnel sobre Fibra:** `ip ospf cost 10` -> *Camí seleccionat per defecte per a tot el trànsit.*
-  - **Interfície Túnel sobre Ràdio Sectorial (PTMP):** `ip ospf cost 50` -> *Ruta secundària en standby càlid.*
-  - **Interfície Túnel sobre 5G/LTE:** `ip ospf cost 100` -> *Ruta d'últim recurs.*
+  - **Interfície Ethernet Nativa sobre Fibra Directa:** `ip ospf cost 10` -> *Camí principal seleccionat per defecte. Trànsit natiu a velocitat de cable (fins a 10 Gbps) sense sobrecost de CPU ni fragmentació de MTU per túnels.*
+  - **Interfície sobre Ràdio Sectorial (PTMP):** `ip ospf cost 50` -> *Ruta secundària en standby càlid. Protegida amb el xifratge simètric per maquinari natiu de l'antena (WPA2/WPA3-Enterprise AES-128/256 a nivell L2). Opcionalment configurable amb túnel IPsec si la política municipal exigeix doble capa de xifratge extrem a extrem (Defense in Depth).*
+  - **Interfície Túnel IPsec VTI sobre 5G/LTE:** `ip ospf cost 100` -> *Ruta d'últim recurs per a emergències. Xifratge IPsec obligatori en transitar per la xarxa mòbil pública d'un operador comercial.*
 - **Convergència Ultraràpida amb BFD (*Bidirectional Forwarding Detection*):**
   - Els temporitzadors estàndard d'OSPF (Hello de 10 segons i Dead interval de 40 segons) són massa lents per a serveis crítics com la Policia Local o la telefonia VoIP.
   - S'activa **BFD associat a OSPF**: BFD envia paquets de sondeig cada 50-100 ms amb un multiplicador de 3. Si un enllaç cau, BFD el declara caigut en **menys de 300 mil·lisegons**, provocant que OSPF recalcula immediatament l'arbre SPF i commuti el trànsit cap a l'antena o 5G **de forma transparent i sense caiguda de sessions ni talls a la veu IP**.
 - **Seguretat OSPF segons l'ENS (`[mp.com.1]`, `[mp.com.3]`):**
   - Tots els missatges d'intercanvi de rutes OSPF s'autentiquen obligatòriament mitjançant claus criptogràfiques **HMAC-SHA256**, impedint la injecció de rutes malicioses (*route poisoning*).
-  - Totes les comunicacions OSPF circulen estrictament encapsulades dins dels túnels xifrats IPsec (AES-GCM-256), sense que cap paquet de control viatgi en clar per Internet o l'espai radioelèctric.
+  - A la via 5G que transita per Internet pública, el trànsit OSPF s'encapsula estrictament dins del túnel xifrat IPsec (AES-GCM-256), mentre que a la fibra i a la ràdio viatja blindat pel medi físic municipal dedicat i el xifratge simètric per maquinari.
 
 #### 4. Accés a Internet Centralitzat (*Clean Pipe*) i Optimització Microsoft 365
 - **Navegació General:** Tot el trànsit cap a Internet de les 5 seus remotes s'encamina a través del túnel principal cap al CPD central abans de sortir a l'exterior (*Clean Pipe*), aplicant-hi la inspecció centralitzada IPS, antivirus de passarel·la i filtre de contingut web del tallafocs HA.
