@@ -165,6 +165,9 @@ Els equips es traslladen al laboratori informàtic i es connecten a una **VLAN d
 1. **Comprovació de Certificació:** Es verifica al Catàleg de Conformitat del CCN que el Certificat ENS del proveïdor està en vigor i que l'abast cobreix el servei contractat.
 2. **Revisió de l'Acord RGPD:** Comprovació que el contracte incorpora l'annex d'Encarregat del Tractament (Art. 28 RGPD) signat electrònicament per ambdues parts.
 3. **Declaració de Localització de Dades:** Certificat emès pel proveïdor declarant les adreces i proveïdors dels CPDs principal i de contingència dins de la Unió Europea.
+4. **Verificació Tècnica de Residència de Dades del Tenant (*Data Location Check*):**
+   - Abans d'admetre el lliurament, el Tècnic de Sistemes accedeix a la consola d'administració de la plataforma (o al panell de *Microsoft 365 Admin Center* > *Configuració de l'organització* > *Ubicació de les dades*) per comprovar físicament que la instància i els magatzems de dades resideixen a la **Unió Europea (UE)**.
+   - **Punt de control legal crític (Art. 46 bis Llei 40/2015):** Es verifica que les dades del Padró d'Habitants no s'hagin aprovisionat per defecte en països tercers (com ara regions de Gran Bretanya `UK South` o Estats Units). Si la instància s'ha creat en una regió incorrecta, **es rebutja l'acta de recepció (Art. 210 LCSP)** i s'exigeix la correcció o trasllat (*tenant data move*) abans d'iniciar cap ingesta de dades reals de producció.
 
 ### 5.2. Configuració Segura del Tenant Municipal (`[op.acc]`, `[op.ext.1]`)
 1. **Federació d'Identitats (SSO):**
