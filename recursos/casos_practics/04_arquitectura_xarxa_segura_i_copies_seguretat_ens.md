@@ -556,18 +556,26 @@ Per optimitzar el cost de llicenciament de Windows Server, reduir la sobrecàrre
 
 ```mermaid
 flowchart TD
-    subgraph VM_FILEPRINT_BOX["VM-FILEPRINT (Windows Server Consolidat - VLAN 20)"]
+    subgraph VM_FILEPRINT_BOX["VM-FILEPRINT (Windows Server Consolidat - VLAN 20 CPD)"]
         FS_ROLE["📁 Rol de Serveis de Fitxers (SMBv3)<br/>• DFS Namespaces (\\ajuntament.local\corporatiu)<br/>• Access-Based Enumeration (ABE)<br/>• Xifratge AES-256-GCM (EncryptData)<br/>• Protecció FSRM Anti-Ransomware"]
         PRINT_ROLE["🖨️ Rol de Serveis d'Impressió (Print Server)<br/>• Cues úniques corporatives distribuïdes per Intune<br/>• Branch Office Direct Printing (BODP)<br/>• Impressió Segura (Targeta RFID / PIN de suport)<br/>• Suport Natiu Cost 0€ i Open Source (SavaPage GPLv3)"]
     end
 
     DC["🔑 VM-DC01 (Active Directory)<br/>Validació de Kerberos i SIDs"]
-    SEUS["💻 Llocs de Treball de les Seus<br/>(VLAN 10, 110, 120, 130, 140)"]
-    PRINTER_LOCAL["🖨️ Impressores Multifunció Locals de Seu<br/>(Alliberament per Targeta RFID o PIN)"]
+    
+    subgraph USUARIS["Llocs de Treball Corporatius"]
+        CENTRAL["🏛️ Treballadors Seu Central (Casa de la Vila)<br/>VLAN 10 (Connexió LAN directa al CPD)"]
+        SEUS["🏢 Treballadors Seus Remotes<br/>(Policia, Socials, Biblio, Cívic, Brigada)<br/>VLANs 110, 120, 130, 140, 150 (Connexió WAN)"]
+    end
 
-    SEUS -->|1. Accés a fitxers i impressió - TCP 445 i IPP| VM_FILEPRINT_BOX
+    PRINTER_CENTRAL["🖨️ Impressores Multifunció Seu Central<br/>(Alliberament per Targeta RFID / PIN)"]
+    PRINTER_REMOTE["🖨️ Impressores Locals Seus Remotes<br/>(Alliberament per Targeta RFID / PIN)"]
+
+    CENTRAL -->|1a. Accés fitxers SMBv3 i cues impressió - LAN| VM_FILEPRINT_BOX
+    SEUS -->|1b. Accés fitxers SMBv3 i cues impressió - WAN| VM_FILEPRINT_BOX
     VM_FILEPRINT_BOX <-->|2. Validació de permisos NTFS - Kerberos i LDAP| DC
-    SEUS -.->|3. BODP: Renderitzat directe PC a Impressora local| PRINTER_LOCAL
+    CENTRAL -.->|Impressió directa LAN| PRINTER_CENTRAL
+    SEUS -.->|3. BODP: Renderitzat directe PC a impressora de seu| PRINTER_REMOTE
 ```
 
 #### 1. Serveis de Fitxers Departamentals i Protecció Avançada (SMBv3)
