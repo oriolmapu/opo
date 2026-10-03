@@ -643,7 +643,10 @@ El tallafocs aplica el principi de **Denegació per Defecte (*Default Deny*)**. 
 | `VM-VEEAM` (VLAN 30) | Repositori Remot Seu 1 (Policia)| TCP 6162, 2500-3300 (Veeam Data Mover) | **PERMETRE** | Rèplica de còpies de seguretat off-site immutable. |
 | **VLANs Usuaris** (Totes) | `VM-VEEAM` (VLAN 30) | Qualsevol | **DENEGAR** | **CRÍTIC:** Inaccessibilitat absoluta de la xarxa de backups davant ransomware. |
 | **VLAN 60 (CCTV Càmeres)** | Internet (WAN) | Qualsevol | **DENEGAR** | **Aïllament estricte IoT (0% Internet):** Càmeres sense accés exterior ni exposició a botnets. |
-| **VLAN 60 (CCTV Càmeres)** | NVR CPD Central / Policia | TCP 554 (RTSP), TCP 8000/37777 (ONVIF/SDK) | **PERMETRE** | Transmissió exclusiva de fluxos de vídeo cap a l'enregistrador i monitors policials. |
+| **VLAN 60 (Seus Perifèriques)** | **NVR Policia (10.110.60.50)** | TCP 554 (RTSP), TCP 8000/37777 (ONVIF/SDK) | **PERMETRE** | **Ingesta de vídeo per a sortida directa HDMI** a les pantalles de la prefectura i gravació d'acord amb la LO 4/1997. |
+| **VLAN 60 (Càmeres Seu A)** | **VLAN 60 (Càmeres Seu B)** | Qualsevol | **DENEGAR** | **Aïllament lateral inter-seus:** Les càmeres no es comuniquen entre elles, evitant salts d'intrusió si es manipula un cable de façana. |
+| **Llocs Usuaris Policia (VLAN 110)** | **NVR Policia (10.110.60.50)** | TCP 443 (HTTPS), TCP 8000/37777 (Client VMS) | **PERMETRE** | Gestió d'atestats, exportació d'imatges judicials i control de càmeres des dels ordinadors policials. |
+| **Resta Usuaris (10, 120-150)**| **NVR Policia (10.110.60.50)** | Qualsevol | **DENEGAR** | Reserva de custòdia exclusiva per a la Policia Local (Llei de Videovigilància per forces de seguretat). |
 | **VLAN 65 (Alarmes / Accessos)**| IP Central Receptora (CRA) | Ports SIA-IP / Contact-ID over IP | **PERMETRE** | Senyalització de salts d'alarma, incidències i supervisió 24/7 a la CRA externa contractada. |
 | **VLAN 65 (Alarmes / Accessos)**| Centraleta Telefònica / VoIP | Enllaç SIP / telefònic d'emergència | **PERMETRE** | Canal telefònic de seguretat per a avisos d'intrusió / emergència. |
 | **VLAN 65 (Alarmes / Accessos)**| Internet General / Altres VLANs | Qualsevol | **DENEGAR** | Bloqueig de qualsevol navegació web oberta o accés no relacionat amb la seguretat física. |
