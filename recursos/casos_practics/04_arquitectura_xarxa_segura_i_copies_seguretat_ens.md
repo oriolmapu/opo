@@ -167,13 +167,16 @@ flowchart TD
 
 #### 1. Com s'integra la Fibra Directa dins d'OSPF Àrea 0?
 La fibra directa municipal **no és un simple cable pla L2, sinó un enllaç d'encaminament dinàmic integrat a l'Àrea 0 (Backbone) d'OSPF**:
-- **Subxarxes de trànsit punt a punt L3 (`/30`):** A través del Switch de Distribució de Fibra del CPD, cada enllaç físic d'òptica amb una seu remota es configura com una subinterfície L3 o VLAN de trànsit independent directament al Tallafocs HA / Core L3:
-  - Seu 1 (Policia): Subxarxa de trànsit `10.255.0.0/30`
-  - Seu 2 (Socials): Subxarxa de trànsit `10.255.0.4/30`
-  - Seu 3 (Biblio): Subxarxa de trànsit `10.255.0.8/30`
-  - Seu 4 (Cívic): Subxarxa de trànsit `10.255.0.12/30`
-  - Seu 5 (Brigada): Subxarxa de trànsit `10.255.0.16/30`
-- **Configuració d'interfície OSPF sobre la Fibra Directa:**
+- **Subxarxes de trànsit punt a punt L3 (`/30`):** A través del Switch de Distribució de Fibra del CPD, cada enllaç físic d'òptica amb una seu remota es canalitza mitjançant una **VLAN de trànsit 802.1Q** fins al Tallafocs HA / Core L3, on finalitza en una **subinterfície L3 dedicada** (mentre que a l'extrem remot es connecta a la interfície WAN L3 del router de seu):
+  - Seu 1 (Policia): Subxarxa de trànsit `10.255.0.0/30` (VLAN de trànsit 101 al CPD)
+  - Seu 2 (Socials): Subxarxa de trànsit `10.255.0.4/30` (VLAN de trànsit 102 al CPD)
+  - Seu 3 (Biblio): Subxarxa de trànsit `10.255.0.8/30` (VLAN de trànsit 103 al CPD)
+  - Seu 4 (Cívic): Subxarxa de trànsit `10.255.0.12/30` (VLAN de trànsit 104 al CPD)
+  - Seu 5 (Brigada): Subxarxa de trànsit `10.255.0.16/30` (VLAN de trànsit 105 al CPD)
+
+> **Criteri d'Enginyeria de Xarxes:** L'etiqueta VLAN (tag 802.1Q) és només el mecanisme d'encapsulament de Nivell 2 necessari perquè el commutador de distribució agregui tots els parells de fibra cap al tallafocs central a través d'un tronc (trunk) 10GbE. El que realment defineix i aïlla l'enllaç punt a punt és la **subinterfície L3 amb el seu direccionament IP `/30` i l'adjacència d'encaminament OSPF**. A l'extrem de la seu remota, el router pot rebre el trànsit de forma nativa sense necessitat de coincidir en el número de tag VLAN intern.
+
+- **Configuració d'interfície OSPF sobre la Fibra Directa (Costat CPD):**
   ```text
   interface TenGigabitEthernet0/0/1.101
    description Enllaç Fibra Municipal Seu 1 Policia
