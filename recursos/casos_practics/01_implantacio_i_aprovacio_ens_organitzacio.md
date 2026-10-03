@@ -103,6 +103,11 @@ El RSeg redacta la proposta de PSI segons la **Guia CCN-STIC 805**, la qual s'el
 - **Contingut mínim:** Missió, objectius, marc legal, estructura de governança, deures dels usuaris, règim sancionador i directrius generals d'aplicació de l'ENS.
 - **Difusió obligatòria:** Publicació a la seu electrònica municipal i notificació a tot el personal empleat públic.
 
+> [!NOTE]
+> **Es fa constar la Categoria del Sistema (Bàsica, Mitjana o Alta) dins del text de la PSI?**  
+> **No en el text principal de la Política.** La PSI és una norma d'alt nivell de governança institucional amb vocació de permanència (revisable cada 2-3 anys). Si s'hi fixés la categoria concreta de cada aplicació o servei, qualsevol canvi, nou servei o segmentació de xarxa obligaria a modificar la PSI i portar-la novament al Ple Municipal o a Decret d'Alcaldia.  
+> Per tant, la PSI estableix el **mandat obligatori de categoritzar** (qui ho fa i sota quin procediment), mentre que la categoria concreta es formalitza en el **Document de Categorització del Sistema** (elaborat pel RI i RS amb suport del RSeg, segons la Guia CCN-STIC 803), a la **Declaració d'Aplicabilitat (SOA)** i, finalment, a la **Declaració o Certificació de Conformitat** pública (Art. 40 RD 311/2022). En petits ajuntaments amb un únic sistema homogeni, es pot adjuntar com a **Annex informatiu** actualitzable pel Comitè de Seguretat sense haver de republicar la PSI.
+
 ---
 
 ### Pas 2: Identificació de Serveis, Processos i Inventari d'Actius (`[mp.eq.1]`, `[op.pl.1]`)
