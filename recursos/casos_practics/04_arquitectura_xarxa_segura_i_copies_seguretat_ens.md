@@ -333,16 +333,24 @@ O*IA 0.0.0.0/0 [110/11] via 10.255.0.1, 04:22:15, GigabitEthernet0/0/0 (Fibra Mu
                [110/101] via 10.255.2.1, [Standby per 5G IPsec - Cost 100+1]
 
 !--- SUBXARXES WAN D'ENLLAÇ (Interfícies físiques del router de seu) ---!
-C    10.255.0.0/28 is directly connected, GigabitEthernet0/0/0 (Fibra Municipal - IP local .2)
-C    10.255.1.0/28 is directly connected, GigabitEthernet0/0/1 (Ràdio Sectorial - IP local .2)
-C    10.255.2.0/30 is directly connected, Cellular0/0 (5G Mòbil - IP local .2)
+C    10.255.0.0/28 is directly connected, GigabitEthernet0/0/0 (Fibra Municipal)
+L    10.255.0.2/32 is directly connected, GigabitEthernet0/0/0 [IP pròpia WAN Fibra]
+C    10.255.1.0/28 is directly connected, GigabitEthernet0/0/1 (Ràdio Sectorial)
+L    10.255.1.2/32 is directly connected, GigabitEthernet0/0/1 [IP pròpia WAN Ràdio]
+C    10.255.2.0/30 is directly connected, Cellular0/0 (5G Mòbil)
+L    10.255.2.2/32 is directly connected, Cellular0/0 [IP pròpia WAN 5G]
 
 !--- SUBXARXES LOCALS DE LA COMISSARIA (Connectades a la LAN) ---!
 C    10.110.10.0/24 is directly connected, GigabitEthernet0/1.110 (VLAN 110: Dades Policia)
+L    10.110.10.1/32 is directly connected, GigabitEthernet0/1.110 [Gateway PCs Policia]
 C    10.110.30.0/24 is directly connected, GigabitEthernet0/1.130 (VLAN 30: Backup Veeam Off-Site)
+L    10.110.30.1/32 is directly connected, GigabitEthernet0/1.130 [Gateway Repositori Backup]
 C    10.110.40.0/24 is directly connected, GigabitEthernet0/1.140 (VLAN 40: Telefonia IP Policia)
+L    10.110.40.1/32 is directly connected, GigabitEthernet0/1.140 [Gateway Telèfons SIP]
 C    10.110.60.0/24 is directly connected, GigabitEthernet0/1.160 (VLAN 60: Càmeres CCTV Policia)
+L    10.110.60.1/32 is directly connected, GigabitEthernet0/1.160 [Gateway Càmeres Policia]
 C    10.110.65.0/24 is directly connected, GigabitEthernet0/1.165 (VLAN 65: Alarmes / CRA Policia)
+L    10.110.65.1/32 is directly connected, GigabitEthernet0/1.165 [Gateway Centraleta Alarmes]
 ```
 
 ##### B) Taula d'Encaminament del Tallafocs HA Central (FW-CPD-CENTRAL)
@@ -350,7 +358,7 @@ El tallafocs central conté les seves rutes locals, la sortida d'operador a Inte
 
 ```text
 FW-CPD-CENTRAL# show ip route
-Codes: C - Connected, S - Static, O - OSPF, * - Candidate Default
+Codes: C - Connected, L - Local, S - Static, O - OSPF, * - Candidate Default
 
 Gateway of last resort is 195.77.10.1 to network 0.0.0.0
 
@@ -359,35 +367,58 @@ S*   0.0.0.0/0 [1/0] via 195.77.10.1, Port2 (WAN Operador Comercial Fibra Públi
 
 !--- SUBXARXA DE TRÀNSIT WAN MUNICIPAL (VLAN 99 Única) ---!
 C    10.255.0.0/28 is directly connected, Port1.99 (Switch Distribució Fibra CPD)
+L    10.255.0.1/32 is directly connected, Port1.99 [IP pròpia Tallafocs CPD]
 
 !--- SUBXARXES LOCALS DEL CPD CENTRAL (Casa de la Vila) ---!
 C    10.0.10.0/24 is directly connected, Port1.10 (VLAN 10: DMZ Serveis Públics)
-C    10.0.20.0/24 is directly connected, Port1.20 (VLAN 20: Servidors AD/DFS/Print)
+C    10.0.20.0/24 is directly connected, Port1.20 (VLAN 20: Servidors AD/DFS/Print/VMS)
 C    10.0.30.0/24 is directly connected, Port1.30 (VLAN 30: Backup Veeam Immutable)
 C    10.0.100.0/24 is directly connected, Port1.100 (VLAN 100: Usuaris Ajuntament)
 
 !--- RUTES APRESES PER OSPF DE LES SEUS REMOTES (Via Fibra - Cost 10 + 1) ---!
 ! [Seu 1: Policia Local - Next Hop 10.255.0.2]
-O    10.110.10.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99
-O    10.110.30.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99
-O    10.110.40.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99
-O    10.110.60.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99
+O    10.110.10.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99 (Dades Policia)
+O    10.110.30.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99 (Backup Veeam)
+O    10.110.40.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99 (VoIP Policia)
+O    10.110.60.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99 (CCTV Policia)
 
 ! [Seu 2: Serveis Socials - Next Hop 10.255.0.3]
-O    10.120.10.0/24 [110/11] via 10.255.0.3, 04:22:18, Port1.99
-O    10.120.40.0/24 [110/11] via 10.255.0.3, 04:22:18, Port1.99
+O    10.120.10.0/24 [110/11] via 10.255.0.3, 04:22:18, Port1.99 (Dades Socials)
+O    10.120.40.0/24 [110/11] via 10.255.0.3, 04:22:18, Port1.99 (VoIP Socials)
+O    10.120.60.0/24 [110/11] via 10.255.0.3, 04:22:18, Port1.99 (CCTV Socials)
 
 ! [Seu 3: Biblioteca - Next Hop 10.255.0.4]
-O    10.130.10.0/24 [110/11] via 10.255.0.4, 04:22:18, Port1.99
+O    10.130.10.0/24 [110/11] via 10.255.0.4, 04:22:18, Port1.99 (Dades Biblioteca)
+O    10.130.40.0/24 [110/11] via 10.255.0.4, 04:22:18, Port1.99 (VoIP Biblioteca)
+O    10.130.60.0/24 [110/11] via 10.255.0.4, 04:22:18, Port1.99 (CCTV Biblioteca)
 
 ! [Seu 4: Centre Cívic - Next Hop 10.255.0.5]
-O    10.140.10.0/24 [110/11] via 10.255.0.5, 04:22:18, Port1.99
+O    10.140.10.0/24 [110/11] via 10.255.0.5, 04:22:18, Port1.99 (Dades Cívic)
+O    10.140.40.0/24 [110/11] via 10.255.0.5, 04:22:18, Port1.99 (VoIP Cívic)
+O    10.140.60.0/24 [110/11] via 10.255.0.5, 04:22:18, Port1.99 (CCTV Cívic)
 
 ! [Seu 5: Brigada Municipal - Next Hop 10.255.0.6]
-O    10.150.10.0/24 [110/11] via 10.255.0.6, 04:22:18, Port1.99
+O    10.150.10.0/24 [110/11] via 10.255.0.6, 04:22:18, Port1.99 (Dades Brigada)
+O    10.150.40.0/24 [110/11] via 10.255.0.6, 04:22:18, Port1.99 (VoIP Brigada)
+O    10.150.60.0/24 [110/11] via 10.255.0.6, 04:22:18, Port1.99 (CCTV Brigada)
 ```
 
-##### C) Comportament Dinàmic de les Taules davant Tall de Fibra (Convergència BFD < 300 ms)
+##### C) Traçabilitat d'un Paquet: De la Càmera de Policia a la Càmera de Biblioteca
+Per visualitzar la diferència entre **taula d'enrutament (on va el paquet)** i **política de tallafocs (si té permís)**:
+
+1. **A la Càmera de la Policia (`10.110.60.15`):**
+   - Vol enviar un paquet a la càmera de la Biblioteca (`10.130.60.20`).
+   - Comprova que la IP no és del seu rang local `10.110.60.0/24`. L'envia a la seva porta d'enllaç per defecte (*Default Gateway*): **`10.110.60.1`** (la IP que té el router local a la seva subinterfície `L 10.110.60.1/32`).
+2. **Al Router de la Policia (`R-POLICIA`):**
+   - El router no té cap ruta específica per a la `10.130.60.0/24` (perquè és àrea *Stub*).
+   - Envia el paquet per la ruta per defecte: **`O*IA 0.0.0.0/0 via 10.255.0.1`** (el Tallafocs Central del CPD per la fibra).
+3. **Al Tallafocs Central (`FW-CPD-CENTRAL`):**
+   - **Comprovació d'Encaminament:** El tallafocs consulta la seva taula d'enrutament i veu la línia:
+     `O 10.130.60.0/24 via 10.255.0.4, Port1.99` (sap perfectament que ha d'anar al router de la Biblioteca).
+   - **Comprovació de Seguretat (Tallafocs):** Tot seguit avalua les seves polítiques de seguretat. Segons la mesura `[mp.com.1]` de l'ENS, **la regla per defecte entre VLANs de càmeres de seus diferents és DENY / DROP**. El tallafocs bloqueja el paquet i mai el reenvia a la Biblioteca.
+   - **Com es veu el vídeo realment?** La càmera de la Biblioteca només transmet al Servidor VMS del CPD (`10.0.20.50`), i el policia consulta el VMS central des del seu PC d'atestats (`10.110.10.x`), passant per les regles explícitament autoritzades.
+
+##### D) Comportament Dinàmic de les Taules davant Tall de Fibra (Convergència BFD < 300 ms)
 Si una excavadora secciona la fibra de la Policia al carrer:
 1. **Detecció:** BFD detecta la pèrdua de salut d'eco en **menys de 300 ms** i declara caigut l'enllaç de fibra (`10.255.0.2`).
 2. **Mutació al Tallafocs Central (FW-CPD-CENTRAL):**
