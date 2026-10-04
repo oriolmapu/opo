@@ -45,88 +45,71 @@ Es demana dissenyar un **Projecte Tècnic Integral** que defineixi:
 ```mermaid
 flowchart TD
     subgraph INTERNET_CLOUD["Núvol i Connexions Externes"]
+        INTERNET(("🌐 Internet / Operadors Comercials"))
         M365["Tenant Microsoft 365<br/>(Entra ID + Intune + Defender)"]
-        INTERNET(("🌐 Internet / Operadors"))
         AZURE_S3["Repositori Cloud Immutable<br/>(Azure Blob Storage WORM)"]
     end
 
     subgraph CPD_CENTRAL["SEU CENTRAL (Casa de la Vila - CPD)"]
         FW_HA["🛡️ Tallafocs HA Central (Clúster Actiu-Passiu)<br/>Next-Gen Firewall / WAF / IPS / OSPF"]
         SW_CORE["Commutadors Core 10GbE (Stack redundant)"]
-        SW_DIST_FIBRA["🔀 Switch Distribució de Fibra Òptica Municipal (SFP/SFP+ 10GbE)<br/>(Concentrador de fibra directa seu a seu)"]
-        SECTORIAL["📡 Estació Base: Antena Sectorial Central (PTMP 5 GHz)<br/>(Torre municipal amb cobertura global a totes les seus)"]
         
-        subgraph VLANS_CPD["Segmentació de Xarxa Central"]
-            VLAN_DMZ["VLAN 50 - DMZ (Exposada)<br/>[VM-DOCKER (Ubuntu Web)]"]
-            VLAN_SERVERS["VLAN 20 - Servidors Interns<br/>[VM-DC01, VM-FILEPRINT]"]
-            VLAN_BACKUP["VLAN 30 - Xarxa de Backup Aïllada<br/>[VM-VEEAM + Hardened Repo Linux]"]
-            VLAN_MGMT["VLAN 99 - Gestió OOB (Aïllada)<br/>[iDRAC, Hyper-V Hosts, Switches, APs]"]
-            VLAN_USERS_C["VLAN 10 - Usuaris Administratius Central"]
-            VLAN_VOIP_C["VLAN 40 - Telefonia IP (QoS DSCP EF)"]
-            VLAN_CCTV_C["VLAN 60 - CCTV Central (Càmeres Casa de la Vila, 0% Internet)"]
-            VLAN_ALARM_C["VLAN 65 - Alarmes Anti-intrusió i Accessos<br/>[Sortida a CRA / Centraleta Telefònica]"]
-            VLAN_WIFI_C["VLAN 70 - Wi-Fi Ciutadà OAC Central"]
+        subgraph CPD_WAN["Distribució WAN Inter-Seus al CPD"]
+            SW_DIST_FIBRA["🔀 Switch Distribució Fibra Municipal (SFP/SFP+ 10GbE)<br/>(Concentrador de fibra directa seu a seu)"]
+            SECTORIAL["📡 Estació Base: Antena Sectorial Central (PTMP 5 GHz)<br/>(Torre municipal - Cobertura global a totes les seus)"]
+        end
+
+        subgraph CPD_LAN["Xarxes i Servidors Locals del CPD"]
+            VLANS_SERVERS["🖥️ Servidors i DMZ CPD:<br/>• VLAN 20: Servidors Interns (VM-DC01, VM-FILEPRINT)<br/>• VLAN 50: DMZ Web Pública (VM-DOCKER Ubuntu / WAF)<br/>• VLAN 30: Backup Central (Veeam + Hardened Linux WORM)<br/>• VLAN 99: Gestió Fora de Banda OOB (iDRAC, Hyper-V, Switches)"]
+            VLANS_USERS_C["🏛️ Xarxes Locals Casa de la Vila:<br/>• VLAN 10: Usuaris Administratius Central<br/>• VLAN 40: Telefonia IP (QoS DSCP EF)<br/>• VLAN 60: CCTV Casa de la Vila (0% Internet)<br/>• VLAN 65: Alarmes i CRA | VLAN 70: Wi-Fi Ciutadà OAC"]
         end
     end
 
     subgraph SEUS_REMOTES["5 SEUS MUNICIPALS (SERVEIS TRANSVERSALS)"]
-        subgraph S1["Seu 1: Policia Local (24/7)"]
-            R_S1["Router Multi-WAN + CPE Ràdio"] --> SW_S1["Managed Switch PoE"]
-            SW_S1 --> V_POL["VLAN 110: Dades Policials (Crítica)"]
-            SW_S1 --> V_VOIP1["VLAN 40: Telefonia IP (VoIP)"]
-            SW_S1 --> V_CCTV1["VLAN 60: Càmeres CCTV Policia"]
-            SW_S1 --> NVR_POL["📹 NVR Físic Policia (10.110.60.50)<br/>(Sortides HDMI directes a Videowall)"]
-            SW_S1 --> V_ALM1["VLAN 65: Alarmes i Accessos (Enllaç CRA)"]
-            SW_S1 --> B_REPO["📦 Repositori Veeam Off-Site (Hardened Linux)"]
+        subgraph COL_CRITIC["Seus Crítiques i Socials"]
+            subgraph S1["Seu 1: Policia Local (24/7)"]
+                R_S1["Router Multi-WAN + CPE Ràdio"] --> SW_S1["Managed Switch PoE"]
+                SW_S1 --> V_POL_ALL["Segmentació VLANs Policia:<br/>• VLAN 110: Dades Policials (Crítica)<br/>• VLAN 40: VoIP | VLAN 60: CCTV Policia<br/>• VLAN 65: Alarmes i CRA"]
+                SW_S1 --> NVR_POL["📹 NVR Físic Policia (10.110.60.50)<br/>(Sortides HDMI directes a Videowall)"]
+                SW_S1 --> B_REPO["📦 Repositori Veeam Off-Site<br/>(Hardened Linux Immutable 10.110.30.50)"]
+            end
+
+            subgraph S2["Seu 2: Serveis Socials"]
+                R_S2["Router Multi-WAN + CPE Ràdio"] --> SW_S2["Managed Switch PoE"]
+                SW_S2 --> V_SOC_ALL["Segmentació VLANs Socials:<br/>• VLAN 120: Dades Socials Sensibles (RGPD Art. 9)<br/>• VLAN 40: VoIP | VLAN 60: CCTV (Sense Internet)<br/>• VLAN 65: Alarmes i CRA | VLAN 70: Wi-Fi Atenció"]
+            end
         end
 
-        subgraph S2["Seu 2: Serveis Socials"]
-            R_S2["Router Multi-WAN + CPE Ràdio"] --> SW_S2["Managed Switch PoE"]
-            SW_S2 --> V_SOC["VLAN 120: Dades Socials Sensibles"]
-            SW_S2 --> V_VOIP2["VLAN 40: Telefonia IP (VoIP)"]
-            SW_S2 --> V_CCTV2["VLAN 60: Càmeres CCTV (Sense Internet)"]
-            SW_S2 --> V_ALM2["VLAN 65: Alarmes i Accessos (Enllaç CRA)"]
-            SW_S2 --> V_WIFI2["VLAN 70: Wi-Fi Ciutadà Atenció"]
-        end
+        subgraph COL_SERVEIS["Dependències Municipals i Brigada"]
+            subgraph S3["Seu 3: Biblioteca Pública"]
+                R_S3["Router Multi-WAN + CPE Ràdio"] --> SW_S3["Managed Switch PoE"]
+                SW_S3 --> V_BIB_ALL["Segmentació VLANs Biblioteca:<br/>• VLAN 130: Gestió Biblioteca i Préstecs<br/>• VLAN 40: VoIP | VLAN 60: CCTV (Sense Internet)<br/>• VLAN 65: Alarmes i CRA | VLAN 70: Wi-Fi Públic"]
+            end
 
-        subgraph S3["Seu 3: Biblioteca Pública"]
-            R_S3["Router Multi-WAN + CPE Ràdio"] --> SW_S3["Managed Switch PoE"]
-            SW_S3 --> V_BIB["VLAN 130: Gestió Biblioteca"]
-            SW_S3 --> V_VOIP3["VLAN 40: Telefonia IP (VoIP)"]
-            SW_S3 --> V_CCTV3["VLAN 60: Càmeres CCTV (Sense Internet)"]
-            SW_S3 --> V_ALM3["VLAN 65: Alarmes i Accessos (Enllaç CRA)"]
-            SW_S3 --> V_WIFI3["VLAN 70: Wi-Fi Ciutadà (Portal Captiu)"]
-        end
+            subgraph S4["Seu 4: Espai Cívic / Esports"]
+                R_S4["Router Multi-WAN + CPE Ràdio"] --> SW_S4["Managed Switch PoE"]
+                SW_S4 --> V_CIV_ALL["Segmentació VLANs Espai Cívic:<br/>• VLAN 140: Gestió Monitors i Esports<br/>• VLAN 40: VoIP | VLAN 60: CCTV (Sense Internet)<br/>• VLAN 65: Alarmes i CRA | VLAN 70: Wi-Fi Entitats"]
+            end
 
-        subgraph S4["Seu 4: Espai Cívic / Esports"]
-            R_S4["Router Multi-WAN + CPE Ràdio"] --> SW_S4["Managed Switch PoE"]
-            SW_S4 --> V_CIV["VLAN 140: Gestió Monitors"]
-            SW_S4 --> V_VOIP4["VLAN 40: Telefonia IP (VoIP)"]
-            SW_S4 --> V_CCTV4["VLAN 60: Càmeres CCTV (Sense Internet)"]
-            SW_S4 --> V_ALM4["VLAN 65: Alarmes i Accessos (Enllaç CRA)"]
-            SW_S4 --> V_WIFI4["VLAN 70: Wi-Fi Públic Entitats"]
-        end
-
-        subgraph S5["Seu 5: Brigada Municipal"]
-            R_S5["Router Multi-WAN + CPE Ràdio"] --> SW_S5["Managed Switch PoE"]
-            SW_S5 --> V_BRI["VLAN 150: Nau i Magatzem (F3)"]
-            SW_S5 --> V_VOIP5["VLAN 40: Telefonia IP (VoIP)"]
-            SW_S5 --> V_CCTV5["VLAN 60: Càmeres CCTV (Sense Internet)"]
-            SW_S5 --> V_ALM5["VLAN 65: Alarmes i Accessos (Enllaç CRA)"]
+            subgraph S5["Seu 5: Nau de la Brigada Municipal"]
+                R_S5["Router Multi-WAN + CPE Ràdio"] --> SW_S5["Managed Switch PoE"]
+                SW_S5 --> V_BRI_ALL["Segmentació VLANs Brigada:<br/>• VLAN 150: Nau i Magatzem (M365 F3)<br/>• VLAN 40: VoIP | VLAN 60: CCTV (Sense Internet)<br/>• VLAN 65: Alarmes i CRA"]
+            end
         end
     end
 
     INTERNET --- FW_HA
     FW_HA --- M365
     FW_HA --- AZURE_S3
-    FW_HA --- SW_CORE
-    FW_HA --- SECTORIAL
-    SW_CORE --- SW_DIST_FIBRA
-    SW_CORE --- VLAN_DMZ & VLAN_SERVERS & VLAN_BACKUP & VLAN_MGMT & VLAN_USERS_C & VLAN_VOIP_C & VLAN_CCTV_C & VLAN_ALARM_C & VLAN_WIFI_C
+    FW_HA ===|Trunk 10GbE LACP| SW_CORE
+    
+    SW_CORE --- VLANS_SERVERS & VLANS_USERS_C
+    SW_CORE ===|Trunk 10GbE LACP| SW_DIST_FIBRA
+    SW_CORE --- SECTORIAL
 
-    SW_DIST_FIBRA -->|1. Fibra Òptica Directa Municipal - OSPF Cost 10| R_S1 & R_S2 & R_S3 & R_S4 & R_S5
-    SECTORIAL -.->|2. Ràdio Sectorial PTMP 5 GHz - OSPF Cost 50| R_S1 & R_S2 & R_S3 & R_S4 & R_S5
-    VLAN_BACKUP -.->|Replicació Off-Site nocturna| B_REPO
+    SW_DIST_FIBRA ==>|1. Fibra Directa Municipal - OSPF Cost 10| R_S1 & R_S2 & R_S3 & R_S4 & R_S5
+    SECTORIAL -.->|2. Ràdio Sectorial 5 GHz - OSPF Cost 50| R_S1 & R_S2 & R_S3 & R_S4 & R_S5
+    VLANS_SERVERS -.->|Replicació Backup Off-Site| B_REPO
 ```
 
 ---
