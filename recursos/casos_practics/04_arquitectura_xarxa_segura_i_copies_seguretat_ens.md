@@ -621,14 +621,16 @@ Davant la decisió d'arquitectura de xarxa de si oferir DHCP i DNS des de l'Acti
 
 ### 3.6. Matriu de Regles de Firewall de Menor Privilegi (Tallafocs HA Central)
 
-El tallafocs aplica el principi de **Denegació per Defecte (*Default Deny*)**. Gràcies al model **Microsoft Entra Joined** als llocs de treball, les seus remotes ja no necessiten obrir la totalitat de ports d'Active Directory, sinó exclusivament els recursos autoritzats:
+El tallafocs opera sota el principi de **Denegació per Defecte (*Default Deny*)** i amb **Inspecció d'Estat (*Stateful Inspection*)**:
+- **Trànsit de Retorn Bidireccional Automàtic:** Les regles de la taula defineixen exclusivament quin equip pot **iniciar** una nova connexió. Les respostes de tornada associades a una sessió legítimament oberta (per exemple, quan `VM-DOCKER` respon amb el contingut web a un ciutadà d'Internet que ha fet una petició HTTPS) són autoritzades automàticament pel motor d'estat del tallafocs (`ESTABLISHED, RELATED`) sense necessitat de regles inverses.
+- Gràcies al model **Microsoft Entra Joined** als llocs de treball, les seus remotes ja no necessiten obrir la totalitat de ports d'Active Directory, sinó exclusivament els recursos autoritzats:
 
 | Origen | Destinació | Protocol / Port | Acció | Justificació / Finalitat |
 | :--- | :--- | :---: | :---: | :--- |
-| **Internet (WAN)** | `VM-DOCKER` (DMZ) | TCP 443 (HTTPS) | **PERMETRE** | Accés públic als serveis web municipals via WAF. |
-| **Internet (WAN)** | Qualsevol xarxa interna | Qualsevol | **DENEGAR** | Bloqueig absolut d'entrades no autoritzades. |
+| **Internet (WAN)** | `VM-DOCKER` (DMZ) | TCP 443 (HTTPS) | **PERMETRE** | **Accés públic ciutadà general:** Obertura per a qualsevol petició exterior dirigida als dominis i subdominis municipals (`ajuntament.cat`, `incidencies.ajuntament.cat`, etc.), prèvia inspecció pel mòdul WAF (OWASP Top-10) i derivació pel Reverse Proxy Nginx cap al contenidor corresponent. |
+| **Internet (WAN)** | Qualsevol xarxa interna | Qualsevol | **DENEGAR** | Bloqueig absolut d'entrades no autoritzades a la xarxa corporativa. |
 | `VM-DOCKER` (DMZ) | Qualsevol xarxa interna (VLAN 10, 20, 30, Seus) | Qualsevol | **DENEGAR** | **Aïllament Absolut DMZ (Zero Trust):** Zero trànsit permès cap a la LAN/CPD (ni tan sols LDAPS 636). L'autenticació és federada al núvol amb Microsoft Entra ID (OIDC / OAuth 2.0). |
-| `VM-DOCKER` (DMZ) | Microsoft Entra ID (Internet) | TCP 443 (HTTPS) | **PERMETRE** | Validació de claus públiques de signatura de testimonis OIDC (JWKS) cap a `login.microsoftonline.com`. |
+| `VM-DOCKER` (DMZ) | Internet (Sortida autoritzada) | TCP 443 (HTTPS), UDP/TCP 53 (DNS) | **PERMETRE** | **Connexions sortints del servidor web:** Resolució de noms DNS, actualitzacions oficials de seguretat del SO (`security.ubuntu.com` segons CCN-STIC 580) i validació de claus de signatura OIDC (JWKS) cap a Microsoft Entra ID (`login.microsoftonline.com`). |
 | `VM-FILEPRINT` (VLAN 20)| `VM-DC01` (VLAN 20) | TCP 88, 389/636, 135, 445 | **PERMETRE** | Afiliació al domini, validació de tiquets Kerberos i resolució de permisos NTFS (AGDLP). |
 | **VLAN 99 (Gestió OOB)** | `VM-DC01` (VLAN 20) | TCP 3389 (RDP NLA), RSAT (RPC/LDAP), 5985/5986 | **PERMETRE** | Administració d'Active Directory, GPOs i DNS corporatiu des de PAW de l'equip TIC. |
 | `VM-DC01` (VLAN 20) | Internet (Microsoft Cloud) | TCP 443 (HTTPS) | **PERMETRE** | Sincronització d'identitats Microsoft Entra Connect i claus Cloud Kerberos Trust. |
