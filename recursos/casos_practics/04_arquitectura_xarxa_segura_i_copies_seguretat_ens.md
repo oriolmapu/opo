@@ -517,10 +517,10 @@ flowchart LR
         WEB1 & WEB2 --> DB
     end
     
-    UBUNTU -.->|BLOQUEIG TOTAL per Firewall (0% Trànsit)| INT_SERVERS["❌ Prohibit l'accés a VLAN 20 (DC / Fitxers)"]
-    UBUNTU -.->|BLOQUEIG TOTAL per Firewall (0% Trànsit)| USR_NETS["❌ Prohibit l'accés a VLANs d'Usuaris"]
+    UBUNTU -.->|BLOQUEIG TOTAL per Firewall - Zero Transit| INT_SERVERS["❌ Prohibit l'accés a VLAN 20 (DC / Fitxers)"]
+    UBUNTU -.->|BLOQUEIG TOTAL per Firewall - Zero Transit| USR_NETS["❌ Prohibit l'accés a VLANs d'Usuaris"]
     
-    UBUNTU -->|Validació Tokens OIDC / OAuth 2.0 (HTTPS Sortint)| ENTRA["☁️ Microsoft Entra ID (M365 Cloud)<br/>login.microsoftonline.com<br/>(MFA + Accés Condicional)"]
+    UBUNTU -->|Validacio Tokens OIDC i OAuth 2.0 - HTTPS Sortint| ENTRA["☁️ Microsoft Entra ID (M365 Cloud)<br/>login.microsoftonline.com<br/>(MFA + Accés Condicional)"]
 ```
 
 #### Regles d'Arquitectura per a la DMZ:
