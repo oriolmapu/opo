@@ -40,10 +40,11 @@ flowchart TD
 
     subgraph PROCES_SERVIDOR["3. Posada en Servei del Servidor (CPD)"]
         B_HW --> S_S1["Verificació Interna de Components HW<br/>(CPUs, RAM ECC, discos RAID, doble font)"]
-        S_S1 --> S_S2["Muntatge a Rack i Connexions Redundants [mp.if]<br/>• SAIs A i B elèctricament independents<br/>• Xarxa LACP redundada i cablejat estructurat"]
-        S_S2 --> S_S3["Targeta de Gestió Remota (iDRAC/iLO) [mp.eq.2]<br/>• Canvi de contrasenya per defecte (clau forta al vault)<br/>• Aïllament en VLAN de Gestió OOB (sense Internet)"]
-        S_S3 --> S_S4["Hardening de Firmware, RAID i Hipervisor<br/>• RAID 1 (SO) + RAID 10/6 (Dades)<br/>• Bastionat de SO segons Guies CCN-STIC<br/>• Syslog a SIEM [op.mon] i Còpies 3-2-1 immutables [op.cont]"]
-        S_S4 --> S_S5["Proves d'Estrès i Conmutació per Fallada<br/>(Desconnexió de font elèctrica i cable de xarxa)"]
+        S_S1 --> S_S2["Alta a CMDB i Etiquetatge QR [mp.eq.1]<br/>(S/N xassís/discs, MACs, iDRAC, Rack CPD, CIs)"]
+        S_S2 --> S_S3["Muntatge a Rack i Connexions Redundants [mp.if]<br/>• SAIs A i B elèctricament independents<br/>• Xarxa LACP redundada i cablejat estructurat"]
+        S_S3 --> S_S4["Targeta de Gestió Remota (iDRAC/iLO) [mp.eq.2]<br/>• Canvi de contrasenya per defecte (clau forta al vault)<br/>• Aïllament en VLAN de Gestió OOB (sense Internet)"]
+        S_S4 --> S_S5["Hardening de Firmware, RAID i Hipervisor<br/>• RAID 1 (SO) + RAID 10/6 (Dades)<br/>• Bastionat de SO segons Guies CCN-STIC<br/>• Syslog a SIEM [op.mon] i Còpies 3-2-1 immutables [op.cont]"]
+        S_S5 --> S_S6["Proves d'Estrès i Conmutació per Fallada<br/>(Desconnexió de font elèctrica i cable de xarxa)"]
     end
 
     subgraph PROCES_SAAS["4. Configuració Segura i Acceptació del SaaS"]
@@ -54,7 +55,7 @@ flowchart TD
     end
 
     subgraph FINALITACIO["5. Conformitat i Producció"]
-        C_P5 & S_S5 & CS_4 --> ACTA["Signatura de l'Acta de Recepció Formal (Art. 210 LCSP)<br/>(Director del contracte + Intervenció municipal)"]
+        C_P5 & S_S6 & CS_4 --> ACTA["Signatura de l'Acta de Recepció Formal (Art. 210 LCSP)<br/>(Director del contracte + Intervenció municipal)"]
         ACTA --> PROD(["🚀 ACTIVACIÓ EN PRODUCCIÓ I MONITORITZACIÓ"])
     end
 ```
@@ -120,7 +121,17 @@ Els equips es traslladen al laboratori informàtic i es connecten a una **VLAN d
    - Mòdul TPM 2.0 instal·lat físicament.
 2. **Registre de Garantia DMR (*Defective Media Retention*):** Es comprova al portal del fabricant que la garantia associada al número de sèrie (*Service Tag*) té activat el servei DMR, assegurant que cap disc defectuós haurà de ser lliurat al servei tècnic.
 
-### 4.2. Instal·lació Física al CPD (`[mp.if.1]`, `[mp.if.2]`, `[mp.if.4]`)
+### 4.2. Alta a la CMDB i Etiquetatge de l'Actiu al CPD (`[mp.eq.1]`)
+Abans d'ancorar l'equip al bastidor:
+1. **Registre jeràrquic del Servidor a la CMDB (GLPI / Snipe-IT):**
+   - **Element de Configuració Pare (*Parent CI*):** Número de sèrie (*Service Tag*), model del xassís, codi d'inventari municipal assignat, ubicació exacta al CPD (Armari Rack R1, Unitats d'alçada U21-U22).
+   - **Subcomponents Físics (*Child CIs*):** Registre dels S/N individuals dels 2 processadors, mòduls de RAM ECC, controladora RAID i de cadascun dels discs SSD SAS/NVMe. Això permet la traçabilitat estricta davant substitucions per garantia DMR.
+   - **Interfícies de Xarxa:** Registre de les adreces MAC de les targetes 10GbE (agrupades en LACP) i de la targeta de gestió fora de banda (iDRAC).
+   - **Vincle Administratiu i Econòmic (Art. 210 LCSP):** Associació directa a l'expedient de contractació, número de factura, període de garantia 24/7 amb servei DMR (*Defective Media Retention*) i dates de renovació de manteniment.
+   - **Relacions de Servei i Dependència:** Es vincula el rol del servidor com a node físic del clúster de virtualització, identificant les màquines virtuals que s'hi allotjaran i els serveis municipals crítics dependents (Padró, Gestió d'Expedients, Seu Electrònica).
+2. **Etiquetatge físic:** Fixació d'etiqueta metàl·lica amb logotip de l'Ajuntament, número d'inventari municipal i codi QR tant a la part frontal com posterior del xassís del servidor per a ràpida auditoria visual al CPD.
+
+### 4.3. Instal·lació Física al CPD (`[mp.if.1]`, `[mp.if.2]`, `[mp.if.4]`)
 - **Muntatge:** Fixació mecànica de les guies telescòpiques i del xassís al bastidor (rack de 19") del CPD municipal.
 - **Redundància Elèctrica (`[mp.if.4]`):**
   - Font d'alimentació 1 -> Connectada a la **Línia A** (SAI 1).
@@ -129,7 +140,7 @@ Els equips es traslladen al laboratori informàtic i es connecten a una **VLAN d
   - Connexions de xarxa agrupades en **LACP (*Link Aggregation Control Protocol*)** connectades a dos commutadors (*switches*) diferents per evitar el punt únic de fallada (*single point of failure*).
   - Connexió del port de gestió fora de banda (*iDRAC / iLO*) mitjançant cablatge específic de color diferenciat.
 
-### 4.3. Bastionat del Maquinari i Xarxa de Gestió (`[mp.eq.2]`)
+### 4.4. Bastionat del Maquinari i Xarxa de Gestió (`[mp.eq.2]`)
 1. **Aïllament de la Targeta de Gestió Remota (iDRAC/iLO):**
    - Assignació d'IP estàtica en una **VLAN de gestió OOB (*Out-Of-Band*)**.
    - Aquesta VLAN està absolutament prohibida per als usuaris ordinaris i no té sortida a Internet. L'accés està restringit exclusivament als equips d'administració de sistemes mitjançant túnel VPN xifrat o estació de salt (*bastion host*).
@@ -140,7 +151,7 @@ Els equips es traslladen al laboratori informàtic i es connecten a una **VLAN d
    - **RAID 1 (Mirall):** Per als dos discs del sistema operatiu / hipervisor (tolerància a la pèrdua d'1 disc).
    - **RAID 10 o RAID 6:** Per al volum de dades / màquines virtuals (rendiment òptim i tolerància a fallades simultànies).
 
-### 4.4. Bastionat del Sistema Operatiu / Hipervisor i Proves de Seguretat
+### 4.5. Bastionat del Sistema Operatiu / Hipervisor i Proves de Seguretat
 1. **Hardening del SO/Hipervisor:** S'apliquen les pautes de la **Guia CCN-STIC pertinent** (Guia CCN-STIC 570 per a Windows Server, Guia CCN-STIC 580 per a Linux Server, o Guia específica de VMware/Proxmox).
    - Tancament de tots els ports i serveis innecessaris.
    - Activació del tallafoc local.
