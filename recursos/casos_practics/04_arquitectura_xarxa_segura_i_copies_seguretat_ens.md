@@ -635,8 +635,9 @@ El tallafocs opera sota el principi de **Denegació per Defecte (*Default Deny*)
 | **VLAN 99 (Gestió OOB)** | `VM-DC01` (VLAN 20) | TCP 3389 (RDP NLA), RSAT (RPC/LDAP), 5985/5986 | **PERMETRE** | Administració d'Active Directory, GPOs i DNS corporatiu des de PAW de l'equip TIC. |
 | `VM-DC01` (VLAN 20) | Internet (Microsoft Cloud) | TCP 443 (HTTPS) | **PERMETRE** | Sincronització d'identitats Microsoft Entra Connect i claus Cloud Kerberos Trust. |
 | `VM-DC01` (VLAN 20) | Servidors NTP Oficials | UDP 123 (NTP) | **PERMETRE** | Sincronització horària de referència oficial (ROA - Reial Observatori de l'Armada). |
-| `VM-VEEAM` (VLAN 30) | `VM-DC01` i `VM-FILEPRINT` | TCP 6162, 135 (VSS / RPC) | **PERMETRE** | Còpies de seguretat consistents (Application-Aware VSS snapshot). |
 | Routers / Switches Seus | `VM-DC01` (VLAN 20) | UDP 67/68 (DHCP Relay) | **PERMETRE** | Adquisició d'IP corporativa per IP Helper (el client mai parla directe amb el DC). |
+| `VM-VEEAM` (VLAN 30) | **Hosts Físics Hyper-V (VLAN 99)** | TCP 6160, 6162, 445 (RPC/WMI) | **PERMETRE** | **Backup natiu sense agents a nivell d'hipervisor:** Transport de blocs de disc (.vhdx) i coordinació VSS mitjançant Hyper-V Integration Services (VMBus) sense requerir comunicació IP amb els convidats. |
+| `VM-VEEAM` (VLAN 30) | **VLAN 20 (Sistemes Convidats)** | Qualsevol | **DENEGAR** | **Aïllament estricte del pla de backup:** Bloqueig total d'accés IP directe a les VMs convidades per impedir qualsevol vector de salt lateral davant ransomware (`[mp.com.1]`). |
 | **Llocs Usuaris (Totes les Seus)**| `VM-DC01` (VLAN 20) | **TCP 135, 445, 389, 88** | **DENEGAR** | **AÏLLAMENT CRÍTIC DE L'AD:** Bloqueig d'exploits de moviment lateral (PetitPotam, ZeroLogon). |
 | **Llocs Usuaris Seus (10.<ID_Seu>.10.0/24 - Excepte Brigada)**| `VM-FILEPRINT` (VLAN 20)| **TCP 445 (SMBv3 xifrat)**, TCP 9100/631 (Print) | **PERMETRE** | Accés a carpetes departamentals via **Cloud Kerberos Trust** i cues unificades (BODP). |
 | **Nau de la Brigada (10.150.10.0/24 - F3)**| CPD Central (VLAN 20/30) | Qualsevol | **DENEGAR** | **Seu 100% Cloud-Only**: Zero accés a arxius locals per blindatge d'operaris de camp. |
@@ -660,17 +661,27 @@ El tallafocs opera sota el principi de **Denegació per Defecte (*Default Deny*)
 
 Per garantir la continuïtat dels serveis municipals i la resiliència davant atacs de ransomware destructiu (`[op.cont]`), s'implanta la regla ampliada **3-2-1-1-0** mitjançant **Veeam Backup & Replication**:
 
+> [!IMPORTANT]
+> **Arquitectura de Còpia Nadiua a Nivell d'Hipervisor (*Host-Level Image Backup* sense agents):**
+> En entorns Microsoft Hyper-V, les còpies de seguretat s'executen **directament contra els Hosts Físics del Clúster Hyper-V (VLAN 99 de gestió)**. La coordinació de la consistència aplicativa (*Application-Aware Processing* mitjançant VSS) es realitza a través del canal de comunicació intern **VMBus (Hyper-V Integration Services)**.
+> 
+> Això elimina completament la necessitat d'obrir comunicacions IP de xarxa entre el servidor de còpies `VM-VEEAM` (VLAN 30) i els sistemes operatius convidats (`VM-DC01`, `VM-FILEPRINT` a la VLAN 20), aconseguint un **aïllament absolut del pla de backup** (`[mp.com.1]`) que impedeix qualsevol salt lateral o segrest en cas d'infecció de les màquines virtuals.
+
 ```mermaid
 flowchart TD
-    subgraph PRODUCCIO["1. Clúster de Producció Hyper-V"]
-        VM1["VM-DC01<br/>(Active Directory)"]
-        VM2["VM-FILEPRINT<br/>(Fitxers i Impressió)"]
-        VM3["VM-DOCKER<br/>(Ubuntu Serveis Web)"]
+    subgraph PRODUCCIO["1. Clúster de Virtualització Hyper-V"]
+        HOSTS_HYPERV["🖥️ Clúster Hosts Hyper-V (Físic - VLAN 99 Gestió)<br/>Veeam Hyper-V Integration Service + VSS Host"]
+        subgraph VMS_CONVIDADES["Màquines Virtuals Convidats (VLAN 20 / DMZ)"]
+            VM1["VM-DC01<br/>Active Directory"]
+            VM2["VM-FILEPRINT<br/>Fitxers i Impressió"]
+            VM3["VM-DOCKER<br/>Ubuntu Serveis Web"]
+        end
+        HOSTS_HYPERV ---|VMBus intern: Coordinacio VSS sense IP| VMS_CONVIDADES
     end
 
-    subgraph COPIA_PRIMARIA["2. Còpia Primària Ràpida (CPD Central)"]
+    subgraph COPIA_PRIMARIA["2. Còpia Primària Ràpida (CPD Central - VLAN 30)"]
         VEEAM_SRV["VM-VEEAM (Gestor Central de Còpies)<br/>VLAN 30 Aïllada"]
-        REPO_LOCAL["📦 Repositori Primari Rapid (NAS/SAN 10GbE)<br/>Retenció: 14 dies (Backups diaris)"]
+        REPO_LOCAL["📦 Repositori Primari Ràpid (NAS/SAN 10GbE)<br/>Retenció: 14 dies (Backups diaris)"]
     end
 
     subgraph IMMUTABILITAT_LOCAL["3. Còpia Secundària Immutable (Hardened Repo)"]
@@ -686,7 +697,7 @@ flowchart TD
         SURE_TEST["🛡️ Veeam SureBackup (Sandbox aïllat)<br/>Arrencada automàtica diària de VMs i verificació de serveis:<br/>• DNS + Kerberos a DC<br/>• SMB a FileServer<br/>• HTTP/HTTPS a Docker<br/>• 0 Errors de restauració"]
     end
 
-    VM1 & VM2 & VM3 -->|VSS Application-Aware Snapshot| VEEAM_SRV
+    HOSTS_HYPERV -->|Backup natiu a nivell d hipervisor: VHDX i VSS per VMBus| VEEAM_SRV
     VEEAM_SRV --> REPO_LOCAL
     REPO_LOCAL -->|Còpia auxiliar immediata| REPO_HARDENED
     REPO_LOCAL -->|Backup Copy Job nocturn| REPO_REMOTE
