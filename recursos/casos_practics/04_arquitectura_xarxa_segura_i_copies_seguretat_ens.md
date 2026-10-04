@@ -611,7 +611,7 @@ Davant la decisió d'arquitectura de xarxa de si oferir DHCP i DNS des de l'Acti
 2. **DHCP Corporatiu Centralitzat amb IP Helper (DHCP Relay):**
    - El servei DHCP corporatiu es gestiona des de Windows Server (`VM-DC01`) per a les VLANs internes i seus municipals.
    - **Sincronització DHCP ⇄ DNS:** En assignar una IP, el DHCP registra immediatament el nom al DNS de l'AD, mantenint l'inventari i la CMDB permanentment sincronitzats.
-   - **Mecanisme IP Helper:** Els commutadors/routers de les seus remotes utilitzen la directiva `ip helper-address 10.20.0.10` a cada VLAN corporativa, convertint el broadcast local en una petició unicast cap al servidor DHCP central a través del túnel VPN.
+   - **Mecanisme IP Helper:** Els routers de les seus remotes utilitzen la directiva `ip helper-address 10.0.20.10` a les subinterfícies locals de cada VLAN, convertint el broadcast DHCP local en una petició unicast cap al servidor DHCP central (`VM-DC01`) a través de la xarxa WAN municipal (fibra directa o ràdio sectorial).
    - **Protecció Rogue DHCP:** Només els servidors autoritzats expressament a l'Active Directory poden emetre adreces IP corporatives.
 3. **DHCP i DNS Delegats al Tallafocs per a Xarxes Aïllades:**
    - Per a la **VLAN 70 (Wi-Fi Públic Ciutadà a Biblioteca, Espai Cívic, OAC)**, el DHCP i el DNS es deleguen **al tallafocs de seu/central**, utilitzant servidors DNS públics segurs (Quad9 `9.9.9.9` o Cloudflare `1.1.1.2`).
@@ -704,7 +704,7 @@ flowchart TD
    - Suport A: Emmagatzematge en xarxa de blocs/iSCSI sobre discs SAS/SSD per a la còpia primària ràpida.
    - Suport B: Sistema de fitxers Linux **XFS immutable** i emmagatzematge d'objectes al núvol (**Object Lock / WORM**).
 3. **1 Còpia fora de la Seu Central (*Off-Site*):**
-   - Una còpia es replica automàticament a través del túnel VPN cap al repositori ubicat a la **Prefectura de la Policia Local (Seu 1)**, garantint la disponibilitat si es produeix un incendi o inundació a la Casa de la Vila.
+   - Una còpia es replica automàticament a través de la xarxa de fibra municipal (o radioenllaç de backup) cap al repositori ubicat a la **Prefectura de la Policia Local (Seu 1)**, garantint la disponibilitat si es produeix un incendi o inundació a la Casa de la Vila.
 4. **1 Còpia Immutable / Desconnectada (*Air-Gapped*):**
    - **Veeam Hardened Repository Linux:** Servidor físic amb sistema operatiu Linux mínim i sistema de fitxers XFS amb atribut d'immutabilitat actiu. Durant el període de retenció definit (ex. 30 dies), **cap usuari, ni tan sols l'administrador de domini o un ransomware que hagi pres el control de Veeam, pot esborrar o xifrar els fitxers de backup**.
 5. **0 Errors de restauració (*Zero Errors*):**
@@ -774,7 +774,7 @@ flowchart TD
 
 - **Com funciona el flux?:**
   1. L'usuari inicia sessió al portàtil contra Entra ID amb MFA. L'equip rep un tiquet Kerberos del núvol associat al domini corporatiu.
-  2. Quan l'usuari obre una carpeta compartida (`\\VM-FILEPRINT\Urbanisme`), l'equip envia el tiquet Kerberos directament a `VM-FILEPRINT` pel port **TCP 445 (SMBv3)** a través del túnel VPN.
+  2. Quan l'usuari obre una carpeta compartida (`\\VM-FILEPRINT\Urbanisme`), l'equip envia el tiquet Kerberos directament a `VM-FILEPRINT` pel port **TCP 445 (SMBv3)** a través de la xarxa WAN municipal (o túnel VPN en cas de teletreball).
   3. `VM-FILEPRINT` valida el tiquet contra `VM-DC01` internament dins del CPD i aplica els permisos NTFS (model AGDLP).
   4. **Conclusió clau:** L'equip de la seu **mai necessita comunicar-se directament amb l'Active Directory (`VM-DC01`)**, només amb el servidor de fitxers.
 
@@ -786,7 +786,7 @@ Aquesta arquitectura permet classificar les 5 seus en funció de la seva depend�
 
 | Seu Municipal | Perfil d'Usuaris i Llicències | Model d'Identitat i Dispositiu | Dependència de l'AD Local (`VM-DC01`) | Dependència del CPD Central |
 | :--- | :--- | :--- | :---: | :--- |
-| **Seu 5: Nau de la Brigada** | Personal operatiu de camp.<br/>**Llicències M365 F3**. | **100% Cloud-Only**.<br/>Smartphones corporatius i tauletes gestionades per Intune (MAM). | **NUL·LA (0%)** | **NUL·LA (0%)**: No requereixen túnel VPN cap al CPD. Treballen directament contra M365 (Teams, correu web, formularis d'ordres de treball). |
+| **Seu 5: Nau de la Brigada** | Personal operatiu de camp.<br/>**Llicències M365 F3**. | **100% Cloud-Only**.<br/>Smartphones corporatius i tauletes gestionades per Intune (MAM). | **NUL·LA (0%)** | **NUL·LA (0%)**: No requereixen connexió VPN ni accés a recursos del CPD. Treballen directament contra M365 (Teams, correu web, formularis d'ordres de treball). |
 | **Seu 3: Biblioteca Pública** | Personal bibliotecari (BP) i usuaris ciutadans. | • Personal: Entra Joined pur.<br/>• Ciutadans: VLAN 70 aïllada amb portal captiu. | **NUL·LA (0%)** | **MÍNIMA**: Només accés opcional a `VM-FILEPRINT` per al personal. Els PCs ciutadans surten exclusivament a Internet. |
 | **Seu 4: Espai Cívic / Esports**| Gestors d'instal·lacions i monitors.<br/>**Llicències Business Premium**. | Entra Joined pur gestionat per Intune. | **NUL·LA (0%)** | **BAIXA / HÍBRIDA**: Accés exclusiu al port TCP 445 de `VM-FILEPRINT` per a documents departamentals. |
 | **Seu 2: Serveis Socials** | Treballadors socials i administració.<br/>**Llicències Business Premium**. | Entra Joined pur amb xifratge BitLocker i Defender for Business. | **NUL·LA (0%)** (Inici sessió al núvol) | **MITJANA**: Accés a carpetes d'alta confidencialitat a `VM-FILEPRINT` i cues d'impressió protegides. |
