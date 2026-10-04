@@ -311,10 +311,13 @@ Codes: C - Connected, S - Static, O - OSPF, IA - OSPF Inter-Area, * - Candidate 
 
 Gateway of last resort is 10.255.0.1 to network 0.0.0.0
 
-!--- RUTA PER DEFECTE PER OSPF (Clean Pipe cap al CPD Central) ---!
+!--- RUTA PER DEFECTE PER OSPF (Clean Pipe centralitzat cap al CPD Central) ---!
 O*IA 0.0.0.0/0 [110/11] via 10.255.0.1, 04:22:15, GigabitEthernet0/0/0 (Fibra Municipal - Cost 10+1)
                [110/51] via 10.255.1.1, [Standby càlid per Ràdio PTMP - Cost 50+1]
                [110/101] via 10.255.2.1, [Standby per 5G IPsec - Cost 100+1]
+
+!--- RUTA PER DEFECTE FLOTANT D'EMERGÈNCIA (Local Breakout 5G si cau el CPD complet) ---!
+S*   0.0.0.0/0 [254/0] is directly connected, Cellular0/0 (Sortida Directa a Internet pel Mòdem 5G amb NAT)
 
 !--- SUBXARXES WAN D'ENLLAÇ (Interfícies físiques del router de seu) ---!
 C    10.255.0.0/28 is directly connected, GigabitEthernet0/0/0 (Fibra Municipal)
@@ -336,6 +339,11 @@ L    10.110.60.1/32 is directly connected, GigabitEthernet0/1.60 [Gateway Càmer
 C    10.110.65.0/24 is directly connected, GigabitEthernet0/1.65 (VLAN 65: Alarmes / CRA Policia)
 L    10.110.65.1/32 is directly connected, GigabitEthernet0/1.65 [Gateway Centraleta Alarmes]
 ```
+
+> [!NOTE]
+> **Comportament davant Fallada Catastròfica o Aturada del CPD Central (*Local Breakout 5G*):**
+> - **En règim nominal:** OSPF injecta la ruta per defecte amb Distància Administrativa (AD) **110**, que preval sobre la ruta estàtica flotant (AD **254**). Tot el trànsit d'Internet de la seu es canalitza de forma segura cap al tallafocs central (*Clean Pipe*).
+> - **Si cau el CPD Central o s'apaga per manteniment:** Es perden les adjacències OSPF de la fibra, de la ràdio i del túnel IPsec del CPD. En aquell instant, s'activa immediatament la ruta flotant `S* 0.0.0.0/0 [254/0]` cap a la interfície cel·lular `Cellular0/0` amb sobrecàrrega NAT local. D'aquesta manera, els usuaris de la seu conserven accés directe a Internet i poden continuar treballant amb Microsoft 365, Teams i Entra ID sense quedar mai incomunicats.
 
 ##### B) Taula d'Encaminament del Tallafocs HA Central (FW-CPD-CENTRAL)
 El tallafocs central conté les seves rutes locals, la sortida d'operador a Internet, i **aprèn dinàmicament per OSPF les subxarxes que pengen de cadascuna de les 5 seus municipals**:
@@ -754,9 +762,9 @@ En una infraestructura moderna adaptada a l'ENS i alineada amb les directrius de
 
 Aquest enfocament aporta beneficis estratègics en ciberseguretat i continuïtat de servei:
 
-1. **Desacoblament i Resiliència davant Caigudes de la WAN:**
-   - Si cau el túnel IPsec, l'antena de ràdio o s'atura el CPD central per manteniment, **cap empleat de les seus remotes queda bloquejat**. L'inici de sessió a Windows es valida contra el núvol d'Entra ID (o mitjançant credencials emmagatzemades en cau protegides per TPM 2.0 i Windows Hello for Business).
-   - El personal pot continuar treballant amb total normalitat amb el correu (Exchange Online), Teams, documents al núvol (SharePoint/OneDrive) i les aplicacions de gestió en modalitat SaaS.
+1. **Desacoblament i Resiliència davant Caigudes de la WAN o Aturada del CPD:**
+   - **Inici de sessió local resilient:** Si es trenca la fibra, l'enllaç de ràdio o s'atura el CPD central per manteniment, **cap empleat de les seus remotes queda bloquejat a l'equip**. L'arrencada i inici de sessió a Windows es valida localment mitjançant claus xifrades per maquinari protegides per **TPM 2.0 i Windows Hello for Business** (credencials asimètriques en cau resistents a la desconnexió).
+   - **Continuïtat de servei al núvol M365 (*Local Breakout 5G de Contingència*):** Com que la sortida ordinària a Internet es fa a través del tallafocs del CPD (*Clean Pipe*), si el CPD s'apaga completament el router commuta automàticament a la **ruta per defecte flotant pel mòdem 5G local (`Cellular0/0`)**. D'aquesta manera, els treballadors mantenen sortida directa a Internet i continuen treballant amb total normalitat amb el correu (Exchange Online), Teams, documents al núvol (SharePoint/OneDrive) i les aplicacions de gestió SaaS, sense cap dependència de la seu central.
 2. **Eliminació de l'exposició de l'Active Directory a la WAN:**
    - Els equips de les seus **no necessiten visibilitat directa dels ports crítics del Controlador de Domini** (Kerberos 88, LDAP 389/636, RPC 135). Això redueix dràsticament la superfície d'atac davant un possible moviment lateral si un ordinador de seu és infectat.
 
