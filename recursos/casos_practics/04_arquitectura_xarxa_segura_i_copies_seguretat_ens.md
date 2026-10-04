@@ -69,31 +69,31 @@ flowchart TD
         subgraph COL_CRITIC["Seus Crítiques i Socials"]
             subgraph S1["Seu 1: Policia Local (24/7)"]
                 R_S1["Router Multi-WAN + CPE Ràdio"] --> SW_S1["Managed Switch PoE"]
-                SW_S1 --> V_POL_ALL["Segmentació VLANs Policia:<br/>• VLAN 110: Dades Policials (Crítica)<br/>• VLAN 40: VoIP | VLAN 60: CCTV Policia<br/>• VLAN 65: Alarmes i CRA"]
+                SW_S1 --> V_POL_ALL["Segmentació VLANs Policia:<br/>• VLAN 10: Dades Policials (10.110.10.0/24)<br/>• VLAN 40: VoIP | VLAN 60: CCTV Policia<br/>• VLAN 65: Alarmes i CRA"]
                 SW_S1 --> NVR_POL["📹 NVR Físic Policia (10.110.60.50)<br/>(Sortides HDMI directes a Videowall)"]
                 SW_S1 --> B_REPO["📦 Repositori Veeam Off-Site<br/>(Hardened Linux Immutable 10.110.30.50)"]
             end
 
             subgraph S2["Seu 2: Serveis Socials"]
                 R_S2["Router Multi-WAN + CPE Ràdio"] --> SW_S2["Managed Switch PoE"]
-                SW_S2 --> V_SOC_ALL["Segmentació VLANs Socials:<br/>• VLAN 120: Dades Socials Sensibles (RGPD Art. 9)<br/>• VLAN 40: VoIP | VLAN 60: CCTV (Sense Internet)<br/>• VLAN 65: Alarmes i CRA | VLAN 70: Wi-Fi Atenció"]
+                SW_S2 --> V_SOC_ALL["Segmentació VLANs Socials:<br/>• VLAN 10: Dades Socials (10.120.10.0/24 - RGPD Art. 9)<br/>• VLAN 40: VoIP | VLAN 60: CCTV (Sense Internet)<br/>• VLAN 65: Alarmes i CRA | VLAN 70: Wi-Fi Atenció"]
             end
         end
 
         subgraph COL_SERVEIS["Dependències Municipals i Brigada"]
             subgraph S3["Seu 3: Biblioteca Pública"]
                 R_S3["Router Multi-WAN + CPE Ràdio"] --> SW_S3["Managed Switch PoE"]
-                SW_S3 --> V_BIB_ALL["Segmentació VLANs Biblioteca:<br/>• VLAN 130: Gestió Biblioteca i Préstecs<br/>• VLAN 40: VoIP | VLAN 60: CCTV (Sense Internet)<br/>• VLAN 65: Alarmes i CRA | VLAN 70: Wi-Fi Públic"]
+                SW_S3 --> V_BIB_ALL["Segmentació VLANs Biblioteca:<br/>• VLAN 10: Dades Biblioteca (10.130.10.0/24)<br/>• VLAN 40: VoIP | VLAN 60: CCTV (Sense Internet)<br/>• VLAN 65: Alarmes i CRA | VLAN 70: Wi-Fi Públic"]
             end
 
             subgraph S4["Seu 4: Espai Cívic / Esports"]
                 R_S4["Router Multi-WAN + CPE Ràdio"] --> SW_S4["Managed Switch PoE"]
-                SW_S4 --> V_CIV_ALL["Segmentació VLANs Espai Cívic:<br/>• VLAN 140: Gestió Monitors i Esports<br/>• VLAN 40: VoIP | VLAN 60: CCTV (Sense Internet)<br/>• VLAN 65: Alarmes i CRA | VLAN 70: Wi-Fi Entitats"]
+                SW_S4 --> V_CIV_ALL["Segmentació VLANs Espai Cívic:<br/>• VLAN 10: Dades Espai Cívic (10.140.10.0/24)<br/>• VLAN 40: VoIP | VLAN 60: CCTV (Sense Internet)<br/>• VLAN 65: Alarmes i CRA | VLAN 70: Wi-Fi Entitats"]
             end
 
             subgraph S5["Seu 5: Nau de la Brigada Municipal"]
                 R_S5["Router Multi-WAN + CPE Ràdio"] --> SW_S5["Managed Switch PoE"]
-                SW_S5 --> V_BRI_ALL["Segmentació VLANs Brigada:<br/>• VLAN 150: Nau i Magatzem (M365 F3)<br/>• VLAN 40: VoIP | VLAN 60: CCTV (Sense Internet)<br/>• VLAN 65: Alarmes i CRA"]
+                SW_S5 --> V_BRI_ALL["Segmentació VLANs Brigada:<br/>• VLAN 10: Dades Nau Brigada (10.150.10.0/24 - M365 F3)<br/>• VLAN 40: VoIP | VLAN 60: CCTV (Sense Internet)<br/>• VLAN 65: Alarmes i CRA"]
             end
         end
     end
@@ -325,16 +325,16 @@ C    10.255.2.0/30 is directly connected, Cellular0/0 (5G Mòbil)
 L    10.255.2.2/32 is directly connected, Cellular0/0 [IP pròpia WAN 5G]
 
 !--- SUBXARXES LOCALS DE LA COMISSARIA (Connectades a la LAN) ---!
-C    10.110.10.0/24 is directly connected, GigabitEthernet0/1.110 (VLAN 110: Dades Policia)
-L    10.110.10.1/32 is directly connected, GigabitEthernet0/1.110 [Gateway PCs Policia]
-C    10.110.30.0/24 is directly connected, GigabitEthernet0/1.130 (VLAN 30: Backup Veeam Off-Site)
-L    10.110.30.1/32 is directly connected, GigabitEthernet0/1.130 [Gateway Repositori Backup]
-C    10.110.40.0/24 is directly connected, GigabitEthernet0/1.140 (VLAN 40: Telefonia IP Policia)
-L    10.110.40.1/32 is directly connected, GigabitEthernet0/1.140 [Gateway Telèfons SIP]
-C    10.110.60.0/24 is directly connected, GigabitEthernet0/1.160 (VLAN 60: Càmeres CCTV Policia)
-L    10.110.60.1/32 is directly connected, GigabitEthernet0/1.160 [Gateway Càmeres Policia]
-C    10.110.65.0/24 is directly connected, GigabitEthernet0/1.165 (VLAN 65: Alarmes / CRA Policia)
-L    10.110.65.1/32 is directly connected, GigabitEthernet0/1.165 [Gateway Centraleta Alarmes]
+C    10.110.10.0/24 is directly connected, GigabitEthernet0/1.10 (VLAN 10: Dades Policia)
+L    10.110.10.1/32 is directly connected, GigabitEthernet0/1.10 [Gateway PCs Policia]
+C    10.110.30.0/24 is directly connected, GigabitEthernet0/1.30 (VLAN 30: Backup Veeam Off-Site)
+L    10.110.30.1/32 is directly connected, GigabitEthernet0/1.30 [Gateway Repositori Backup]
+C    10.110.40.0/24 is directly connected, GigabitEthernet0/1.40 (VLAN 40: Telefonia IP Policia)
+L    10.110.40.1/32 is directly connected, GigabitEthernet0/1.40 [Gateway Telèfons SIP]
+C    10.110.60.0/24 is directly connected, GigabitEthernet0/1.60 (VLAN 60: Càmeres CCTV Policia)
+L    10.110.60.1/32 is directly connected, GigabitEthernet0/1.60 [Gateway Càmeres Policia]
+C    10.110.65.0/24 is directly connected, GigabitEthernet0/1.65 (VLAN 65: Alarmes / CRA Policia)
+L    10.110.65.1/32 is directly connected, GigabitEthernet0/1.65 [Gateway Centraleta Alarmes]
 ```
 
 ##### B) Taula d'Encaminament del Tallafocs HA Central (FW-CPD-CENTRAL)
@@ -400,7 +400,7 @@ Per visualitzar la diferència entre **taula d'enrutament (on va el paquet)** i 
    - **Comprovació d'Encaminament:** El tallafocs consulta la seva taula d'enrutament i veu la línia:
      `O 10.130.60.0/24 via 10.255.0.4, Port1.99` (sap perfectament que ha d'anar al router de la Biblioteca).
    - **Comprovació de Seguretat (Tallafocs):** Tot seguit avalua les seves polítiques de seguretat. Segons la mesura `[mp.com.1]` de l'ENS, **la regla per defecte entre VLANs de càmeres de seus diferents és DENY / DROP**. El tallafocs bloqueja el paquet i mai el reenvia a la Biblioteca.
-   - **Com es veu el vídeo realment?** La càmera de la Biblioteca només transmet al Servidor VMS del CPD (`10.0.20.50`), i el policia consulta el VMS central des del seu PC d'atestats (`10.110.10.x`), passant per les regles explícitament autoritzades.
+   - **Com es veu el vídeo realment?** La càmera de la Biblioteca transmet el seu flux de vídeo (RTSP/ONVIF) directament cap al **gravador físic NVR de la Prefectura de la Policia Local (`10.110.60.50`)** per a la seva gravació (LO 4/1997) i visualització a les pantalles HDMI de la comissaria, travessant el tallafocs sota la regla explícitament permesa.
 
 ##### D) Comportament Dinàmic de les Taules davant Tall de Fibra (Convergència BFD < 300 ms)
 Si una excavadora secciona la fibra de la Policia al carrer:
@@ -453,7 +453,7 @@ flowchart TD
 #### 1. Justificació dels Serveis Transversals a Totes les Seus:
 1. **Telefonia IP Unificada (VLAN 40 - Present a les 5 seus + Central):**
    - Tots els telèfons IP corporatius de l'Ajuntament pertanyen a la **VLAN 40 a Nivell 2**, associada a la **subxarxa IPv4 `10.<ID_Seu>.40.0/24`** de cada seu, permetent la marcació directa per extensions curtes (ex. 101, 102, 201) i el registre contra la centraleta SIP o Microsoft Teams Phone System.
-   - Als commutadors gestionats s'activa **LLDP-MED / Voice VLAN**: el telèfon IP s'assigna automàticament a la VLAN 40 etiquetada (*tagged*), mentre que el PC connectat al port de pas (*passthrough*) del propi telèfon s'encamina a la **VLAN de dades específica de la seu** sense etiquetar (*untagged*, p. ex. VLAN 10 a la Central, VLAN 110 a Policia, VLAN 120 a Socials, VLAN 130 a Biblioteca, VLAN 140 a Espai Cívic).
+   - Als commutadors gestionats s'activa **LLDP-MED / Voice VLAN**: el telèfon IP s'assigna automàticament a la VLAN 40 etiquetada (*tagged*), mentre que el PC connectat al port de pas (*passthrough*) del propi telèfon s'encamina a la **VLAN 10 de dades corporatives** sense etiquetar (*untagged*), associada a la subxarxa local de cada seu (`10.<ID_Seu>.10.0/24`), garantint una plantilla de configuració idèntica a tots els commutadors del municipi.
    - **QoS estricte (ENS `[mp.com.1]`):** Prioritat absoluta de trànsit de veu amb etiquetatge **DSCP EF (46) / CoS 5**, tant als commutadors de seu com sobre el radioenllaç sectorial PTMP i la fibra.
 2. **Videovigilància CCTV (VLAN 60 - Present a les 5 seus + Central):**
    - **Aïllament Absolut d'Internet (ENS `[mp.com.1]`, `[op.cont]`):** Les càmeres IP de videovigilància són dispositius IoT amb greu risc de vulnerabilitats de microprogramari (*firmware backdoors*, atacs Mirai/botnets).
@@ -475,24 +475,27 @@ flowchart TD
 
 #### 2. Matriu d'Adreçament Modular Municipal
 
-S'adopta la nomenclatura estructurada **`10.<ID_Seu>.<ID_Servei>.0/24`**, on **`<ID_Seu>`** identifica unívocament cada edifici (**0** per a Central/CPD, **110** Policia, **120** Socials, **130** Biblioteca, **140** Espai Cívic i **150** Brigada), fent coincidir el segon octet amb la VLAN departamental d'usuaris per a màxima intuïció operativa:
+S'adopta la nomenclatura estructurada canònica **`10.<ID_Seu>.<ID_VLAN>.0/24`**, on:
+- **`<ID_Seu>` (2n octet)** identifica unívocament cada edifici municipal:
+  - **`0`**: Seu Central (Casa de la Vila / CPD)
+  - **`110`**: Seu 1 — Policia Local (Prefectura)
+  - **`120`**: Seu 2 — Serveis Socials
+  - **`130`**: Seu 3 — Biblioteca Pública
+  - **`140`**: Seu 4 — Espai Cívic i Esports
+  - **`150`**: Seu 5 — Nau de la Brigada Municipal
+- **`<ID_VLAN>` (3r octet)** coincideix **sempre i al 100% amb el TAG de la VLAN de Nivell 2**, homogeneïtzant la configuració de commutadors a tots els edificis de l'Ajuntament:
 
-| ID VLAN | Nom del Servei | Codi Seu / Àmbit | Subxarxa IPv4 | Propòsit i Nivell de Seguretat ENS |
+| ID VLAN (L2) | Nom del Servei | Àmbit d'Aplicació | Subxarxa IPv4 (L3) | Propòsit i Nivell de Seguretat ENS |
 | :---: | :--- | :---: | :--- | :--- |
-| **VLAN 10**  | `LAN-DADES-CENTRAL`| Seu Central (Casa de la Vila) | `10.0.10.0/24` | Llocs de treball administratius corporatius (Padró, Intervenció, RRHH). |
-| **VLAN 110** | `LAN-DADES-POL`    | Seu 1 (Policia Local)         | `10.110.10.0/24` | Dades operatives policials, atestats i seguretat ciutadana. |
-| **VLAN 120** | `LAN-DADES-SOC`    | Seu 2 (Serveis Socials)       | `10.120.10.0/24` | Expedients d'alta vulnerabilitat i assistència (RGPD Art. 9). |
-| **VLAN 130** | `LAN-DADES-BIB`    | Seu 3 (Biblioteca Pública)    | `10.130.10.0/24` | Gestió de préstecs i llocs administratius bibliotecaris. |
-| **VLAN 140** | `LAN-DADES-CIV`    | Seu 4 (Espai Cívic / Esports) | `10.140.10.0/24` | Gestió d'entitats cíviques i instal·lacions esportives. |
-| **VLAN 150** | `LAN-DADES-BRI`    | Seu 5 (Nau de la Brigada)     | `10.150.10.0/24` | Operaris de camp i manteniment (Llicències F3 Cloud-Only). |
-| **VLAN 20**  | `LAN-SERVERS-INT`  | Seu Central (CPD)             | `10.0.20.0/24` | Servidors interns (`VM-DC01`, `VM-FILEPRINT`). |
-| **VLAN 30**  | `LAN-BACKUP`       | Seu Central (CPD)             | `10.0.30.0/24` | Xarxa aïllada de Veeam Backup i repositoris locals immutables. |
-| **VLAN 40**  | `VOIP-CORP`        | **TOTES LES SEUS**            | `10.<ID_Seu>.40.0/24` | **Telefonia IP Transversal** amb QoS prioritari (DSCP EF). |
+| **VLAN 10**  | `LAN-DADES`        | **TOTES LES SEUS**            | `10.<ID_Seu>.10.0/24` | **Llocs de treball administratius de cada seu** (`10.0.10.0/24` Central, `10.110.10.0/24` Policia, `10.120.10.0/24` Socials, `10.130.10.0/24` Biblio, `10.140.10.0/24` Cívic, `10.150.10.0/24` Brigada). |
+| **VLAN 20**  | `LAN-SERVERS-INT`  | Seu Central (CPD)             | `10.0.20.0/24` | Servidors interns corporatius (`VM-DC01`, `VM-FILEPRINT`). |
+| **VLAN 30**  | `LAN-BACKUP`       | Central + Policia Off-Site    | `10.<ID_Seu>.30.0/24` | Xarxa aïllada de backup Veeam: CPD Central (`10.0.30.0/24`) i Repositori Remot Policia (`10.110.30.0/24`). |
+| **VLAN 40**  | `VOIP-CORP`        | **TOTES LES SEUS**            | `10.<ID_Seu>.40.0/24` | **Telefonia IP Unificada** transversal amb QoS prioritari (DSCP EF / CoS 5). |
 | **VLAN 50**  | `DMZ-WEB`          | Seu Central (CPD)             | `10.0.50.0/24` | Servidor Ubuntu Dockeritzat (Serveis web públics via WAF). |
 | **VLAN 60**  | `SEC-CCTV-VIDEO`   | **TOTES LES SEUS**            | `10.<ID_Seu>.60.0/24` | **Videovigilància CCTV Transversal**: Ingesta exclusiva cap a NVR Policia (`10.110.60.50`). Aïllament total, **0% Internet**. |
 | **VLAN 65**  | `SEC-ALARM-CRA`    | **TOTES LES SEUS**            | `10.<ID_Seu>.65.0/24` | **Alarmes d'Intrusió i Accessos**: Panells d'alarma i lectors. Sortida autoritzada a CRA (SIA-IP) i centraleta telefònica. |
 | **VLAN 70**  | `WIFI-PUBLIC`      | **Seus Públiques**            | `10.<ID_Seu>.70.0/24` | **Wi-Fi Ciutadà Transversal** (Portal captiu, aïllat a Internet, Client Isolation). |
-| **VLAN 99**  | `MGMT-OOB`         | **TOTES LES SEUS**            | `10.<ID_Seu>.99.0/24` | **Gestió Fora de Banda Transversal** (Switches, Routers, APs, iDRAC). |
+| **VLAN 99**  | `MGMT-OOB`         | **TOTES LES SEUS**            | `10.<ID_Seu>.99.0/24` | **Gestió Fora de Banda Transversal** (Switches, Routers, APs, consoles iDRAC). |
 
 ---
 
@@ -548,7 +551,7 @@ flowchart TD
     
     subgraph USUARIS["Llocs de Treball Corporatius"]
         CENTRAL["🏛️ Treballadors Seu Central (Casa de la Vila)<br/>VLAN 10 (Connexió LAN directa al CPD)"]
-        SEUS["🏢 Treballadors Seus Remotes<br/>(Policia, Socials, Biblio, Cívic, Brigada)<br/>VLANs 110, 120, 130, 140, 150 (Connexió WAN)"]
+        SEUS["🏢 Treballadors Seus Remotes<br/>(Policia, Socials, Biblio, Cívic, Brigada)<br/>VLAN 10 de cada seu (10.110.10.0/24 a 10.150.10.0/24 via WAN)"]
     end
 
     PRINTER_CENTRAL["🖨️ Impressores Multifunció Seu Central<br/>(Alliberament per Targeta RFID / PIN)"]
@@ -628,16 +631,16 @@ El tallafocs aplica el principi de **Denegació per Defecte (*Default Deny*)**. 
 | `VM-DC01` (VLAN 20) | Servidors NTP Oficials | UDP 123 (NTP) | **PERMETRE** | Sincronització horària de referència oficial (ROA - Reial Observatori de l'Armada). |
 | `VM-VEEAM` (VLAN 30) | `VM-DC01` i `VM-FILEPRINT` | TCP 6162, 135 (VSS / RPC) | **PERMETRE** | Còpies de seguretat consistents (Application-Aware VSS snapshot). |
 | Routers / Switches Seus | `VM-DC01` (VLAN 20) | UDP 67/68 (DHCP Relay) | **PERMETRE** | Adquisició d'IP corporativa per IP Helper (el client mai parla directe amb el DC). |
-| **Llocs Usuaris (Totes)**| `VM-DC01` (VLAN 20) | **TCP 135, 445, 389, 88** | **DENEGAR** | **AÏLLAMENT CRÍTIC DE L'AD:** Bloqueig d'exploits de moviment lateral (PetitPotam, ZeroLogon). |
-| **Llocs Usuaris (10, 110-140)**| `VM-FILEPRINT` (VLAN 20)| **TCP 445 (SMBv3 xifrat)**, TCP 9100/631 (Print) | **PERMETRE** | Accés a carpetes departamentals via **Cloud Kerberos Trust** i cues unificades (BODP). |
-| **VLAN 150 (Nau Brigada - F3)**| CPD Central (VLAN 20/30) | Qualsevol | **DENEGAR** | **Seu 100% Cloud-Only**: Zero accés a arxius locals per blindatge d'operaris de camp. |
+| **Llocs Usuaris (Totes les Seus)**| `VM-DC01` (VLAN 20) | **TCP 135, 445, 389, 88** | **DENEGAR** | **AÏLLAMENT CRÍTIC DE L'AD:** Bloqueig d'exploits de moviment lateral (PetitPotam, ZeroLogon). |
+| **Llocs Usuaris Seus (10.<ID_Seu>.10.0/24 - Excepte Brigada)**| `VM-FILEPRINT` (VLAN 20)| **TCP 445 (SMBv3 xifrat)**, TCP 9100/631 (Print) | **PERMETRE** | Accés a carpetes departamentals via **Cloud Kerberos Trust** i cues unificades (BODP). |
+| **Nau de la Brigada (10.150.10.0/24 - F3)**| CPD Central (VLAN 20/30) | Qualsevol | **DENEGAR** | **Seu 100% Cloud-Only**: Zero accés a arxius locals per blindatge d'operaris de camp. |
 | `VM-VEEAM` (VLAN 30) | Repositori Remot Seu 1 (Policia)| TCP 6162, 2500-3300 (Veeam Data Mover) | **PERMETRE** | Rèplica de còpies de seguretat off-site immutable. |
 | **VLANs Usuaris** (Totes) | `VM-VEEAM` (VLAN 30) | Qualsevol | **DENEGAR** | **CRÍTIC:** Inaccessibilitat absoluta de la xarxa de backups davant ransomware. |
 | **VLAN 60 (CCTV Càmeres)** | Internet (WAN) | Qualsevol | **DENEGAR** | **Aïllament estricte IoT (0% Internet):** Càmeres sense accés exterior ni exposició a botnets. |
 | **VLAN 60 (Seus Perifèriques)** | **NVR Policia (10.110.60.50)** | TCP 554 (RTSP), TCP 8000/37777 (ONVIF/SDK) | **PERMETRE** | **Ingesta de vídeo per a sortida directa HDMI** a les pantalles de la prefectura i gravació d'acord amb la LO 4/1997. |
 | **VLAN 60 (Càmeres Seu A)** | **VLAN 60 (Càmeres Seu B)** | Qualsevol | **DENEGAR** | **Aïllament lateral inter-seus:** Les càmeres no es comuniquen entre elles, evitant salts d'intrusió si es manipula un cable de façana. |
-| **Llocs Usuaris Policia (VLAN 110)** | **NVR Policia (10.110.60.50)** | TCP 443 (HTTPS), TCP 8000/37777 (Client VMS) | **PERMETRE** | Gestió d'atestats, exportació d'imatges judicials i control de càmeres des dels ordinadors policials. |
-| **Resta Usuaris (10, 120-150)**| **NVR Policia (10.110.60.50)** | Qualsevol | **DENEGAR** | Reserva de custòdia exclusiva per a la Policia Local (Llei de Videovigilància per forces de seguretat). |
+| **Llocs Usuaris Policia (10.110.10.0/24)** | **NVR Policia (10.110.60.50)** | TCP 443 (HTTPS), TCP 8000/37777 (Client VMS) | **PERMETRE** | Gestió d'atestats, exportació d'imatges judicials i control de càmeres des dels ordinadors policials. |
+| **Resta Usuaris Municipals (Altres seus 10.X.10.0/24)**| **NVR Policia (10.110.60.50)** | Qualsevol | **DENEGAR** | Reserva de custòdia exclusiva per a la Policia Local (Llei de Videovigilància per forces de seguretat). |
 | **VLAN 65 (Alarmes / Accessos)**| IP Central Receptora (CRA) | Ports SIA-IP / Contact-ID over IP | **PERMETRE** | Senyalització de salts d'alarma, incidències i supervisió 24/7 a la CRA externa contractada. |
 | **VLAN 65 (Alarmes / Accessos)**| Centraleta Telefònica / VoIP | Enllaç SIP / telefònic d'emergència | **PERMETRE** | Canal telefònic de seguretat per a avisos d'intrusió / emergència. |
 | **VLAN 65 (Alarmes / Accessos)**| Internet General / Altres VLANs | Qualsevol | **DENEGAR** | Bloqueig de qualsevol navegació web oberta o accés no relacionat amb la seguretat física. |
@@ -834,7 +837,7 @@ flowchart TD
 
 | Àmbit del Projecte | Mesura ENS (RD 311/2022) | Implementació Tècnica al Supòsit |
 | :--- | :--- | :--- |
-| **Segmentació de Xarxa** | `[mp.com.1]` | 12 VLANs aïllades per serveis, seus i rols (VLAN 10 a 150). |
+| **Segmentació de Xarxa** | `[mp.com.1]` | Model modular homogeni de VLANs transversals (VLAN 10 Dades, 20 Servidors, 30 Backup, 40 VoIP, 50 DMZ, 60 CCTV, 65 Alarmes, 70 Wi-Fi, 99 OOB) associades a la matriu de subxarxes IPv4 `10.<ID_Seu>.<VLAN>.0/24`. |
 | **Redundància WAN Multi-Seu** | `[mp.com.1]`, `[op.cont]` | Triangulació híbrida: Fibra Municipal Directa seu a seu amb Switch de Distribució SFP+ al CPD (Cost 10) + Ràdio Sectorial Central PTMP (Cost 50) + Backup 5G (Cost 100) amb OSPF i BFD (subsegon). |
 | **Zona Desmilitaritzada (DMZ)** | `[mp.com.1]`, `[mp.com.2]` | Servidor Ubuntu Docker en VLAN 50 aïllada amb protecció WAF. |
 | **Gestió Fora de Banda** | `[mp.eq.2]` | VLAN 99 OOB sense accés des d'Internet ni xarxes d'usuaris. |
