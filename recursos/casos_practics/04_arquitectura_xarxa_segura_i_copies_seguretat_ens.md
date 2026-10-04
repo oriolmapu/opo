@@ -517,17 +517,21 @@ flowchart LR
         WEB1 & WEB2 --> DB
     end
     
-    UBUNTU -.->|BLOQUEJAT per Firewall| INT_SERVERS["❌ Prohibit l'accés a VLAN 20 (DC / Fitxers)"]
-    UBUNTU -.->|BLOQUEJAT per Firewall| USR_NETS["❌ Prohibit l'accés a VLANs d'Usuaris"]
-    UBUNTU -->|Només Port 636 LDAPS autoritzat| VM_DC["VM-DC01 (Autenticació centralitzada)"]
+    UBUNTU -.->|BLOQUEIG TOTAL per Firewall (0% Trànsit)| INT_SERVERS["❌ Prohibit l'accés a VLAN 20 (DC / Fitxers)"]
+    UBUNTU -.->|BLOQUEIG TOTAL per Firewall (0% Trànsit)| USR_NETS["❌ Prohibit l'accés a VLANs d'Usuaris"]
+    
+    UBUNTU -->|Validació Tokens OIDC / OAuth 2.0 (HTTPS Sortint)| ENTRA["☁️ Microsoft Entra ID (M365 Cloud)<br/>login.microsoftonline.com<br/>(MFA + Accés Condicional)"]
 ```
 
 #### Regles d'Arquitectura per a la DMZ:
 1. **Separació de Zones:** `VM-DOCKER` s'ubica exclusivament a la **VLAN 50 (DMZ-WEB)**. El seu commutador virtual (vSwitch) a Hyper-V està separat i etiquetat amb el TAG 50.
 2. **Tallafocs d'Aplicacions Web (WAF):** El trànsit exterior entra a través del mòdul WAF del tallafocs central, protegint contra atacs de l'OWASP Top-10 (injeccions SQL, XSS, CSRF).
-3. **Sentit de les Comunicacions (Principi de No Iniciativa cap a l'Interior):**
-   - La DMZ **mai pot iniciar connexions** cap a les xarxes internes (VLAN 10, 20 o seus remotes).
-   - L'única excepció permesa és la consulta d'autenticació iniciada des del servidor web cap a `VM-DC01` mitjançant el protocol segur **LDAPS (Port TCP 636 amb certificat corporatiu)**, bloquejant expressament el port LDAP insegur (TCP 389).
+3. **Sentit de les Comunicacions (Aïllament Absolut de la DMZ - Principi Zero Trust):**
+   - **Zero Trànsit cap a l'Interior (100% Aïllament):** La DMZ **té expressament prohibit iniciar cap mena de connexió cap a les xarxes internes de l'Ajuntament (VLAN 10 dades, VLAN 20 servidors, VLAN 30 backup o seus remotes)**. Si el servidor web és compromès per una vulnerabilitat de l'aplicació o d'un contenidor, l'atacant es troba en un entorn completament estanc i no pot propagar-se lateralment.
+   - **Autenticació d'Usuaris Federada al Núvol (Microsoft Entra ID via OIDC):** En lloc d'obrir canals heretats com LDAPS (TCP 636) cap al controlador de domini intern `VM-DC01`, les aplicacions web municipals que requereixin autenticació d'empleats o ciutadans s'integren mitjançant **OpenID Connect (OIDC) / OAuth 2.0 directament contra Microsoft Entra ID**:
+     - L'usuari és redirigit pel seu navegador a `login.microsoftonline.com`, on valida les seves credencials amb **Doble Factor (MFA)** i polítiques d'Accés Condicional.
+     - L'aplicació web només rep un testimoni criptogràfic signat (*ID Token / JWT*), verificant les claus públiques de signatura de Microsoft directament a través d'Internet (HTTPS sortint).
+     - D'aquesta manera, **la base de dades d'Active Directory i el controlador de domini queden totalment invisibles i inaccessibles des de la DMZ**.
 4. **Bastionat del Sistema Operatiu Ubuntu i Docker:**
    - Desactivació de l'arrencada com a `root` per als contenidors (*Docker Rootless Mode*).
    - Emmagatzematge de dades persistents dels contenidors en volums muntats locals `/srv/docker/volumes/` amb permisos `0700`.
@@ -623,8 +627,8 @@ El tallafocs aplica el principi de **Denegació per Defecte (*Default Deny*)**. 
 | :--- | :--- | :---: | :---: | :--- |
 | **Internet (WAN)** | `VM-DOCKER` (DMZ) | TCP 443 (HTTPS) | **PERMETRE** | Accés públic als serveis web municipals via WAF. |
 | **Internet (WAN)** | Qualsevol xarxa interna | Qualsevol | **DENEGAR** | Bloqueig absolut d'entrades no autoritzades. |
-| `VM-DOCKER` (DMZ) | `VM-DC01` (VLAN 20) | TCP 636 (LDAPS) | **PERMETRE** | Autenticació segura d'usuaris per a portals web interns. |
-| `VM-DOCKER` (DMZ) | VLAN 10, 20, Seus | Qualsevol | **DENEGAR** | Aïllament absolut de la DMZ cap a xarxes internes. |
+| `VM-DOCKER` (DMZ) | Qualsevol xarxa interna (VLAN 10, 20, 30, Seus) | Qualsevol | **DENEGAR** | **Aïllament Absolut DMZ (Zero Trust):** Zero trànsit permès cap a la LAN/CPD (ni tan sols LDAPS 636). L'autenticació és federada al núvol amb Microsoft Entra ID (OIDC / OAuth 2.0). |
+| `VM-DOCKER` (DMZ) | Microsoft Entra ID (Internet) | TCP 443 (HTTPS) | **PERMETRE** | Validació de claus públiques de signatura de testimonis OIDC (JWKS) cap a `login.microsoftonline.com`. |
 | `VM-FILEPRINT` (VLAN 20)| `VM-DC01` (VLAN 20) | TCP 88, 389/636, 135, 445 | **PERMETRE** | Afiliació al domini, validació de tiquets Kerberos i resolució de permisos NTFS (AGDLP). |
 | **VLAN 99 (Gestió OOB)** | `VM-DC01` (VLAN 20) | TCP 3389 (RDP NLA), RSAT (RPC/LDAP), 5985/5986 | **PERMETRE** | Administració d'Active Directory, GPOs i DNS corporatiu des de PAW de l'equip TIC. |
 | `VM-DC01` (VLAN 20) | Internet (Microsoft Cloud) | TCP 443 (HTTPS) | **PERMETRE** | Sincronització d'identitats Microsoft Entra Connect i claus Cloud Kerberos Trust. |
