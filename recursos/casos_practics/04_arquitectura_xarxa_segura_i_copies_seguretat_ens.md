@@ -478,6 +478,15 @@ flowchart TD
    - Els punts d'accés Wi-Fi (APs) emeten a tota la xarxa municipal el mateix SSID públic unificat (ex. `WiFi_Ajuntament` o `WiFi4EU`).
    - Aquest trànsit està confinat a la VLAN 70 amb **aïllament d'estacions clientes (*Client Isolation*)**, impedint que els dispositius dels ciutadans es puguin veure o atacar entre ells.
    - Sortida directa a Internet a través del tallafocs amb portal captiu i limitació d'amplada de banda per usuari, **sense cap possibilitat d'accedir a servidors ni dades de l'Ajuntament**.
+5. **Gestió Fora de Banda OOB (VLAN 99 - Present a totes les seus + Central):**
+   - **Funció crítica:** Xarxa dedicada exclusivament a la gestió tècnica i manteniment de la infraestructura física (consoles iDRAC/iLO dels servidors, interfícies de gestió dels commutadors Core/Distribució/PoE, routers multi-WAN, punts d'accés Wi-Fi i SAIs).
+   - **Gateway i Control d'Accés perimetral:**
+     - **Al CPD Central:** La porta d'enllaç de la subxarxa `10.0.99.0/24` és el **Tallafocs HA Central (`10.0.99.1`)**. Això permet aplicar polítiques de Menor Privilegi i registrar tots els accessos al SIEM (`[op.mon]`).
+     - **A les Seus Remotes:** La porta d'enllaç de cada subxarxa local `10.<ID_Seu>.99.0/24` és la subinterfície del **Router de seu (`10.<ID_Seu>.99.1`)**, que bloqueja qualsevol accés des de les xarxes d'usuari locals mitjançant ACLs.
+   - **Aïllament i Accés Restringit (ENS `[mp.eq.2]`, `[op.acc]`):**
+     - **Zero Internet general:** Els dispositius de gestió no tenen navegació exterior per evitar atacs a firmwares vulnerables.
+     - **Accés exclusiu des de PAW (*Privileged Access Workstations*) o VPN d'Administració:** L'equip TIC només pot accedir a la VLAN 99 des d'estacions de treball dedicades i blindades (sense accés a correu ni navegació lliure) o mitjançant túnel VPN SSL dedicat amb certificat digital (T-CAT) i doble factor (MFA).
+     - Protocols autoritzats exclusivament xifrats: **SSH (TCP 22)** amb clau asimètrica, **HTTPS (TCP 443)** amb TLS 1.3, **RDP (TCP 3389)** amb NLA forçat i **WinRM (TCP 5985/5986)**. Prohibició taxativa de Telnet o HTTP pla.
 
 ---
 
