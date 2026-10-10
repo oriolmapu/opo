@@ -108,9 +108,11 @@ flowchart TD
 
 Per complir amb el principi de **Seguretat per Defecte** i la protecció en la contractació externa (`[op.ext.1]`), el PPT ha d'establir els següents requisits com a condicions tècniques d'admissió obligatòria:
 
-#### 1. Certificació de Conformitat amb l'ENS
-- El proveïdor del servei SaaS i la infraestructura al núvol (IaaS/PaaS) sobre la qual s'executa han de disposar d'un **Certificat de Conformitat amb l'Esquema Nacional de Seguretat (RD 311/2022) en Categoria MITJANA o ALTA**, emès per una entitat de certificació formalment acreditada per **ENAC**, amb abast explícit per al servei SaaS licitat.
-- Els serveis al núvol utilitzats han d'estar inclosos en el **Catàleg de Productes i Serveis de Seguretat de les TIC (CPSTIC)** del CCN en la família de Serveis Cloud (*Qualificats*).
+#### 1. Certificació de Conformitat amb l'ENS i Ús del Catàleg CPSTIC
+- **Requisit d'admissió obligatori (Capa d'Aplicació SaaS):** El proveïdor del servei SaaS ha de disposar d'un **Certificat de Conformitat amb l'Esquema Nacional de Seguretat (RD 311/2022) en Categoria MITJANA o ALTA**, emès per una entitat de certificació formalment acreditada per **ENAC**, amb abast explícit per a la plataforma SaaS licitada (Art. 31 i 34-39 RD 311/2022).
+- **Infraestructura Cloud subjacent (IaaS/PaaS) i Catàleg CPSTIC (Art. 29 i `[mp.si.4]`):**
+  - La infraestructura al núvol (centres de dades, servidors i plataformes d'allotjament IaaS/PaaS on s'executa el SaaS) ha d'acreditar la seva solvència de seguretat mitjançant la seva inclusió en el **Catàleg de Productes i Serveis de Seguretat de les TIC (CPSTIC)** del CCN dins de la família de **Serveis Cloud (*Qualificats*)**, o bé mitjançant **Certificació de Conformitat amb l'ENS en Categoria ALTA** de la infraestructura d'allotjament com a mitjà equivalent de prova (Art. 126 LCSP).
+  - > **Advertiment Jurídic sobre Lliure Concurrència (Art. 132 i 139 LCSP):** Exigir com a requisit excloent d'admissió que l'aplicació SaaS de gestió municipal estigui inscrita nominativament al CPSTIC podria restringir injustificadament la competència i ser objecte de recurs davant del Tribunal de Contractes (TCCSP/TACRC), ja que moltes solucions líders del mercat disposen de certificació ENS d'ENAC però no han tramitat la qualificació al CPSTIC (que és un procés administratiu del CCN). Per tant, el CPSTIC s'exigeix per a la **infraestructura cloud d'allotjament** o bé es valora com a **criteri de ponderació / millora automàtica** al PCAP, garantint sempre la màxima concurrència d'ofertes.
 
 #### 2. Localització de les Dades i Centres de Processament de Dades (CPD)
 - Els centres de dades principal i secundari (reserva/Disaster Recovery) han d'estar ubicats físicament dins del territori de la **Unió Europea (UE)**.
@@ -267,6 +269,6 @@ flowchart LR
 
 ### Resum de Termes Crítics per a l'Examen d'Oposició:
 1. **DMR (*Defective Media Retention*):** Clàusula contractual que impedeix retornar al proveïdor de maquinari els discs avariats que continguin dades públiques.
-2. **CPSTIC:** Catàleg oficial del CCN on han de figurar els productes i serveis cloud qualificats per al sector públic.
+2. **CPSTIC:** Catàleg oficial del CCN on figuren els productes i serveis cloud qualificats. S'aplica amb rigor a la infraestructura cloud (IaaS/PaaS) i productes de seguretat, evitant exclusions restrictives en aplicacions SaaS que ja disposen de certificació ENS oficial d'ENAC.
 3. **Principi de Responsabilitat Proactiva (*Accountability*):** L'Ajuntament continua sent el responsable final de la seguretat de les dades encara que contracti un SaaS.
 4. **Condició Especial d'Execució (Art. 202 LCSP):** Permet vincular l'incompliment de la certificació ENS a penalitats econòmiques greus o a la resolució del contracte.
