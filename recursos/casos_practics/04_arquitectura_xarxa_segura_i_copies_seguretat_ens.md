@@ -357,9 +357,13 @@ Gateway of last resort is 195.77.10.1 to network 0.0.0.0
 !--- SORTIDA REAL A INTERNET (Fibra de l'Operador Comercial) ---!
 S*   0.0.0.0/0 [1/0] via 195.77.10.1, Port2 (WAN Operador Comercial Fibra Pública)
 
-!--- SUBXARXA DE TRÀNSIT WAN MUNICIPAL (VLAN 99 Única) ---!
+!--- SUBXARXES DE TRÀNSIT WAN MUNICIPAL (Triangulació Híbrida al CPD) ---!
 C    10.255.0.0/28 is directly connected, Port1.99 (Switch Distribució Fibra CPD)
-L    10.255.0.1/32 is directly connected, Port1.99 [IP pròpia Tallafocs CPD]
+L    10.255.0.1/32 is directly connected, Port1.99 [IP pròpia Tallafocs WAN Fibra]
+C    10.255.1.0/28 is directly connected, Port3 (Antena Sectorial Central CPD)
+L    10.255.1.1/32 is directly connected, Port3 [IP pròpia Tallafocs WAN Ràdio]
+C    10.255.2.0/30 is directly connected, Tunnel1 (Terminador Túnel IPsec 5G Policia)
+L    10.255.2.1/32 is directly connected, Tunnel1 [IP pròpia Túnel IPsec 5G]
 
 !--- SUBXARXES LOCALS DEL CPD CENTRAL (Casa de la Vila) ---!
 C    10.0.10.0/24 is directly connected, Port1.10 (VLAN 10: Usuaris Administratius Central)
@@ -370,6 +374,8 @@ C    10.0.50.0/24 is directly connected, Port1.50 (VLAN 50: DMZ Serveis Públics
 !--- RUTES APRESES PER OSPF DE LES SEUS REMOTES (Via Fibra - Cost 10 + 1) ---!
 ! [Seu 1: Policia Local - Next Hop 10.255.0.2]
 O    10.110.10.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99 (Dades Policia)
+                    [110/51] via 10.255.1.2, [Standby càlid per Ràdio PTMP - Cost 50+1]
+                    [110/101] via 10.255.2.2, [Standby per 5G IPsec - Cost 100+1]
 O    10.110.30.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99 (Backup Veeam)
 O    10.110.40.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99 (VoIP Policia)
 O    10.110.60.0/24 [110/11] via 10.255.0.2, 04:22:18, Port1.99 (CCTV Policia)
