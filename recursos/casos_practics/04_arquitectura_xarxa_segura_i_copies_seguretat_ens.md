@@ -298,7 +298,21 @@ En lloc d'utilitzar rutes estàtiques rígides, s'implanta el protocol d'estat d
   - Tots els missatges d'intercanvi de rutes OSPF s'autentiquen obligatòriament mitjançant claus criptogràfiques **HMAC-SHA256**, impedint la injecció de rutes malicioses (*route poisoning*).
   - A la via 5G que transita per Internet pública, el trànsit OSPF s'encapsula estrictament dins del túnel xifrat IPsec (AES-GCM-256), mentre que a la fibra i a la ràdio viatja blindat pel medi físic municipal dedicat i el xifratge simètric per maquinari.
 
-#### 4. Exemple Pràctic de Taules d'Encaminament (Tallafocs CPD vs Router de Seu)
+#### 4. Pla d'Adreçament de Trànsit WAN Multi-Medi (`10.255.<medi>.0/28`)
+
+Per dotar la xarxa d'un disseny homogeni, altament mnemotècnic i escalable sense la rigidesa de màscares restrictives `/30`, s'adopta un bloc comú de màscara **/28** (14 adreces útils per subxarxa, màscara `255.255.255.240`) per a cadascun dels tres vectors de comunicació. El **tercer octet** identifica inequívocament el mitjà físic de transmissió:
+
+| Subxarxa WAN | Màscara | Tipus d'Enllaç | Mitjà Físic | Funció i Esquema d'IPs |
+| :--- | :---: | :--- | :--- | :--- |
+| **`10.255.0.0/28`** | `/28` | Multiaccés (VLAN 99) | **Fibra Directa Municipal** | CPD: `.1` (DR) \| Policia: `.2` (BDR) \| Socials: `.3` \| Biblio: `.4` \| Cívic: `.5` \| Brigada: `.6` |
+| **`10.255.1.0/28`** | `/28` | Multiaccés (PTMP) | **Ràdio Sectorial 5 GHz** | CPD: `.1` (Antena Base) \| Policia: `.2` (CPE) \| Socials: `.3` \| Biblio: `.4` \| Cívic: `.5` \| Brigada: `.6` |
+| **`10.255.2.0/28`** | `/28` | Túnels IPsec / SIMs | **Contingència 5G Cel·lular** | CPD: `.1` (Terminador Túnel) \| Policia: `.2` (Mòdem 5G) \| Resta de seus: `.3` a `.6` |
+
+> **Criteri d'Assignació Simètrica:** La **Casa de la Vila (CPD)** manté sempre l'adreça **`.1`** a totes les interfícies de trànsit (`10.255.0.1`, `10.255.1.1`, `10.255.2.1`), mentre que cada seu conserva el seu **mateix número d'host** a través dels tres mitjans (per exemple, la Policia Local és el **`.2`** tant per fibra, ràdio com per 5G). Això simplifica radicalment les taules de monitoratge SNMP, el filtratge al tallafocs i la resolució d'incidències per part dels administradors.
+
+---
+
+#### 5. Exemple Pràctic de Taules d'Encaminament (Tallafocs CPD vs Router de Seu)
 
 Per entendre amb precisió com es comporta el protocol en l'arquitectura proposada (prement com a base l'**Opció A: VLAN Única de Trànsit WAN `10.255.0.0/28`** i la **Seu 1: Policia Local**), s'exposen a continuació les taules d'encaminament reals (`show ip route`) en funcionament nominal i davant d'una fallada física:
 
@@ -324,7 +338,7 @@ C    10.255.0.0/28 is directly connected, GigabitEthernet0/0/0 (Fibra Municipal)
 L    10.255.0.2/32 is directly connected, GigabitEthernet0/0/0 [IP pròpia WAN Fibra]
 C    10.255.1.0/28 is directly connected, GigabitEthernet0/0/1 (Ràdio Sectorial)
 L    10.255.1.2/32 is directly connected, GigabitEthernet0/0/1 [IP pròpia WAN Ràdio]
-C    10.255.2.0/30 is directly connected, Cellular0/0 (5G Mòbil)
+C    10.255.2.0/28 is directly connected, Cellular0/0 (5G Mòbil)
 L    10.255.2.2/32 is directly connected, Cellular0/0 [IP pròpia WAN 5G]
 
 !--- SUBXARXES LOCALS DE LA COMISSARIA (Connectades a la LAN) ---!
@@ -362,7 +376,7 @@ C    10.255.0.0/28 is directly connected, Port1.99 (Switch Distribució Fibra CP
 L    10.255.0.1/32 is directly connected, Port1.99 [IP pròpia Tallafocs WAN Fibra]
 C    10.255.1.0/28 is directly connected, Port3 (Antena Sectorial Central CPD)
 L    10.255.1.1/32 is directly connected, Port3 [IP pròpia Tallafocs WAN Ràdio]
-C    10.255.2.0/30 is directly connected, Tunnel1 (Terminador Túnel IPsec 5G Policia)
+C    10.255.2.0/28 is directly connected, Tunnel1 (Terminador Túnel IPsec 5G Policia)
 L    10.255.2.1/32 is directly connected, Tunnel1 [IP pròpia Túnel IPsec 5G]
 
 !--- SUBXARXES LOCALS DEL CPD CENTRAL (Casa de la Vila) ---!
