@@ -101,8 +101,47 @@ flowchart TD
 
 ---
 
-## 6. Procediment Administratiu d'Aprovació i Entrada en Explotació
+## 6. L'Estudi d'Impacte Integral Preceptiu (AIPD, FRIA i Anàlisi de Riscos ENS)
+
+Abans de la posada en producció de qualsevol eina d'IA o robot RPA, la corporació municipal ha de completar un **estudi d'impacte multidimensional** que constitueix la base tècnica i jurídica de l'expedient:
+
+```mermaid
+flowchart TD
+    subgraph IMPACTES["Triple Avaluació d'Impacte Preceptiva"]
+        AIPD["1. AIPD (Art. 35 RGPD / APDCAT)<br/>Protecció de Dades Personals"]
+        FRIA["2. FRIA (Art. 27 AI Act UE)<br/>Drets Fonamentals i No-Discriminació"]
+        ENS["3. Anàlisi de Riscos ENS (Art. 14 RD 311/2022)<br/>Seguretat de la Informació (DAICT / PILAR)"]
+    end
+
+    AIPD & FRIA & ENS --> INFORME["Informe Vinculant Conjunt:<br/>Delegat de Protecció de Dades (DPD) + CISO"]
+    INFORME --> DECRET["Decret d'Alcaldia d'Aprovació Formal (AAA)"]
+```
+
+### 6.1. Avaluació d'Impacte en la Protecció de Dades (AIPD / DPIA - Art. 35 RGPD)
+* **Preceptiva per normativa (Llistes d'inclusió obligatòria de l'APDCAT i AEPD):** Exigible en aplicar noves tecnologies (IA generativa), tractaments massius automatitzats i intercanvi de dades econòmiques/tributàries via interoperabilitat (PICA / PID).
+* **Contingut clau de l'anàlisi:**
+  1. *Descripció sistemàtica del flux de dades:* Traçabilitat de les dades des de la instància ciutadana fins a la consulta d'organismes externs (AEAT, ATC, TGSS).
+  2. *Avaluació de necessitat i proporcionalitat:* Principi de minimització (el robot només extreu el camp apte/no apte, sense emmagatzemar detalls tributaris innecessaris).
+  3. *Garanties dels drets dels afectats:* Dret a la informació (Art. 13/14 RGPD) i **dret a no ser objecte de decisions automatitzades sense intervenció humana (Art. 22 RGPD)**.
+
+### 6.2. Avaluació d'Impacte en els Drets Fonamentals (FRIA - Art. 27 Reglament d'IA de la UE)
+* **Obligació per a autoritats públiques:** L'AI Act (Reglament UE 2024/1689, Art. 27) obliga els ens públics que despleguin sistemes d'IA a avaluar l'impacte sobre els drets fonamentals:
+  * **No-discriminació i biaixos algorítmics:** Assegurar que els criteris d'admissió o puntuació no penalitzin col·lectius protegits o vulnerables.
+  * **Bretxa digital i accessibilitat universal:** Garantir que la ciutadania sense competències digitals disposi sempre d'assistència humana presencial a l'OAC amb idèntica eficàcia.
+  * **Transparència i explicabilitat:** La ciutadania té dret a conèixer la lògica aplicada i els criteris pels quals s'ha generat una recomanació o proposta.
+
+### 6.3. Anàlisi de Riscos de Seguretat de la Informació (ENS - RD 311/2022)
+* **Metodologia MAGERIT / Eina PILAR:** Categorització del sistema segons les dimensions **DAICT** (Disponibilitat, Autenticitat, Integritat, Confidencialitat i Traçabilitat).
+* **Amenaces específiques d'IA i Bots mitigades:**
+  * *Prompt Injection / Jailbreak:* Intent de fer al·lucinar la IA o extreure dades internes del sistema (mitigat al WAF i amb *System Prompt* restrictiu).
+  * *Manipulació de dades a la memòria cau:* Xifratge en trànsit (TLS 1.3) i en repòs (AES-256).
+  * *Robatori de credencials de servei del bot:* Mitigat mitjançant magatzem segur de secrets (*Secrets Vault*).
+
+---
+
+## 7. Procediment Administratiu d'Aprovació i Entrada en Explotació
 
 1. **Aprovació Municipal:** Decret d'Alcaldia d'aprovació de l'Actuació Administrativa Automatitzada (AAA) d'acord amb l'art. 41 de la Llei 40/2015.
-2. **Protecció de Dades:** Avaluació d'Impacte en Protecció de Dades (AIPD) validada pel Delegat de Protecció de Dades (DPD) i actualització del Registre d'Activitats de Tractament (RAT).
-3. **Publicitat i Transparència:** Publicació a la Seu Electrònica de la descripció del procediment automatitzat i indicació visible del canal de reclamació humana.
+2. **Dictamen de Conformitat:** Incorporació preceptiva a l'expedient de l'informe favorable de l'AIPD i FRIA emès pel Delegat de Protecció de Dades (DPD) i de l'anàlisi de riscos del CISO.
+3. **Registre d'Activitats de Tractament (RAT):** Actualització formal del RAT de l'Ajuntament amb la nova finalitat i mecanisme de tractament automatitzat.
+4. **Publicitat i Transparència:** Publicació a la Seu Electrònica i al Tauler d'Edictes de la descripció del procediment automatitzat i indicació visible del canal de reclamació humana.
